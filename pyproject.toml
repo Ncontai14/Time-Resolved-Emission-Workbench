@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tcspc-workbench"
+version = "0.1.0"
+description = "Independent Python TCSPC reconvolution and global exponential analysis"
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["TCSPC", "fluorescence", "lifetime", "global analysis", "TRES", "TRANES"]
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24", "scipy>=1.10", "threadpoolctl>=3.1", "matplotlib>=3.7", "pandas>=2.0", "streamlit>=1.51,<2"]
+
+[project.scripts]
+tcspc = "tcspc.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["tcspc*"]

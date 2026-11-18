@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use TCSPC Workbench, please cite this software version."
+title: "TCSPC Workbench"
+type: software
+version: "0.1.0"
+date-released: "2026-11-18"
+authors:
+  - name: Nishith Maity
+   ORCID: https://orcid.org/0000-0002-5024-9184
+abstract: "Local fluorescence lifetime reconvolution, global TCSPC fitting, and steady-state-scaled TRES/TRANES reconstruction with a Streamlit interface."
+license: MIT
+keywords:
+  - fluorescence lifetime
+  - TCSPC
+  - global analysis
+  - TRES
+  - TRANES
+# Add the real repository URL and DOI when available.
+# The MIT designation refers to original software/documentation, not contributed measurements.

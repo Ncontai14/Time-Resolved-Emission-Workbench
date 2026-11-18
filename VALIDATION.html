@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TCSPC Workbench 0.1.0 — Validation</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <style>
+  body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:960px;margin:40px auto;padding:0 24px;color:#243746;line-height:1.6;background:#fff}h1,h2,h3{color:#154f60;line-height:1.25}h2{margin-top:2em}a{color:#126a85}pre{background:#edf3f6;border:1px solid #d2e1e8;border-radius:6px;padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}code{font-family:Consolas,monospace;font-size:.94em}table{border-collapse:collapse;width:100%;font-size:.94em}td,th{border:1px solid #d8e2e7;padding:8px;text-align:left}th{background:#edf3f6}nav{padding:12px 0;border-bottom:1px solid #d8e2e7}nav a{margin-right:16px}#TOC{background:#f5f8fa;padding:16px 24px;border-radius:6px}
+  </style>
+</head>
+<body>
+<nav><a href="USER_GUIDE.html">User guide</a><a href="README.html">Repository overview</a><a href="INSTALLATION.html">Installation guide</a><a href="GITHUB_UPLOAD.html">GitHub upload</a><a href="QUICK_START_WINDOWS.html">Windows quick start</a><a href="DATA_FORMATS.html">Data formats</a><a href="SCIENTIFIC_NOTES.html">Scientific notes</a><a href="CHANGELOG.html">Changes</a><a href="VALIDATION.html">Validation</a><a href="docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#release-validation-0.1.0"
+id="toc-release-validation-0.1.0">Release validation: 0.1.0</a>
+<ul>
+<li><a href="#github-repository-packaging-checks"
+id="toc-github-repository-packaging-checks">GitHub repository packaging
+checks</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="release-validation-0.1.0">Release validation: 0.1.0</h1>
+<p>Checked on 18 November 2026.</p>
+<ul>
+<li>69 numerical, import, spectral reconstruction, and CLI tests passed.
+These include independent synthetic lifetime recovery, sparse/dense
+equivalence, zero photon counts, all seven contributed multi-curve
+exports, original time-label retention, and explicit
+source-curve/wavelength handling.</li>
+<li>Headless Chromium checks editing actual manual-table cells, applying
+values and downloading the same normalized intensities and manual-source
+metadata. Manual entry completed without JavaScript errors.</li>
+<li>Manual-table AppTest checks verify fixed wavelengths/rows, blank
+initial cells, missing/negative/above-one/nonfinite/all-zero rejection,
+exact preservation of entered normalized scale, the independent
+reconstruction formula, unit TRANES wavelength area, export
+values/provenance and preview-rerun persistence.</li>
+<li>Spectral workflow checks use independently generated and globally
+fitted decay curves to verify that wavelengths, component amplitudes and
+lifetimes connect directly to a separate normalized steady-state file.
+Shuffled wavelength rows retain the correct association; a normalized
+subset whose maximum is below one is used unchanged. Missing, extra,
+duplicate and ambiguous rows are rejected in the exact matching
+path.</li>
+<li>Full-spectrum tests verify that division by the source maximum and
+min-max normalization both occur before sampling at the fitted
+wavelengths. Source extrema outside the fitted wavelength subset are
+included. Signed raw baselines are accepted only with explicitly
+selected min-max normalization.</li>
+<li>PCHIP and B-spline curves pass through the calculated samples. PCHIP
+preserves nonnegative bounds; a known B-spline negative overshoot is
+retained as a display artifact. Changing connections leaves all
+TRES/TRANES matrix values and their sampled-grid spectral areas
+unchanged. A CSV round-trip check verifies that normalized and matched
+steady-state exports can be loaded again and reproduce the same
+TRES/TRANES values.</li>
+<li>Single-decay AppTest checks exercise the shared kinetics preview,
+handles above the curve, bidirectional channel/time snapping,
+whole-record and selected-window views, and disabling fits with fewer
+than four channels. Selecting 5–30 ns in the bundled single decay
+retains all 1,601 input bins while the objective uses channels 200–1,200
+inclusive (1,001 bins).</li>
+<li>Tail-mode checks verify a separate post-peak starting interval and
+an uploaded decay with a different grid, fitted without an IRF. All 601
+imported bins are retained and the selected objective uses 321. Global
+preview/trace selection checks retain the full 600-by-7 matrix with 451
+selected bins for 2–20 ns, and the Continue button still opens the saved
+global result in TRES/TRANES.</li>
+<li>The supplied reconstruction notebook was read as reference code. Its
+widget callbacks and file-writing operations were not executed.
+Independent scalar calculations using the supplied three-component table
+reproduce the TRES engine within 5.6e-17 absolute intensity, and TRANES
+within 6.1e-18. Numerical time integration recovers the supplied
+steady-state values; trapezoidal integration of each TRANES spectrum
+over its actual, uneven wavelength grid gives one to numerical
+precision. See the <a
+href="docs/notebook_review/NOTEBOOK_REVIEW.html">notebook review</a> and
+its adjacent reference matrices for the calculation, interpolation
+checks, and assumptions.</li>
+<li>Reconstruction checks cover dense steady-state interpolation,
+coverage rejection, normalization, wavelength/column alignment,
+tail-reference conversion, zero-area rejection, per-wavelength
+amplitude-scale invariance, and exported normalization metadata. The
+supplied lifetimes are reference inputs, not independently established
+ground truth.</li>
+<li>Streamlit 1.67.0 AppTest exercised the bundled single-decay fit and
+a full 51-trace global fit, including residuals, autocorrelation,
+amplitude spectra, import metadata and result download rendering.</li>
+<li>Spectral-workflow AppTest checks exercise an actual two-component,
+seven-wavelength global fit, the Continue button, automatic parameter
+handoff, exact normalized steady-state upload, full-spectrum peak and
+min-max paths, signed raw input, display-style invariance, spectral ZIP
+export and clearing of invalid results. A subsequent single-decay fit
+preserves the earlier saved global result. Synthetic steady-state inputs
+are used only for UI tests; no steady-state spectrum is assigned to the
+separate measured demonstration dataset.</li>
+<li>Linked fit-range controls were checked in both directions, including
+channel snapping, data/method reset, invalid short windows,
+individual-trace preview, and zoom. For a selected 6–30 ns window, all
+1,999 imported bins and 51 traces remain available to reconvolution; the
+objective uses exactly channels 240–1,200 inclusive (961 channels).</li>
+<li>Headless Chromium checks the single-decay preview, numerical fields,
+native range-handle updates, whole/selected views and an actual 5–30 ns
+fit. It verifies the displayed 1,001-channel fit interval and completes
+without JavaScript errors. Screenshots show the settled full-record and
+selected-window views. The global/reconstruction route is covered by the
+interface checks described above. Runtime logs contain no deprecated
+width-argument notices.</li>
+<li>Official Streamlit 1.51.0 API signatures were checked for the width
+arguments used by figures, dataframes, buttons and downloads. Runtime
+tests used 1.67.0.</li>
+<li>Release text/code, importer metadata, CLI help and example output
+were scanned for removed product branding.</li>
+<li>The experimental user guide covers existing-environment startup,
+first installation, single/global fitting, range selection, result
+interpretation, connected spectral reconstruction, exports and
+troubleshooting.</li>
+<li>Beginner guide commands, environment names, file paths and launchers
+were cross-checked against the release. Windows command files are
+supplied but were not executed on Windows in this Linux validation
+environment. Whether a local application-control policy accepts
+installed libraries must be checked there.</li>
+</ul>
+<p>Reproduced example lifetimes (ns):</p>
+<table>
+<thead>
+<tr class="header">
+<th>Example</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Single decay, one component</td>
+<td>2.549156</td>
+</tr>
+<tr class="even">
+<td>Synthetic global, truth 0.7 and 3.3</td>
+<td>0.704709 and 3.300522</td>
+</tr>
+<tr class="odd">
+<td>Contributed measured global, two components</td>
+<td>2.333760 and 3.882271</td>
+</tr>
+</tbody>
+</table>
+<p>The measured global reduced Poisson deviance is approximately 1.381.
+This indicates remaining mismatch under the selected shared-IRF
+exponential model. The result is an illustrative model fit, not ground
+truth; local uncertainties exclude model and calibration systematics.
+See SCIENTIFIC_NOTES.md.</p>
+<p>Run <code>python -m unittest discover -s tests -v</code> for the
+suite, <code>python examples/run_examples.py</code> to reproduce the
+packaged fit results, and
+<code>python examples/run_spectra_example.py</code> to reproduce the
+contributed three-component spectral reconstruction. The latter creates
+numerical matrices, normalization metadata, and a TRES/TRANES figure
+under <code>example_results/spectral_reconstruction</code>.</p>
+<p>Numerical test environment:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;python&quot;</span><span class="fu">:</span> <span class="st">&quot;3.12.14&quot;</span><span class="fu">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;numpy&quot;</span><span class="fu">:</span> <span class="st">&quot;2.3.5&quot;</span><span class="fu">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;scipy&quot;</span><span class="fu">:</span> <span class="st">&quot;1.17.0&quot;</span><span class="fu">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;pandas&quot;</span><span class="fu">:</span> <span class="st">&quot;2.2.3&quot;</span><span class="fu">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;matplotlib&quot;</span><span class="fu">:</span> <span class="st">&quot;3.10.8&quot;</span><span class="fu">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;threadpoolctl&quot;</span><span class="fu">:</span> <span class="st">&quot;3.6.0&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<h2 id="github-repository-packaging-checks">GitHub repository packaging
+checks</h2>
+<p>The first public release includes the application, numerical tests
+and repository support files. The 69-test suite passes in the repository
+copy. The project builds a Python wheel locally; this is a library/CLI
+packaging check, not a standalone GUI installer. CITATION.cff passes the
+official CFF 1.2.0 schema. Workflow and issue-template YAML, ignore
+rules, source-data line-ending rules and local documentation links were
+checked. GitHub-hosted Windows/Linux jobs have not run yet; their
+results become available after uploading the repository and running
+Actions.</p>
+</body>
+</html>

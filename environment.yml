@@ -1,0 +1,12 @@
+name: tcspc_workbench
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - "python=3.12"
+  - "numpy>=1.24"
+  - "scipy>=1.10"
+  - "matplotlib>=3.7"
+  - "pandas>=2.0"
+  - "threadpoolctl>=3.1"
+  - "streamlit>=1.51,<2"

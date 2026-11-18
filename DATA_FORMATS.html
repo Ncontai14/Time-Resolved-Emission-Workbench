@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TCSPC Workbench 0.1.0 — Data formats</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <style>
+  body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:960px;margin:40px auto;padding:0 24px;color:#243746;line-height:1.6;background:#fff}h1,h2,h3{color:#154f60;line-height:1.25}h2{margin-top:2em}a{color:#126a85}pre{background:#edf3f6;border:1px solid #d2e1e8;border-radius:6px;padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}code{font-family:Consolas,monospace;font-size:.94em}table{border-collapse:collapse;width:100%;font-size:.94em}td,th{border:1px solid #d8e2e7;padding:8px;text-align:left}th{background:#edf3f6}nav{padding:12px 0;border-bottom:1px solid #d8e2e7}nav a{margin-right:16px}#TOC{background:#f5f8fa;padding:16px 24px;border-radius:6px}
+  </style>
+</head>
+<body>
+<nav><a href="USER_GUIDE.html">User guide</a><a href="README.html">Repository overview</a><a href="INSTALLATION.html">Installation guide</a><a href="GITHUB_UPLOAD.html">GitHub upload</a><a href="QUICK_START_WINDOWS.html">Windows quick start</a><a href="DATA_FORMATS.html">Data formats</a><a href="SCIENTIFIC_NOTES.html">Scientific notes</a><a href="CHANGELOG.html">Changes</a><a href="VALIDATION.html">Validation</a><a href="docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#data-formats-and-import"
+id="toc-data-formats-and-import">Data formats and import</a>
+<ul>
+<li><a href="#decay-and-shared-irf-tables"
+id="toc-decay-and-shared-irf-tables">Decay and shared IRF
+tables</a></li>
+<li><a href="#raw-time-by-wavelength-fitting-matrix"
+id="toc-raw-time-by-wavelength-fitting-matrix">Raw time-by-wavelength
+fitting matrix</a></li>
+<li><a href="#origin-export-settings"
+id="toc-origin-export-settings">Origin export settings</a></li>
+<li><a href="#channel-time-rounding"
+id="toc-channel-time-rounding">Channel-time rounding</a></li>
+<li><a href="#multi-curve-ascii-bundles"
+id="toc-multi-curve-ascii-bundles">Multi-curve ASCII bundles</a></li>
+<li><a href="#missing-values-and-acquisition-windows"
+id="toc-missing-values-and-acquisition-windows">Missing values and
+acquisition windows</a></li>
+<li><a href="#contributed-raw-example-assignments"
+id="toc-contributed-raw-example-assignments">Contributed raw example
+assignments</a></li>
+<li><a href="#steady-state-inputs-for-global-fit-reconstruction"
+id="toc-steady-state-inputs-for-global-fit-reconstruction">Steady-state
+inputs for global-fit reconstruction</a>
+<ul>
+<li><a href="#already-normalized-values-at-fitted-wavelengths"
+id="toc-already-normalized-values-at-fitted-wavelengths">Already-normalized
+values at fitted wavelengths</a></li>
+<li><a href="#full-steady-state-spectrum"
+id="toc-full-steady-state-spectrum">Full steady-state spectrum</a></li>
+</ul></li>
+<li><a href="#compact-fitted-amplitude-table"
+id="toc-compact-fitted-amplitude-table">Compact fitted-amplitude
+table</a></li>
+<li><a href="#reconstruction-output-matrices"
+id="toc-reconstruction-output-matrices">Reconstruction output
+matrices</a></li>
+<li><a href="#manual-steady-state-table"
+id="toc-manual-steady-state-table">Manual steady-state table</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="data-formats-and-import">Data formats and import</h1>
+<p>TCSPC Workbench reads plain text histograms and multi-curve ASCII
+exports. The filename extension alone does not define the contents.
+Recommended extensions are <code>.csv</code>, <code>.txt</code>,
+<code>.tsv</code>, or <code>.dat</code>.</p>
+<h2 id="decay-and-shared-irf-tables">Decay and shared IRF tables</h2>
+<p>A plain decay or shared IRF has time in its first column and raw
+counts in its second:</p>
+<pre class="csv"><code>time_ns,counts
+0.000,0
+0.025,2
+0.050,1
+0.075,0</code></pre>
+<p>Use a decimal point. UTF-8 is recommended; plain ASCII characters are
+also valid UTF-8. CSV uses commas. The text reader can also handle tabs,
+semicolons, or whitespace when used consistently.</p>
+<p>Choose the calibrated input unit explicitly in the app. Times and
+lifetimes are converted to ns internally. A plain header such as
+<code>time_ns</code> is a label rather than an automatic override of the
+selected unit.</p>
+<p>Raw counts are nonnegative and include empty channels. Poisson
+analysis expects photon counts before smoothing, normalization, or
+background subtraction. Background is represented in the fitted
+model.</p>
+<h2 id="raw-time-by-wavelength-fitting-matrix">Raw time-by-wavelength
+fitting matrix</h2>
+<p>Rows are TCSPC time bins; columns after time are wavelength-specific
+decays:</p>
+<pre class="csv"><code>time_ns,500,520,540
+0.000,1,2,0
+0.025,0,1,3
+0.050,2,0,1
+0.075,1,1,0</code></pre>
+<p>Values shown are illustrative. The header values
+<code>500,520,540</code> are wavelengths in nm. Every count column needs
+a corresponding known wavelength. Alternatively, give the wavelength
+list in the app in exactly the count-column order.</p>
+<p>A matrix with 51 wavelength decays has 52 CSV columns, including
+time. An IRF is a separate file, not a wavelength decay column. The
+Python global API uses counts shaped <code>[time, trace]</code>;
+amplitudes are returned as <code>[trace, component]</code>.</p>
+<p>The packaged <code>measured_TRES.csv</code> has 1,999 time bins and
+51 wavelengths: 490–590 nm in 2 nm steps. <code>measured_IRF.csv</code>
+is the matching shared IRF. The contributed example mapping is known;
+generic files must carry their own wavelength metadata.</p>
+<h2 id="origin-export-settings">Origin export settings</h2>
+<p>Use a worksheet with time in column A and one decay in each
+subsequent column. Put <code>time_ns</code> in A’s Long Name cell, then
+each actual numeric wavelength in the corresponding Long Name cell.</p>
+<p>For Text/CSV export, use:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Setting</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Encoding</td>
+<td>UTF-8</td>
+</tr>
+<tr class="even">
+<td>Separator</td>
+<td>Comma</td>
+</tr>
+<tr class="odd">
+<td>Decimal separator</td>
+<td>Point</td>
+</tr>
+<tr class="even">
+<td>Include Long Name</td>
+<td>On</td>
+</tr>
+<tr class="odd">
+<td>Include Short Name, Units, Comments</td>
+<td>Off for a single header row</td>
+</tr>
+<tr class="even">
+<td>Include row labels and indices</td>
+<td>Off</td>
+</tr>
+<tr class="odd">
+<td>Export with Full Precision</td>
+<td>On</td>
+</tr>
+</tbody>
+</table>
+<p>Include the whole intended data range. Check selected-only export and
+hidden columns if a decay disappears. Inspect the exported file in a
+text editor: the wavelength labels must actually be present, not just
+visible as worksheet properties.</p>
+<p>High precision prevents additional rounding; it cannot undo rounding
+already stored in imported coordinates. The app handles small timestamp
+rounding automatically. There is normally no need to regenerate a
+calibrated TCSPC time column before export.</p>
+<h2 id="channel-time-rounding">Channel-time rounding</h2>
+<p>An instrument may use equal-width channels while its printed time
+labels have small rounding differences. The importer checks whether the
+full axis agrees with one fixed-width channel sequence to within 0.0001
+of a bin. When it does, the calculation uses that sequence and records
+the original labels and maximum adjustment.</p>
+<p>No photon counts are moved, interpolated, combined, or filled by this
+operation. It is time-label interpretation, not rebinning. A missing
+internal channel or a genuinely irregular axis is different and is
+rejected for these convolution models. Use the actual acquisition
+channel width and start time when investigating such a file.</p>
+<h2 id="multi-curve-ascii-bundles">Multi-curve ASCII bundles</h2>
+<p>Supported bundles begin with a marker and an explicit time-unit
+header, for example:</p>
+<pre class="text"><code>PlotBox Export
+Time[s]X    crv[0] []   crv[1] []
+0   0   2
+2.5e-11 1   3
+5.0e-11 0   1
+7.5e-11 0   2</code></pre>
+<p>Here <code>\t</code> represents a tab separator. The real file uses
+tab characters. <code>Time[s]X</code> explicitly declares seconds, so
+the bundle importer converts to ns automatically. Generic
+<code>crv[index]</code> names do not identify which curve is an IRF,
+wavelength, polarization channel, or laboratory time point.</p>
+<p>In the interface, select the decay curve(s) and shared IRF
+explicitly. Indices are zero-based and exclude the time column. A range
+such as <code>1-51</code> includes both endpoints. A separate wavelength
+list is optional for an unlabeled series; its plots use curve indices
+when physical wavelengths are not supplied.</p>
+<p>The command line supports inspection and selected-curve fits:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> tcspc inspect <span class="at">--input</span> examples/curve_exports/TRES_IRF.dat</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> tcspc curve-fit <span class="at">--input</span> examples/curve_exports/decay_IRF.dat <span class="at">--decay-curve</span> 1 <span class="at">--irf-curve</span> 0 <span class="at">--irf-background</span> 1.4 <span class="at">--irf-start</span> 3.8 <span class="at">--irf-end</span> 8 <span class="at">--fit-shift</span> <span class="at">--out</span> my_fit</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> tcspc curve-global <span class="at">--input</span> examples/curve_exports/TRES_IRF.dat <span class="at">--decay-curves</span> 1-51 <span class="at">--irf-curve</span> 0 <span class="at">--components</span> 2 <span class="at">--tau</span> 2.5 4.0 <span class="at">--irf-background</span> 0.38 <span class="at">--irf-start</span> 3.2 <span class="at">--irf-end</span> 6.5 <span class="at">--fit-shift</span> <span class="at">--out</span> my_global</span></code></pre></div>
+<h2 id="missing-values-and-acquisition-windows">Missing values and
+acquisition windows</h2>
+<p>In a bundle, <code>-</code> means absent data, not zero photon
+counts. It remains missing during import. Selecting curves can trim
+incomplete endpoints to retain their common complete interval. Missing
+values inside that interval are rejected. Endpoint rows with unknown
+timestamps are excluded and audited; times are not invented for
+them.</p>
+<p>Plain tables require complete numeric observations. Resolve missing
+data explicitly before making a plain table; changing a missing value to
+zero changes the observation and its noise model.</p>
+<p>The single-decay and global kinetics previews share linked channel
+handles, numerical first/last fitted times and display zoom controls. A
+selected display zoom does not crop the imported table; the chosen
+fitting interval is recorded in the fit settings.</p>
+<p>Preserve the original full measurement and record any selected common
+interval. The fit objective uses only the chosen decay window, but
+reconvolution is evaluated using the available full imported excitation
+history before that window is applied.</p>
+<p>The repetition-period model needs a complete, uniformly spaced,
+nonduplicated period: <code>number_of_bins × bin_width = period</code>.
+An exported array may contain a duplicate endpoint or lose final bins
+through missingness. Its displayed last timestamp is not enough to
+establish a complete period.</p>
+<h2 id="contributed-raw-example-assignments">Contributed raw example
+assignments</h2>
+<p>These assignments apply to the named files supplied with the package;
+the generic importer does not guess them from a filename.</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>File in <code>examples/curve_exports/</code></th>
+<th>Zero-based curve roles</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>decay_IRF.dat</code></td>
+<td>0 IRF; 1 fluorescence decay</td>
+</tr>
+<tr class="even">
+<td><code>decay.dat</code></td>
+<td>0 long-lived RuBiPy decay; suitable for a tail fit</td>
+</tr>
+<tr class="odd">
+<td><code>TRES_IRF.dat</code></td>
+<td>0 IRF; 1–51 decays at 490–590 nm in 2 nm steps</td>
+</tr>
+<tr class="even">
+<td><code>decaytimecourse_IRF.dat</code></td>
+<td>0 IRF; 1–10 repeated decays, nominal laboratory times 0, 15, …, 135
+s</td>
+</tr>
+<tr class="odd">
+<td><code>anisodec.dat</code></td>
+<td>0 VV; 1 VH</td>
+</tr>
+<tr class="even">
+<td><code>anisodec_IRF.dat</code></td>
+<td>0 IRF; 1 VV; 2 VH</td>
+</tr>
+<tr class="odd">
+<td><code>anisodec_IRF_magic.dat</code></td>
+<td>0 IRF; 1 VV; 2 magic angle; 3 VH</td>
+</tr>
+</tbody>
+</table>
+<p>VV is parallel polarization and VH perpendicular polarization. The
+magic-angle intensity is curve 2 in the four-curve file. Coupled
+rotational-anisotropy fitting is not implemented, and a calibrated
+G-factor was not supplied. The polarized curves remain useful for
+inspecting the source data; a simple intensity fit of them is not a
+rotational-anisotropy measurement.</p>
+<p>The repeated-decay laboratory times are nominal sequence times and
+exclude execution overhead. They are separate from the ns photon-delay
+axis and must not be labeled as wavelengths.</p>
+<p>Native binary measurement/workspace formats are not imported. Use
+text exports exposing the numeric curves, units, and metadata. Keep the
+original acquisitions for provenance.</p>
+<h2 id="steady-state-inputs-for-global-fit-reconstruction">Steady-state
+inputs for global-fit reconstruction</h2>
+<p>The saved global result supplies wavelength labels, pre-exponential
+amplitudes, and component lifetimes automatically. Supply the
+steady-state intensities in the manual table or a two-column numeric
+fluorescence file, for example:</p>
+<pre class="csv"><code>wavelength_nm,intensity
+490,0.12
+500,0.35
+510,0.80
+520,1.00</code></pre>
+<p>These values are illustrative. Use wavelength in nm, UTF-8 text,
+decimal points, and a consistent comma, tab, or whitespace separator.
+Wavelengths must be positive, finite, and unique. Sorting wavelengths
+also sorts their paired intensities. The source measurement file remains
+unchanged.</p>
+<h3
+id="already-normalized-values-at-fitted-wavelengths">Already-normalized
+values at fitted wavelengths</h3>
+<p>Supply exactly one row for each global-fit wavelength, with finite
+normalized intensity from 0 to 1 and some positive signal. Rows can
+arrive in a different order. The workbench matches them to the global
+result and uses the intensity values directly. It does not renormalize,
+interpolate, or infer missing rows in this path. Missing wavelengths,
+duplicate rows, and unrelated extra wavelengths are rejected. Tiny
+coordinate-rounding differences are accepted only when matching is
+unambiguous.</p>
+<p>A subset of a previously normalized emission spectrum may have a
+largest value below 1. That is allowed; the workbench does not force
+that subset’s maximum to 1.</p>
+<h3 id="full-steady-state-spectrum">Full steady-state spectrum</h3>
+<p>Supply the measured fluorescence spectrum with wavelength coverage
+spanning every global-fit wavelength. It may contain a denser or
+irregular wavelength grid. Choose one normalization:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Calculation on the full uploaded spectrum</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Divide by maximum</td>
+<td><code>I / max(I)</code>; requires nonnegative intensities and a
+positive maximum.</td>
+</tr>
+<tr class="even">
+<td>0–1 min–max</td>
+<td><code>(I - min(I)) / (max(I) - min(I))</code>; allows a finite
+negative raw offset but requires a nonconstant spectrum.</td>
+</tr>
+</tbody>
+</table>
+<p>Normalization precedes sampling at the fitted wavelengths. The
+workbench then uses linear interpolation inside the supplied coverage.
+It rejects extrapolation beyond the measured spectrum. A spectrum’s
+maximum does not need to coincide with any global-fit wavelength.</p>
+<p>Min–max normalization subtracts a constant before scaling. This
+changes the relative spectral shape and reconstructed TRANES when the
+original minimum is not zero. It is a selected normalization convention,
+not an automatic experimental baseline correction. Record any prior
+blank or response correction with the original measurement.</p>
+<p>The preview and export record the normalized source spectrum,
+selected normalization, offset, divisor, wavelength-matching method, and
+intensities used at the fitted wavelengths. This fluorescence spectrum
+is separate from the raw photon histograms used for lifetime
+fitting.</p>
+<h2 id="compact-fitted-amplitude-table">Compact fitted-amplitude
+table</h2>
+<p>This optional input supports externally fitted results and worked
+examples. A current global fit already provides these quantities and
+requires no fitted-table upload. The compact table is for
+reconstruction, not for refitting photon histograms. Each row is one
+wavelength:</p>
+<pre class="csv"><code>wavelength_nm,A1,A2,A3,SteadyState
+498,0,0,11239,0.0737495452699143
+515,0,0,11608,0.715823095325772
+532,10.17,378.9,12063,0.465667354828892</code></pre>
+<p>The first three rows above are from the contributed three-component
+example; they are not a complete spectrum. The complete file is
+<code>examples/fitted_three_components.csv</code>. It uses the original
+named final steady-state column, which the importer recognizes. Enter
+<code>114.15, 17.415, 4.613</code> ns for its A1, A2, A3 columns
+respectively. The file has 13 wavelengths from 498 through 653 nm; their
+spacing is not uniform, which is allowed for spectral integration.</p>
+<p>A final steady-state column is optional. With a header, name it
+clearly, for example <code>SteadyState</code>, <code>SS</code>, or
+<code>Fluo_intensity_steadystate</code>; the remaining columns after
+wavelength are component amplitudes. Without embedded steady-state
+values, upload a separate two-column spectrum. In the browser, use a
+named header when the final column contains steady-state intensity. A
+headerless table treats all columns after wavelength as amplitudes; the
+Python API can instead explicitly set <code>has_steady_state=True</code>
+for that compact layout.</p>
+<p>Use CSV, tab-separated text, or whitespace-delimited numeric text
+consistently, with decimal points and UTF-8 encoding. The uploaded
+reference notebook used a tab-only, no-header reader, while the supplied
+fitted table is comma-separated and has a header. The workbench’s
+dedicated fitted-table importer handles that format difference.
+Wavelengths are finite, positive, unique values in nm; amplitudes are
+finite and nonnegative.</p>
+<p>A normal fit export <code>amplitudes.csv</code> uses a long
+trace/component layout. It is not this compact wide table. Continue
+directly from the current global result in the interface, or explicitly
+reshape external results into the compact layout and retain the
+wavelength mapping.</p>
+<p>Lifetime values must match the amplitude-column order. Sorting
+wavelengths reorders whole rows, including their amplitudes and
+intensities. It must not reorder component lifetimes independently.
+Current global results already retain the correct amplitude/lifetime
+pairing.</p>
+<h2 id="reconstruction-output-matrices">Reconstruction output
+matrices</h2>
+<p>The spectral download contains <code>tres.csv</code> and
+<code>tranes.csv</code>. Both place <strong>wavelengths in rows and
+reconstruction delays in columns</strong>, for example:</p>
+<pre class="csv"><code>wavelength_nm,0.025_ns,1_ns,10_ns
+498,0.012,0.010,0.002
+515,0.041,0.034,0.006</code></pre>
+<p>The numeric intensities here are schematic, not reference results.
+Delays are nonnegative ns after the declared excitation origin. Metadata
+records their exact values, lifetime order, normalization, amplitude
+reference delay, and any model-extrapolation qualifications. The files
+represent reconstructed intrinsic spectra, not newly measured count
+data.</p>
+<p><code>sampled_steady_state.csv</code> retains the steady-state values
+used at the reconstruction wavelengths.
+<code>normalized_steady_state.csv</code> retains the complete supplied
+spectrum after the selected normalization, before sampling. Both
+steady-state CSV files have two columns (wavelength and normalized
+intensity) so they can be read again as spectrum inputs. Original
+supplied intensities, normalization offset and divisor remain in
+<code>spectral_metadata.json</code>. <code>fitted_amplitudes.csv</code>
+retains the component amplitudes in the recorded reference-time
+convention; the reference delay is recorded in metadata.
+<code>spectral_metadata.json</code> records the mathematical
+conventions, steady-state normalization and matching, and scale. The
+browser ZIP also includes <code>reconstruction_source.json</code> with
+the selected input provenance and curve-style setting. Smooth plot
+connections are display interpolation; numerical matrices retain the
+original fitted wavelength samples and their trapezoidal TRANES area
+normalization. Keep these together with the lifetime-fit export and
+original spectrum. The output orientation is intentionally different
+from the raw fitting matrix; relabeling a pre-exponential-factor plot
+does not produce TRES.</p>
+<p>For tail fits, supply the known delay of the amplitude reference time
+after excitation. The conversion to excitation-origin amplitudes is
+<code>A_at_excitation = A_at_reference × exp(reference_delay / tau)</code>.
+The original amplitude table remains unchanged. A positive steady-state
+intensity with zero fitted decay area is inconsistent and cannot be
+reconstructed; a spectrum with zero area cannot be normalized to
+TRANES.</p>
+<h2 id="manual-steady-state-table">Manual steady-state table</h2>
+<p>In TRES/TRANES, <strong>Enter normalized intensities
+manually</strong> requires no file. Fit wavelengths are fixed; enter one
+normalized intensity (0–1) per row and select <strong>Apply
+intensities</strong>. Every row must be filled and at least one
+intensity must be positive. Values retain their entered scale.
+<code>sampled_steady_state.csv</code> and the reconstruction metadata
+preserve these inputs.</p>
+</body>
+</html>

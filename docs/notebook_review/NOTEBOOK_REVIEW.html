@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TCSPC Workbench 0.1.0 — Notebook review</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <style>
+  body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:960px;margin:40px auto;padding:0 24px;color:#243746;line-height:1.6;background:#fff}h1,h2,h3{color:#154f60;line-height:1.25}h2{margin-top:2em}a{color:#126a85}pre{background:#edf3f6;border:1px solid #d2e1e8;border-radius:6px;padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}code{font-family:Consolas,monospace;font-size:.94em}table{border-collapse:collapse;width:100%;font-size:.94em}td,th{border:1px solid #d8e2e7;padding:8px;text-align:left}th{background:#edf3f6}nav{padding:12px 0;border-bottom:1px solid #d8e2e7}nav a{margin-right:16px}#TOC{background:#f5f8fa;padding:16px 24px;border-radius:6px}
+  </style>
+</head>
+<body>
+<nav><a href="../../USER_GUIDE.html">User guide</a><a href="../../README.html">Repository overview</a><a href="../../INSTALLATION.html">Installation guide</a><a href="../../GITHUB_UPLOAD.html">GitHub upload</a><a href="../../QUICK_START_WINDOWS.html">Windows quick start</a><a href="../../DATA_FORMATS.html">Data formats</a><a href="../../SCIENTIFIC_NOTES.html">Scientific notes</a><a href="../../CHANGELOG.html">Changes</a><a href="../../VALIDATION.html">Validation</a><a href="../../docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a
+href="#independent-review-of-the-supplied-spectral-reconstruction-notebook"
+id="toc-independent-review-of-the-supplied-spectral-reconstruction-notebook">Independent
+review of the supplied spectral reconstruction notebook</a>
+<ul>
+<li><a href="#meaning-of-the-calculation"
+id="toc-meaning-of-the-calculation">Meaning of the calculation</a></li>
+<li><a href="#supplied-three-component-example"
+id="toc-supplied-three-component-example">Supplied three-component
+example</a></li>
+<li><a href="#notebook-issues-to-correct-in-the-application"
+id="toc-notebook-issues-to-correct-in-the-application">Notebook issues
+to correct in the application</a></li>
+<li><a href="#conditions-needed-for-physical-interpretation"
+id="toc-conditions-needed-for-physical-interpretation">Conditions needed
+for physical interpretation</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1
+id="independent-review-of-the-supplied-spectral-reconstruction-notebook">Independent
+review of the supplied spectral reconstruction notebook</h1>
+<p>The supplied notebook was inspected as reference code. Its widget
+callbacks and file-writing commands were not executed. The notebook JSON
+parses as format 4.5, with two cells (one populated code cell and one
+empty code cell). The saved output is a widget display, not saved
+numerical TRES results. A full <code>nbformat</code> schema validator is
+not installed in this review environment. The calculation below was
+instead evaluated independently from the supplied numeric table.</p>
+<h2 id="meaning-of-the-calculation">Meaning of the calculation</h2>
+<p>For wavelength λ, let the fitted intrinsic decay model be</p>
+<pre><code>f(λ,t) = Σk A(λ,k) exp(−t/τk),  t ≥ 0.</code></pre>
+<p>Its continuous time integral is Σk A(λ,k)τk. If S(λ) is the
+steady-state fluorescence spectrum measured under comparable conditions,
+the notebook forms</p>
+<pre><code>TRES(λ,t) = S(λ) f(λ,t) / Σk A(λ,k)τk.</code></pre>
+<p>Consequently, the integral of reconstructed TRES over time is S(λ).
+This is the critical normalization: multiplying the raw pre-exponentials
+by S(λ) alone would leave a spurious, wavelength-dependent factor Σ Aτ
+in that integral. The ratio also cancels any positive common amplitude
+scale applied to a particular wavelength, such as a different count
+target or acquisition duration, provided that scale affects all fitted
+components at that wavelength equally.</p>
+<p>TRANES is the reconstructed TRES divided by its spectral area
+separately at each delay:</p>
+<pre><code>TRANES(λ,t) = TRES(λ,t) / ∫ TRES(λ,t) dλ.</code></pre>
+<p>The provided wavelengths are not equally spaced throughout. The
+notebook correctly supplies the actual wavelength array to trapezoidal
+integration. Normalization is over the selected wavelength interval, not
+the unmeasured full emission band. It is not peak normalization. With
+wavelength in nm, TRANES has units 1/nm. Peak-normalized steady-state
+input gives relative TRES intensity per ns; this does not establish
+absolute radiometric calibration.</p>
+<h2 id="supplied-three-component-example">Supplied three-component
+example</h2>
+<p>The attached data file is comma-separated and includes a header. It
+contains 13 wavelength rows, 498–653 nm, and the columns wavelength, A1,
+A2, A3, and steady-state intensity. The matching lifetime order from the
+notebook is:</p>
+<ul>
+<li>A1: 114.15 ns.</li>
+<li>A2: 17.415 ns.</li>
+<li>A3: 4.613 ns.</li>
+</ul>
+<p>Component columns and lifetime values must stay paired; sorting
+lifetimes alone would produce a different and incorrect result. The
+steady-state values are already peak-normalized to one in this
+particular supplied table. They are not a steady-state spectrum for the
+separate 51-wavelength demonstration measurement.</p>
+<p>Independent scalar evaluation at delays 0, 0.025, 1, 10, 50 and 100
+ns generated:</p>
+<ul>
+<li><code>notebook_reference_tres.csv</code>.</li>
+<li><code>notebook_reference_tranes.csv</code>.</li>
+<li><code>notebook_reference_summary.json</code>.</li>
+</ul>
+<p>Every TRANES trapezoidal spectral area is one to about 2.3e-16
+numerical error. Independent adaptive quadrature of the reconstructed
+decay over time recovers the supplied steady-state intensity at each
+wavelength, with maximum absolute error 2.23e-16.</p>
+<p>Comparison with the new engine gives maximum absolute differences
+5.56e-17 for TRES and 6.08e-18 for TRANES. Reversing wavelength order
+together with the aligned amplitudes and steady-state values reproduces
+the same sorted result. Independent positive amplitude factors spanning
+1e-200 to 1e200 at different wavelengths also leave the reconstructed
+spectra unchanged, as required by the formula. A known 7 ns
+tail-reference transformation recovers the excitation-origin
+reconstruction. These checks are recorded in
+<code>independent_engine_comparison.json</code>.</p>
+<h2 id="notebook-issues-to-correct-in-the-application">Notebook issues
+to correct in the application</h2>
+<ol type="1">
+<li><strong>Input parsing:</strong> the notebook hardcodes a tab
+separator and <code>header=None</code>; that does not match the actual
+comma-separated, header-containing attachment. The application must
+recognize the real format and require the right number of lifetime
+values.</li>
+<li><strong>Zero areas:</strong> the notebook silently assigns zero when
+a fitted time area is nonpositive, then divides by an unchecked spectral
+area for TRANES. A positive steady-state intensity with no fitted decay
+support should instead be an explicit error, as should a zero/invalid
+TRANES denominator.</li>
+<li><strong>Negative delays and invalid lifetimes:</strong> the notebook
+has no adequate bounds or component-count checks. Reconstruction
+requires finite positive lifetimes and finite nonnegative delays for
+this causal model.</li>
+<li><strong>Cubic interpolation:</strong> the notebook’s cubic B-spline
+display can overshoot even when every input intensity is nonnegative.
+For the supplied data it creates a minimum near −1.276e-5 at 50 ns and
+−2.244e-6 at 100 ns. This is an interpolation artifact, not negative
+emission. Numerical exports should keep the sampled reconstructed
+values; straight lines or shape-preserving display interpolation are
+preferable.</li>
+<li><strong>Peak precision:</strong> at 50 ns the sampled maximum is 603
+nm, whereas the notebook’s cubic interpolant reports about 600.12 nm. At
+100 ns it reports about 600.64 nm. Such sub-grid peak positions are
+interpolation-dependent and should not be presented as measured spectral
+resolution or a precise physical shift without a justified spectral
+model and uncertainty estimate.</li>
+<li><strong>Suggested time horizon:</strong> five times the longest
+lifetime is 570.75 ns in this example. A pure exponential still has
+exp(−5) ≈ 0.006738 of its initial amplitude there. Whether that is
+negligible depends on component weight, noise and dynamic range. It is a
+preview heuristic, not a guaranteed cutoff.</li>
+<li><strong>Widget portability:</strong> the upload code assumes the
+newer tuple-style widget value; earlier widget versions use a different
+structure. A native application input surface avoids copying this
+version-dependent callback logic.</li>
+<li><strong>Export completeness:</strong> the notebook exports the TRES
+matrix only. A clear application export should include TRES, TRANES,
+sampled steady-state values, lifetime/column pairing, normalization
+settings and reference-time assumptions.</li>
+</ol>
+<h2 id="conditions-needed-for-physical-interpretation">Conditions needed
+for physical interpretation</h2>
+<ul>
+<li>A dense uploaded steady-state spectrum may be normalized, then
+sampled at the fitted wavelengths. Interpolation should remain inside
+its measured coverage; extrapolation must not silently supply missing
+spectral information.</li>
+<li>Steady-state and lifetime measurements should describe comparable
+sample and excitation conditions. Wavelength response, acquisition
+duration and spectral bandwidth corrections must be understood. A
+relative spectrum is not an absolute emission calibration.</li>
+<li>Fitted nonnegative parallel-exponential models are supported. A
+reconstructed spectrum does not establish solvation, energy-transfer or
+sequential kinetics; those may require signed amplitudes or target
+models.</li>
+<li>Reconvolution model amplitudes in this workbench refer to underlying
+excitation-origin exponentials before the discrete bin-average factor.
+Their intrinsic continuous area is therefore Σ Aτ. That bin-average
+factor must not be applied again during this reconstruction. External
+amplitudes with different definitions (e.g. integrated-intensity
+fractions or bin-integrated coefficients) require the corresponding
+conversion and cannot be assumed interchangeable.</li>
+<li>Tail-fit amplitudes refer to the first tail fitting channel. If its
+known elapsed delay after excitation is d, convert Aref to A0 = Aref
+exp(d/τ). The absolute displayed detector-time coordinate alone is not
+enough to determine
+<ol start="4" type="a">
+<li>Early-time reconstruction from a tail fit is model
+extrapolation.</li>
+</ol></li>
+<li>Lifetime and steady-state interpolation uncertainties are not
+automatically propagated into reconstructed spectra. Delays beyond the
+measured post-excitation window depend on extrapolating the fitted
+model.</li>
+</ul>
+</body>
+</html>

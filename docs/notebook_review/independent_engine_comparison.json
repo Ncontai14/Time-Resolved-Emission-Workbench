@@ -1,0 +1,7 @@
+{
+  "tres_max_abs_difference_from_independent_reference": 5.551115123125783e-17,
+  "tranes_max_abs_difference_from_independent_reference": 6.071532165918825e-18,
+  "tail_origin_back_transform_check": "passed",
+  "reordered_wavelength_alignment_check": "passed",
+  "per_wavelength_scale_invariance_1e-200_to1e200": "passed"
+}

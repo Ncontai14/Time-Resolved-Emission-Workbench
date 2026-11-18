@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TCSPC Workbench 0.1.0 — GitHub upload</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <style>
+  body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:960px;margin:40px auto;padding:0 24px;color:#243746;line-height:1.6;background:#fff}h1,h2,h3{color:#154f60;line-height:1.25}h2{margin-top:2em}a{color:#126a85}pre{background:#edf3f6;border:1px solid #d2e1e8;border-radius:6px;padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}code{font-family:Consolas,monospace;font-size:.94em}table{border-collapse:collapse;width:100%;font-size:.94em}td,th{border:1px solid #d8e2e7;padding:8px;text-align:left}th{background:#edf3f6}nav{padding:12px 0;border-bottom:1px solid #d8e2e7}nav a{margin-right:16px}#TOC{background:#f5f8fa;padding:16px 24px;border-radius:6px}
+  </style>
+</head>
+<body>
+<nav><a href="USER_GUIDE.html">User guide</a><a href="README.html">Repository overview</a><a href="INSTALLATION.html">Installation guide</a><a href="GITHUB_UPLOAD.html">GitHub upload</a><a href="QUICK_START_WINDOWS.html">Windows quick start</a><a href="DATA_FORMATS.html">Data formats</a><a href="SCIENTIFIC_NOTES.html">Scientific notes</a><a href="CHANGELOG.html">Changes</a><a href="VALIDATION.html">Validation</a><a href="docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#put-this-package-on-github"
+id="toc-put-this-package-on-github">Put this package on GitHub</a>
+<ul>
+<li><a href="#extract-and-identify-the-repository-root"
+id="toc-extract-and-identify-the-repository-root">1. Extract and
+identify the repository root</a></li>
+<li><a href="#personalize-the-public-credit-and-review-the-examples"
+id="toc-personalize-the-public-credit-and-review-the-examples">2.
+Personalize the public credit and review the examples</a></li>
+<li><a href="#upload-using-github-desktop"
+id="toc-upload-using-github-desktop">3. Upload using GitHub
+Desktop</a></li>
+<li><a href="#alternative-upload-in-the-github-website"
+id="toc-alternative-upload-in-the-github-website">4. Alternative: upload
+in the GitHub website</a></li>
+<li><a href="#check-automated-tests-and-create-a-release"
+id="toc-check-automated-tests-and-create-a-release">5. Check automated
+tests and create a release</a></li>
+<li><a href="#make-it-discoverable-and-citable"
+id="toc-make-it-discoverable-and-citable">6. Make it discoverable and
+citable</a></li>
+<li><a href="#what-is-included-in-this-repository"
+id="toc-what-is-included-in-this-repository">What is included in this
+repository</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="put-this-package-on-github">Put this package on GitHub</h1>
+<p>This is the repository-ready first public release of TCSPC Workbench,
+version 0.1.0. No repository has been created or published for you.</p>
+<h2 id="extract-and-identify-the-repository-root">1. Extract and
+identify the repository root</h2>
+<p>Extract the ZIP completely. Open the inner
+<code>tcspc-workbench</code> folder until you see
+<code>README.md</code>, <code>app.py</code>, <code>tcspc</code>,
+<code>tests</code>, and <code>.github</code> together. That is the
+repository root. Do not upload the ZIP itself as the repository’s only
+file, and do not accidentally place all these files inside another extra
+folder on GitHub.</p>
+<p>Keep dotfiles and the <code>.github</code> directory: they provide
+ignore rules, text-file handling and test automation. File managers on
+macOS/Linux may hide them; show hidden files or use GitHub Desktop to
+include them.</p>
+<h2 id="personalize-the-public-credit-and-review-the-examples">2.
+Personalize the public credit and review the examples</h2>
+<ul>
+<li><code>CITATION.cff</code> currently credits <strong>TCSPC Workbench
+contributors</strong>. Replace that collective entry with your intended
+author information, optionally ORCID. Do not invent a DOI or paper
+citation. Add the real repository URL after creating it.</li>
+<li>The existing MIT licence covers original project code/documentation.
+Keep applicable notices. Contributed measurements have separate rights;
+read <code>examples/README.md</code> and confirm redistribution
+permission before making the complete example collection public.</li>
+<li>Keep your own experimental data outside the repository or under the
+ignored <code>data/</code> or <code>private_data/</code> folders. Do not
+add tokens, <code>.env</code> files or
+<code>.streamlit/secrets.toml</code>. The supplied
+<code>.streamlit/config.toml</code> is a shared interface configuration
+and should be included.</li>
+</ul>
+<p>The supplied examples are preserved because the app and tests use
+them. The package does not establish permission to redistribute
+third-party measurements. Keeping a new repository private while
+checking those rights preserves the current working package. If
+permission cannot be established, make a separately validated public
+edition with substitute synthetic examples and updated
+tests/documentation before publication.</p>
+<h2 id="upload-using-github-desktop">3. Upload using GitHub Desktop</h2>
+<p>This route handles hidden configuration files and folder
+structure.</p>
+<ol type="1">
+<li>Install GitHub Desktop from its official website and sign into your
+GitHub account.</li>
+<li>Choose <strong>File → Add local repository</strong>, then select the
+extracted repository root.</li>
+<li>If Desktop says it is not a Git repository, use its <strong>create a
+repository here</strong> link. Keep the location pointing to the
+existing folder. Do not replace the supplied README, licence or ignore
+file with generated defaults.</li>
+<li>Review the Changes list. You should see the code, tests, examples,
+guides, <code>.gitignore</code>, <code>.gitattributes</code>,
+<code>CITATION.cff</code>, and <code>.github/workflows/tests.yml</code>.
+Private measurements and environments should not be included.</li>
+<li>Commit with a summary such as
+<code>Prepare TCSPC Workbench v0.1.0</code>.</li>
+<li>Select <strong>Publish repository</strong>. A suitable repository
+name is <code>tcspc-workbench</code>. Choose visibility deliberately;
+finish the author/data review before making the full collection
+public.</li>
+<li>Open the repository on GitHub and check the README, screenshots,
+guides and <strong>Actions</strong> tab.</li>
+</ol>
+<p>If Desktop creates a different folder from the one containing
+<code>app.py</code>, cancel and correct the location before
+committing.</p>
+<h2 id="alternative-upload-in-the-github-website">4. Alternative: upload
+in the GitHub website</h2>
+<ol type="1">
+<li>Create an empty repository named <code>tcspc-workbench</code> (or
+your preferred name).</li>
+<li>Leave GitHub’s automatic README, <code>.gitignore</code> and licence
+creation unchecked; these are already supplied.</li>
+<li>Use <strong>Add file → Upload files</strong> and upload the contents
+of the local repository root, including subfolders and hidden
+configuration files. Upload in batches if the website requests it.</li>
+<li>Commit the files. Confirm that <code>app.py</code> is at the top
+level, not inside an extra <code>tcspc-workbench</code> subfolder.</li>
+<li>Check that <code>.github/workflows/tests.yml</code> and
+<code>.gitignore</code> really arrived. If your browser/file manager
+omits them, use GitHub Desktop.</li>
+</ol>
+<p>Uploading a ZIP as a normal file does not unpack it into source
+files. The ZIP is useful as a release attachment instead.</p>
+<h2 id="check-automated-tests-and-create-a-release">5. Check automated
+tests and create a release</h2>
+<p>The supplied workflow runs numerical/import/CLI tests on Windows and
+Linux with Python 3.10 and 3.12. It does not publish a website, upload
+data to another service or require repository secrets. Hosted test
+results appear only after GitHub executes the workflow; the local checks
+do not imply a successful hosted run.</p>
+<p>After checking those results, create a GitHub Release from
+<strong>Releases → Draft a new release</strong>:</p>
+<ul>
+<li>Tag: <code>v0.1.0</code>.</li>
+<li>Title: <code>TCSPC Workbench v0.1.0</code>.</li>
+<li>Description: summarize the available workflows and link the user
+guide, scientific notes, validation and limitations.</li>
+<li>Optionally attach the complete end-user ZIP as a release asset.
+GitHub also creates source archives from the tag.</li>
+</ul>
+<p>The tag identifies this initial public release. Start the public
+changelog here and record subsequent public changes under their own
+version entries.</p>
+<p>Suggested short repository description:</p>
+<blockquote>
+<p>Local TCSPC lifetime fitting, global analysis and steady-state-scaled
+TRES/TRANES reconstruction in Python.</p>
+</blockquote>
+<p>Suggested topics: <code>tcspc</code>, <code>fluorescence</code>,
+<code>fluorescence-lifetime</code>, <code>global-analysis</code>,
+<code>spectroscopy</code>, <code>python</code>,
+<code>streamlit</code>.</p>
+<h2 id="make-it-discoverable-and-citable">6. Make it discoverable and
+citable</h2>
+<p>Link the stable repository or release in your profile and
+demonstration video. Ask experimental users to report reproducible
+issues. A tagged release can later be archived with Zenodo, at which
+point you can add the real DOI and repository URL to CITATION.cff. The
+citation currently contains neither because those identifiers do not yet
+exist.</p>
+<h2 id="what-is-included-in-this-repository">What is included in this
+repository</h2>
+<ul>
+<li>A repository overview, detailed INSTALLATION.md and an
+experimental-user operating guide.</li>
+<li>Contribution/support guides, citation metadata and upload
+instructions.</li>
+<li>GitHub Actions tests plus issue and pull-request templates.</li>
+<li>Ignore rules for environments, credentials and designated personal
+data/output folders.</li>
+<li>Text attributes preserving histogram bytes/checksums across
+platforms.</li>
+<li>Data-provenance notes and updated offline HTML navigation.</li>
+</ul>
+<p>This distribution has no Git history or account credentials. GitHub
+Desktop or your Git client initializes the repository locally. The
+public changelog starts with v0.1.0.</p>
+</body>
+</html>

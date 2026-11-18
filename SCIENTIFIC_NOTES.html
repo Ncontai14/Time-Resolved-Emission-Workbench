@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TCSPC Workbench 0.1.0 — Scientific notes</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <style>
+  body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:960px;margin:40px auto;padding:0 24px;color:#243746;line-height:1.6;background:#fff}h1,h2,h3{color:#154f60;line-height:1.25}h2{margin-top:2em}a{color:#126a85}pre{background:#edf3f6;border:1px solid #d2e1e8;border-radius:6px;padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}code{font-family:Consolas,monospace;font-size:.94em}table{border-collapse:collapse;width:100%;font-size:.94em}td,th{border:1px solid #d8e2e7;padding:8px;text-align:left}th{background:#edf3f6}nav{padding:12px 0;border-bottom:1px solid #d8e2e7}nav a{margin-right:16px}#TOC{background:#f5f8fa;padding:16px 24px;border-radius:6px}
+  </style>
+</head>
+<body>
+<nav><a href="USER_GUIDE.html">User guide</a><a href="README.html">Repository overview</a><a href="INSTALLATION.html">Installation guide</a><a href="GITHUB_UPLOAD.html">GitHub upload</a><a href="QUICK_START_WINDOWS.html">Windows quick start</a><a href="DATA_FORMATS.html">Data formats</a><a href="SCIENTIFIC_NOTES.html">Scientific notes</a><a href="CHANGELOG.html">Changes</a><a href="VALIDATION.html">Validation</a><a href="docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#scientific-methods-and-interpretation"
+id="toc-scientific-methods-and-interpretation">Scientific methods and
+interpretation</a>
+<ul>
+<li><a href="#inputs-and-channel-coordinates"
+id="toc-inputs-and-channel-coordinates">Inputs and channel
+coordinates</a></li>
+<li><a href="#tail-model" id="toc-tail-model">Tail model</a></li>
+<li><a href="#measured-irf-reconvolution"
+id="toc-measured-irf-reconvolution">Measured-IRF reconvolution</a></li>
+<li><a href="#objectives-and-residuals"
+id="toc-objectives-and-residuals">Objectives and residuals</a></li>
+<li><a href="#global-analysis-and-amplitude-spectra"
+id="toc-global-analysis-and-amplitude-spectra">Global analysis and
+amplitude spectra</a></li>
+<li><a href="#steady-state-scaled-tres-and-tranes-reconstruction"
+id="toc-steady-state-scaled-tres-and-tranes-reconstruction">Steady-state-scaled
+TRES and TRANES reconstruction</a>
+<ul>
+<li><a href="#sampling-and-scaling-the-steady-state-spectrum"
+id="toc-sampling-and-scaling-the-steady-state-spectrum">Sampling and
+scaling the steady-state spectrum</a></li>
+<li><a href="#area-normalization-over-wavelength"
+id="toc-area-normalization-over-wavelength">Area normalization over
+wavelength</a></li>
+<li><a href="#connections-between-spectral-samples"
+id="toc-connections-between-spectral-samples">Connections between
+spectral samples</a></li>
+<li><a href="#amplitude-reference-time-and-extrapolation"
+id="toc-amplitude-reference-time-and-extrapolation">Amplitude reference
+time and extrapolation</a></li>
+</ul></li>
+<li><a href="#repeated-excitation" id="toc-repeated-excitation">Repeated
+excitation</a></li>
+<li><a href="#optimization-and-uncertainty"
+id="toc-optimization-and-uncertainty">Optimization and
+uncertainty</a></li>
+<li><a href="#supported-scope" id="toc-supported-scope">Supported
+scope</a></li>
+<li><a href="#manual-normalized-intensities"
+id="toc-manual-normalized-intensities">Manual normalized
+intensities</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="scientific-methods-and-interpretation">Scientific methods and
+interpretation</h1>
+<p>TCSPC Workbench independently implements standard exponential
+fluorescence-decay models. Its job is to estimate parameters of a stated
+forward model from supplied photon histograms. Numerical convergence is
+evidence about that optimization problem; it does not establish a unique
+physical mechanism or correct an acquisition artifact.</p>
+<h2 id="inputs-and-channel-coordinates">Inputs and channel
+coordinates</h2>
+<p>Photon histograms are imported as raw nonnegative counts. Background
+is part of the fitted expectation rather than subtracted from the
+observed decay before a Poisson fit. Units must be explicit; internal
+times and reported lifetimes are in ns.</p>
+<p>The imported channel coordinate can contain small numerical rounding
+even when the acquisition channels are equally spaced. The importer
+accepts agreement with one fixed-width sequence within 0.0001 of a bin
+over the full axis. It records original coordinates and the maximum
+adjustment. Photon counts stay in their original channels. This is not
+count interpolation, rebinning, smoothing, or normalization.</p>
+<p>Missing internal channels and genuinely nonuniform coordinates are
+not equivalent to rounded labels. These forward models require their
+channel structure to be established. For supported multi-curve bundles,
+missing endpoints can be trimmed to a common complete interval and are
+audited.</p>
+<h2 id="tail-model">Tail model</h2>
+<p>For a fit beginning at the first included channel time
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mi>a</mi></msub><annotation encoding="application/x-tex">t_a</annotation></semantics></math>,
+the expected counts are</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mi>i</mi></msub><mo>=</mo><mi>B</mi><mo>+</mo><munderover><mo>∑</mo><mrow><mi>k</mi><mo>=</mo><mn>1</mn></mrow><mi>K</mi></munderover><msub><mi>A</mi><mi>k</mi></msub><mo>exp</mo><mrow><mo stretchy="true" form="prefix">[</mo><mi>−</mi><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>t</mi><mi>i</mi></msub><mo>−</mo><msub><mi>t</mi><mi>a</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>/</mi><msub><mi>τ</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\mu_i=B+\sum_{k=1}^{K}A_k\exp[-(t_i-t_a)/\tau_k].
+</annotation></semantics></math></p>
+<p>Lifetimes are positive; amplitudes and decay background are
+nonnegative. Tail amplitudes refer to the first fitted channel. Changing
+the start changes the amplitude convention even if the lifetime is
+stable. Select a start beyond the IRF-influenced rise. Predictions
+before the tail origin are undefined and are exported as blank fitted
+cells.</p>
+<h2 id="measured-irf-reconvolution">Measured-IRF reconvolution</h2>
+<p>The intrinsic isolated-pulse response is a positive exponential
+mixture. A measured IRF is corrected for a specified constant IRF
+background, restricted to a chosen pulse support if requested, clipped
+at zero, and normalized to unit sum. The model convolves that response
+with causal exponentials and adds a decay background.</p>
+<p>The discrete exponential kernel uses a bin-average factor</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><msub><mi>τ</mi><mi>k</mi></msub><mrow><mi>Δ</mi><mi>t</mi></mrow></mfrac><mrow><mo stretchy="true" form="prefix">[</mo><mn>1</mn><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>Δ</mi><mi>t</mi><mi>/</mi><msub><mi>τ</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{\tau_k}{\Delta t}\left[1-\exp(-\Delta t/\tau_k)\right].
+</annotation></semantics></math></p>
+<p>A reconvolution amplitude refers to the underlying exponential at
+zero lag, before this factor. Its scaling need not match other
+software’s amplitude conventions. A positive IRF shift delays the
+response. Fractional shifts use interpolation of the response
+function.</p>
+<p>Reconvolution is evaluated over the available full imported grid
+before selecting the decay channels included in the objective. Cropping
+the rise or relevant IRF tail before convolution can discard excitation
+history. A pulse-support limit is a distinct operation: it selects which
+measured IRF channels represent the response.</p>
+<p>Background/support choices deserve inspection. Clipping a long noisy
+IRF baseline leaves a positive pedestal; an overly short support removes
+a real response tail. The measured IRF is treated as known during
+ordinary fitting, so its finite counting noise and calibration
+uncertainty are not included in the reported local lifetime errors.</p>
+<h2 id="objectives-and-residuals">Objectives and residuals</h2>
+<p>For independent raw photon counts
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>y</mi><mi>i</mi></msub><annotation encoding="application/x-tex">y_i</annotation></semantics></math>
+and expectations
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>μ</mi><mi>i</mi></msub><mo>&gt;</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">\mu_i&gt;0</annotation></semantics></math>,
+the Poisson deviance is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi><mo>=</mo><mn>2</mn><munder><mo>∑</mo><mi>i</mi></munder><mrow><mo stretchy="true" form="prefix">[</mo><msub><mi>μ</mi><mi>i</mi></msub><mo>−</mo><msub><mi>y</mi><mi>i</mi></msub><mo>+</mo><msub><mi>y</mi><mi>i</mi></msub><mo>log</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mi>/</mi><msub><mi>μ</mi><mi>i</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo stretchy="true" form="postfix">]</mo></mrow><mo>,</mo></mrow><annotation encoding="application/x-tex">
+D=2\sum_i[\mu_i-y_i+y_i\log(y_i/\mu_i)],
+</annotation></semantics></math></p>
+<p>where the logarithmic contribution is zero for an empty observed
+channel. The optimizer minimizes signed square-root deviance residuals.
+This has the same optimum as the Poisson negative log likelihood, up to
+constants independent of the model parameters. Evaluation near equality
+uses a numerically stable expression.</p>
+<p>Alternative objectives are observed-count weighted least squares,
+with variance
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\max(y_i,1)</annotation></semantics></math>,
+and uniform least squares. Observed-count weighting can bias sparse
+fits. Uniform least squares does not assign a physically calibrated
+variance to arbitrary processed data.</p>
+<p>Pearson chi-square uses expected-count variance, whereas Poisson
+deviance and observed-count weighted least squares are different
+quantities. Their reduced statistics must retain distinct labels. A
+reduced deviance is not generally expected to equal exactly one for very
+sparse data.</p>
+<p>Degrees of freedom count included observations minus independently
+free parameters. Fixed lifetimes are not counted as free. A parameter
+shared globally is counted once. Inspect residual structure and its
+autocorrelation as well as objective values, particularly near the rise
+and in the late background.</p>
+<h2 id="global-analysis-and-amplitude-spectra">Global analysis and
+amplitude spectra</h2>
+<p>A global parallel-mixture model shares lifetimes across traces while
+allowing each trace its own amplitudes and background. The GUI and CLI
+use a shared measured IRF; the Python API can also accept one IRF column
+per trace. Timing shift is fixed or shared according to the selected
+configuration.</p>
+<p>For
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+traces and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>K</mi><annotation encoding="application/x-tex">K</annotation></semantics></math>
+free shared lifetimes, with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>M</mi><mi>K</mi></mrow><annotation encoding="application/x-tex">MK</annotation></semantics></math>
+amplitudes,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>M</mi><annotation encoding="application/x-tex">M</annotation></semantics></math>
+backgrounds, and one fitted shared shift, there are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>K</mi><mo>+</mo><mi>M</mi><mi>K</mi><mo>+</mo><mi>M</mi><mo>+</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">K+MK+M+1</annotation></semantics></math>
+free parameters before other fixing choices. There is no unique
+per-trace reduced chi-square allocation for shared parameters; per-trace
+residual summaries remain useful without asserting independent local
+degrees of freedom.</p>
+<p>The curves
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">A_k(\lambda)</annotation></semantics></math>
+are positive decay-associated amplitude spectra for this model.
+Exponential areas are proportional to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>τ</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">A_k(\lambda)\tau_k</annotation></semantics></math>,
+a different quantity. Amplitude fractions are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mi>k</mi></msub><mi>/</mi><msub><mo>∑</mo><mi>j</mi></msub><msub><mi>A</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">A_k/\sum_jA_j</annotation></semantics></math>,
+while integrated-intensity fractions are
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mi>k</mi></msub><msub><mi>τ</mi><mi>k</mi></msub><mi>/</mi><msub><mo>∑</mo><mi>j</mi></msub><msub><mi>A</mi><mi>j</mi></msub><msub><mi>τ</mi><mi>j</mi></msub></mrow><annotation encoding="application/x-tex">A_k\tau_k/\sum_jA_j\tau_j</annotation></semantics></math>.
+The amplitude-weighted lifetime is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∑</mo><msub><mi>A</mi><mi>k</mi></msub><msub><mi>τ</mi><mi>k</mi></msub><mi>/</mi><mo>∑</mo><msub><mi>A</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\sum A_k\tau_k/\sum A_k</annotation></semantics></math>;
+the intrinsic mean photon delay is
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>∑</mo><msub><mi>A</mi><mi>k</mi></msub><msubsup><mi>τ</mi><mi>k</mi><mn>2</mn></msubsup><mi>/</mi><mo>∑</mo><msub><mi>A</mi><mi>k</mi></msub><msub><mi>τ</mi><mi>k</mi></msub></mrow><annotation encoding="application/x-tex">\sum A_k\tau_k^2/\sum A_k\tau_k</annotation></semantics></math>.</p>
+<p>A component may vanish at some wavelengths while remaining supported
+by other traces. Aggregate amplitude support and identifiability matter
+more than one local zero. Raw amplitude spectra are not automatically
+corrected for detector response, bandwidth, unequal acquisition time,
+laser drift, or sample changes.</p>
+<p>A positive parallel model describes independently decaying
+contributions. Rise components, energy transfer, solvation, and
+sequential populations may require signed amplitudes or an explicit
+kinetic target model; the current fitter does not implement those
+models.</p>
+<h2
+id="steady-state-scaled-tres-and-tranes-reconstruction">Steady-state-scaled
+TRES and TRANES reconstruction</h2>
+<p>A pre-exponential spectrum <code>A_k(lambda)</code> describes how one
+fitted component contributes across wavelengths. It is not, by itself, a
+time-resolved emission spectrum. The measured count surface also
+includes the IRF, background, count accumulation, and spectral
+acquisition factors. Spectral reconstruction uses the intrinsic
+exponential model after separating those effects within the selected fit
+model.</p>
+<p>Let</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo>,</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>A</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>t</mi><mi>/</mi><msub><mi>τ</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mo>,</mo><mspace width="2.0em"></mspace><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><munder><mo>∑</mo><mi>k</mi></munder><msub><mi>A</mi><mi>k</mi></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><msub><mi>τ</mi><mi>k</mi></msub><mi>.</mi></mrow><annotation encoding="application/x-tex">
+g(\lambda,t)=\sum_k A_k(\lambda)\exp(-t/\tau_k),\qquad
+Q(\lambda)=\sum_k A_k(\lambda)\tau_k.
+</annotation></semantics></math></p>
+<p>For nonnegative amplitudes, positive lifetimes and an
+excitation-origin time coordinate, the isolated-pulse time integral of
+<code>g</code> is <code>Q</code>. If <code>S(lambda)</code> is the
+measured steady-state fluorescence intensity on the desired spectral
+scale, the reconstruction is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo>,</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mfrac><mrow><mi>g</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo>,</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mi>Q</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msubsup><mo>∫</mo><mn>0</mn><mi>∞</mi></msubsup><mi>I</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo>,</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>d</mi><mi>t</mi><mo>=</mo><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+I(\lambda,t)=S(\lambda)\frac{g(\lambda,t)}{Q(\lambda)},
+\qquad \int_0^\infty I(\lambda,t)\,dt=S(\lambda).
+</annotation></semantics></math></p>
+<p>This is the operative formula in the supplied reference notebook.
+Multiplying raw fitted amplitudes by <code>S(lambda)</code> without the
+<code>Q(lambda)</code> denominator would retain arbitrary local count
+scaling. Multiplying all amplitudes at one wavelength by the same
+positive constant cancels between numerator and denominator; the
+normalized kinetic shape and reconstructed spectrum are unchanged.
+Normalizing the amplitude fractions first is therefore unnecessary,
+provided the same coefficients appear in both sums.</p>
+<p>Steady-state spectra must belong to the same sample and relevant
+excitation/measurement conditions as the fitted kinetics.
+Wavelength-dependent response, bandwidth, acquisition time, drift, and
+blank/background corrections require experimental assessment; this
+reconstruction does not infer those calibrations. An arbitrary
+normalized fluorescence spectrum provides a relative spectral scale, not
+absolute photon intensity or proof of a mechanism.</p>
+<h3 id="sampling-and-scaling-the-steady-state-spectrum">Sampling and
+scaling the steady-state spectrum</h3>
+<p>The linked workflow takes wavelengths, amplitudes, and paired
+lifetimes directly from the saved global result. The additional
+experimental input is its matching steady-state fluorescence intensity.
+An optional external fitted-table route follows the same calculation but
+requires explicit lifetime-column pairing.</p>
+<p>With already-normalized values supplied at every fitted wavelength,
+the workbench matches whole wavelength/intensity rows and uses the
+supplied intensities unchanged. It requires one unique match per fitted
+wavelength and no extra rows. Row order may differ. Normalized values
+lie between 0 and 1; a subset of a larger normalized spectrum need not
+include its peak. This path performs no interpolation or further
+scaling.</p>
+<p>With a full uploaded spectrum, normalization precedes linear
+interpolation at the global-fit wavelengths. The source grid may be
+denser or unevenly spaced but must cover every fitted wavelength.
+Extrapolation is rejected. The source spectrum, normalized values,
+normalization offset and divisor, matching method, and sampled values
+are recorded.</p>
+<p>The two browser normalization choices are</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mrow><mi mathvariant="normal">p</mi><mi mathvariant="normal">e</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">k</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mo>max</mo><mi>S</mi></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><msub><mi>S</mi><mrow><mi mathvariant="normal">m</mi><mi mathvariant="normal">i</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">m</mi><mi mathvariant="normal">a</mi><mi mathvariant="normal">x</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>S</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>−</mo><mo>min</mo><mi>S</mi></mrow><mrow><mo>max</mo><mi>S</mi><mo>−</mo><mo>min</mo><mi>S</mi></mrow></mfrac><mi>.</mi></mrow><annotation encoding="application/x-tex">
+S_{\mathrm{peak}}(\lambda)=\frac{S(\lambda)}{\max S},\qquad
+S_{\mathrm{minmax}}(\lambda)=\frac{S(\lambda)-\min S}{\max S-\min S}.
+</annotation></semantics></math></p>
+<p>Peak normalization requires nonnegative intensities and a positive
+maximum. It multiplies the entire reconstruction by one constant and
+leaves TRANES unchanged. Min–max normalization allows a finite negative
+raw offset but rejects a constant spectrum. Its subtraction changes the
+spectral shape unless the minimum was already zero, so it can change
+TRANES. This is an explicit selected scaling convention, not a physical
+blank correction inferred by the software.</p>
+<p>The Python API also retains preserve-scale and wavelength-area
+normalization for compatible existing scripts. Area normalization uses
+the actual source wavelength spacing. These global spectrum
+normalizations differ from the per-wavelength kinetic-area denominator
+<code>Q(lambda)</code>.</p>
+<h3 id="area-normalization-over-wavelength">Area normalization over
+wavelength</h3>
+<p>At each selected delay, TRANES is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>T</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo>,</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><mfrac><mrow><mi>I</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo>,</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><msubsup><mo>∫</mo><msub><mi>λ</mi><mo>min</mo></msub><msub><mi>λ</mi><mo>max</mo></msub></msubsup><mi>I</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mi>′</mi><mo>,</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>d</mi><mi>λ</mi><mi>′</mi></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><mo>∫</mo><mi>T</mi><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo>,</mo><mi>t</mi><mo stretchy="true" form="postfix">)</mo></mrow><mspace width="0.167em"></mspace><mi>d</mi><mi>λ</mi><mo>=</mo><mn>1</mn><mi>.</mi></mrow><annotation encoding="application/x-tex">
+T(\lambda,t)=\frac{I(\lambda,t)}{
+\int_{\lambda_{\min}}^{\lambda_{\max}} I(\lambda&#39;,t)\,d\lambda&#39;},
+\qquad \int T(\lambda,t)\,d\lambda=1.
+</annotation></semantics></math></p>
+<p>The implementation uses trapezoidal integration on the actual sampled
+wavelength grid, including nonuniform wavelength spacing. The unit area
+applies only to the supplied wavelength interval. When wavelengths are
+in nm, TRANES is a spectral density in inverse nm. A peak-normalized
+steady-state input gives reconstructed TRES in relative intensity per
+ns; its absolute scale remains unspecified.</p>
+<p>Area normalization over wavenumber is a different density convention
+and requires the appropriate transformation Jacobian. The current
+implementation operates over wavelength and does not perform that
+conversion. Interpreting a plotted curve after changing only its x-axis
+labels would not preserve the correct density or area.</p>
+<h3 id="connections-between-spectral-samples">Connections between
+spectral samples</h3>
+<p>Plot connections are selectable: straight lines, shape-preserving
+piecewise cubic Hermite interpolation (PCHIP), or an interpolating cubic
+B-spline. PCHIP is the initial smooth connection. Interpolants pass
+through the calculated wavelength samples and remain inside the sampled
+wavelength interval. With fewer than four wavelengths, the B-spline uses
+the highest supported degree up to three.</p>
+<p>The B-spline can overshoot or become negative between nonnegative
+samples. Such values are displayed without clipping so the selected
+interpolation remains visible. They are not negative measured
+fluorescence. Interpolated maxima and crossings depend on curve style
+and do not establish finer experimental spectral resolution. PCHIP
+avoids negative overshoot for nonnegative input samples but is still a
+display interpolation.</p>
+<p>Changing the plot style does not alter the calculated sample values,
+reconstruction equations, or exported numerical matrices. TRANES always
+uses trapezoidal integration on the actual fitted wavelength grid. The
+continuous area under a smooth plotted interpolant may differ from that
+discrete area; smooth curves are not separately renormalized. The
+selected display convention is recorded in the browser reconstruction
+export.</p>
+<h3 id="amplitude-reference-time-and-extrapolation">Amplitude reference
+time and extrapolation</h3>
+<p>Reconstruction time zero means excitation-origin lag zero of the
+intrinsic model. Reconvolution amplitudes in this fitter use that
+convention. A tail-fit amplitude is instead defined at the first
+included tail channel. If its known delay after excitation is
+<code>d</code>, the conversion is</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>A</mi><mrow><mi>k</mi><mo>,</mo><mn>0</mn></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>=</mo><msub><mi>A</mi><mrow><mi>k</mi><mo>,</mo><mi>d</mi></mrow></msub><mrow><mo stretchy="true" form="prefix">(</mo><mi>λ</mi><mo stretchy="true" form="postfix">)</mo></mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>d</mi><mi>/</mi><msub><mi>τ</mi><mi>k</mi></msub><mo stretchy="true" form="postfix">)</mo></mrow><mi>.</mi></mrow><annotation encoding="application/x-tex">
+A_{k,0}(\lambda)=A_{k,d}(\lambda)\exp(d/\tau_k).
+</annotation></semantics></math></p>
+<p>A tail result needs that delay explicitly; the software does not
+assume that an absolute acquisition timestamp is a physical excitation
+delay. Back-extrapolating short lifetimes from a late tail can magnify
+uncertainty severely. External amplitude tables also require an
+explicit, correct origin and lifetime-column mapping. The contributed
+three-component table uses A1, A2, A3 with 114.15, 17.415 and 4.613 ns
+respectively; sorting only the lifetimes changes the reconstruction
+incorrectly.</p>
+<p>Reconstruction at times beyond the measured post-excitation interval
+is a model prediction. Five times the longest lifetime leaves about 0.67
+percent of that exponential’s initial amplitude, but does not establish
+a detector noise floor or guarantee negligible total signal. The
+relative contributions, spectral scale and measurement sensitivity still
+matter. Uncertainty in lifetimes, amplitudes and steady-state
+measurements is not automatically propagated to a reconstructed-spectrum
+confidence interval.</p>
+<p>A wavelength with positive steady-state intensity and zero fitted
+decay area is inconsistent and rejected. Zero spectral area cannot be
+normalized to TRANES. The implementation also rejects invalid lifetimes,
+negative delays, non-finite values, negative fitted amplitudes,
+duplicate wavelengths, or requests outside steady-state spectral
+coverage. Negative raw steady-state intensities are accepted only when
+explicit min–max normalization maps them into nonnegative values. The
+supported lifetime fitter uses nonnegative parallel components; signed
+rise components and kinetic target models need a different
+treatment.</p>
+<h2 id="repeated-excitation">Repeated excitation</h2>
+<p>For a known period
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>T</mi><annotation encoding="application/x-tex">T</annotation></semantics></math>,
+the steady periodic contribution of one exponential is proportional
+to</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>u</mi><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow><mrow><mn>1</mn><mo>−</mo><mo>exp</mo><mrow><mo stretchy="true" form="prefix">(</mo><mi>−</mi><mi>T</mi><mi>/</mi><mi>τ</mi><mo stretchy="true" form="postfix">)</mo></mrow></mrow></mfrac><mo>,</mo><mspace width="2.0em"></mspace><mn>0</mn><mo>≤</mo><mi>u</mi><mo>&lt;</mo><mi>T</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">
+\frac{\exp(-u/\tau)}{1-\exp(-T/\tau)},\qquad 0\leq u&lt;T.
+</annotation></semantics></math></p>
+<p>Periodic mode uses circular IRF convolution only when the imported
+uniform grid contains one full nonduplicated period, with
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>Δ</mi><mi>t</mi><mo>=</mo><mi>T</mi></mrow><annotation encoding="application/x-tex">N\Delta t=T</annotation></semantics></math>.
+Ordinary isolated-pulse mode uses padded linear convolution and does not
+introduce wrap-around. A cropped window, duplicate endpoint, or last
+timestamp alone cannot establish the required period.</p>
+<h2 id="optimization-and-uncertainty">Optimization and uncertainty</h2>
+<p>Fitting uses bounded nonlinear least squares with repeatable multiple
+starting guesses. Larger global problems use sparse Jacobians; this
+changes resource use rather than the objective. Fitting scopes BLAS
+threading by default to avoid oversubscription. Advanced callers can set
+<code>FitConfig(blas_threads=None)</code> to retain their own thread
+policy.</p>
+<p>Reported lifetime standard errors are local Gaussian approximations
+conditional on the model, settings, measured IRF, and calibrated axis.
+They are not profile-likelihood confidence intervals. Fixed lifetimes
+have zero reported error because they were held fixed. Ill-conditioned
+fits can make free-lifetime errors unavailable. Sparse
+information-matrix estimates use a conservative condition cutoff.</p>
+<p>Similar lifetimes, weak components, broad response functions, short
+windows, and background correlations can give unstable decomposition.
+Multiple starts help explore alternatives but do not prove a global
+optimum. Compare model sizes only on the same observations, fitting
+range, and likelihood when using relative AIC/BIC. Bounds and zero
+amplitudes complicate formal statistical interpretation.</p>
+<h2 id="supported-scope">Supported scope</h2>
+<p>Supported features are exponential tail fitting, measured-IRF
+reconvolution, positive-amplitude shared-lifetime global fits,
+fixed/initial lifetimes, fit ranges, specified IRF background/support,
+fitted/fixed decay background, shared timing shifts, full-period
+correction where applicable, inspectable residual/result exports, visual
+single-decay and global fitting-range controls, and steady-state-scaled
+TRES/TRANES reconstruction from compatible fitted amplitudes and a
+fluorescence spectrum.</p>
+<p>Rotational-anisotropy fitting, signed-amplitude target analysis,
+stretched exponentials, lifetime distributions, prompt-scatter fitting,
+profile likelihood, IRF-aware uncertainty, acquisition control, and
+native binary workspace reading are not implemented. Polarized intensity
+ratios should not be treated as ordinary Poisson decay histograms. A
+calibrated G-factor and coupled polarized forward model are needed for
+quantitative rotational analysis.</p>
+<p>The measured example fits and the contributed
+fitted-amplitude/steady-state table are demonstrations under explicit
+settings, not ground-truth validation. The three-component spectral
+example is a different dataset from the 51-wavelength measured
+global-fit example and supplies no missing steady-state spectrum for it.
+Independent synthetic tests with known parameters test numerical
+behavior. Neither replaces acquisition-specific assessment of pile-up,
+afterpulsing, timing response, drift, and detector calibration.</p>
+<h2 id="manual-normalized-intensities">Manual normalized
+intensities</h2>
+<p>Manual table entries follow the exact-wavelength, preserve-scale
+convention. The fit supplies the wavelength/amplitude/lifetime pairing;
+entered normalized intensities are used without another scaling or
+interpolation. A sampled subset can have a maximum below one. Missing
+entries are not replaced by zero. The exported steady-state values and
+source metadata record the manual input.</p>
+</body>
+</html>

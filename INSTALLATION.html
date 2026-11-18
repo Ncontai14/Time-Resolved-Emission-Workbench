@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TCSPC Workbench 0.1.0 — Installation guide</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <style>
+  body{font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:960px;margin:40px auto;padding:0 24px;color:#243746;line-height:1.6;background:#fff}h1,h2,h3{color:#154f60;line-height:1.25}h2{margin-top:2em}a{color:#126a85}pre{background:#edf3f6;border:1px solid #d2e1e8;border-radius:6px;padding:16px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}code{font-family:Consolas,monospace;font-size:.94em}table{border-collapse:collapse;width:100%;font-size:.94em}td,th{border:1px solid #d8e2e7;padding:8px;text-align:left}th{background:#edf3f6}nav{padding:12px 0;border-bottom:1px solid #d8e2e7}nav a{margin-right:16px}#TOC{background:#f5f8fa;padding:16px 24px;border-radius:6px}
+  </style>
+</head>
+<body>
+<nav><a href="USER_GUIDE.html">User guide</a><a href="README.html">Repository overview</a><a href="INSTALLATION.html">Installation guide</a><a href="GITHUB_UPLOAD.html">GitHub upload</a><a href="QUICK_START_WINDOWS.html">Windows quick start</a><a href="DATA_FORMATS.html">Data formats</a><a href="SCIENTIFIC_NOTES.html">Scientific notes</a><a href="CHANGELOG.html">Changes</a><a href="VALIDATION.html">Validation</a><a href="docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#tcspc-workbench-0.1.0"
+id="toc-tcspc-workbench-0.1.0">TCSPC Workbench 0.1.0</a>
+<ul>
+<li><a href="#using-an-existing-compatible-environment"
+id="toc-using-an-existing-compatible-environment">Using an existing
+compatible environment</a></li>
+<li><a href="#before-starting" id="toc-before-starting">Before
+starting</a></li>
+<li><a href="#recommended-windows-installation-with-anaconda"
+id="toc-recommended-windows-installation-with-anaconda">Recommended
+Windows installation with Anaconda</a>
+<ul>
+<li><a href="#open-anaconda-prompt" id="toc-open-anaconda-prompt">1.
+Open Anaconda Prompt</a></li>
+<li><a href="#create-the-application-environment"
+id="toc-create-the-application-environment">2. Create the application
+environment</a></li>
+<li><a href="#activate-the-environment"
+id="toc-activate-the-environment">3. Activate the environment</a></li>
+<li><a href="#check-the-installation" id="toc-check-the-installation">4.
+Check the installation</a></li>
+<li><a href="#go-to-the-program-folder"
+id="toc-go-to-the-program-folder">5. Go to the program folder</a></li>
+<li><a href="#start-the-application" id="toc-start-the-application">6.
+Start the application</a></li>
+</ul></li>
+<li><a href="#opening-the-application-next-time"
+id="toc-opening-the-application-next-time">Opening the application next
+time</a></li>
+<li><a href="#alternative-standard-python-without-anaconda"
+id="toc-alternative-standard-python-without-anaconda">Alternative:
+standard Python without Anaconda</a></li>
+<li><a href="#first-fit-a-single-decay"
+id="toc-first-fit-a-single-decay">First fit: a single decay</a></li>
+<li><a href="#first-global-tres-fit"
+id="toc-first-global-tres-fit">First global TRES fit</a></li>
+<li><a href="#reconstructing-tres-and-tranes"
+id="toc-reconstructing-tres-and-tranes">Reconstructing TRES and
+TRANES</a>
+<ul>
+<li><a href="#continue-from-a-global-fit"
+id="toc-continue-from-a-global-fit">Continue from a global fit</a></li>
+<li><a href="#enter-normalized-intensities-directly"
+id="toc-enter-normalized-intensities-directly">Enter normalized
+intensities directly</a></li>
+<li><a href="#choosing-the-spectral-curve-style"
+id="toc-choosing-the-spectral-curve-style">Choosing the spectral curve
+style</a></li>
+<li><a href="#optional-external-fitted-results-and-the-worked-example"
+id="toc-optional-external-fitted-results-and-the-worked-example">Optional
+external fitted results and the worked example</a></li>
+<li><a href="#time-origin-normalization-and-limits"
+id="toc-time-origin-normalization-and-limits">Time origin,
+normalization, and limits</a></li>
+</ul></li>
+<li><a href="#preparing-your-own-files"
+id="toc-preparing-your-own-files">Preparing your own files</a></li>
+<li><a href="#what-gets-saved" id="toc-what-gets-saved">What gets
+saved</a></li>
+<li><a href="#troubleshooting"
+id="toc-troubleshooting">Troubleshooting</a></li>
+<li><a href="#methods-limits-and-advanced-use"
+id="toc-methods-limits-and-advanced-use">Methods, limits, and advanced
+use</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="tcspc-workbench-0.1.0">TCSPC Workbench 0.1.0</h1>
+<p>TCSPC Workbench fits fluorescence photon-counting decays with a
+measured instrument response function (IRF). It also fits
+wavelength-resolved and repeated-decay series globally, with shared
+lifetimes and separate amplitudes and backgrounds for each trace. With
+an accompanying steady-state fluorescence spectrum, it reconstructs
+steady-state-scaled time-resolved emission spectra (TRES) and their
+area-normalized forms (TRANES).</p>
+<p>The application runs on your computer and displays its controls in a
+web browser. The browser is the interface; Python performs the
+calculations. The package includes a command-line interface and a Python
+API for more advanced use.</p>
+<p>For a step-by-step guide written for experimental users, open <a
+href="USER_GUIDE.html">USER_GUIDE.md</a> or double-click
+<code>USER_GUIDE.html</code>. It covers the first installation, daily
+startup, fitting controls, fit-window selection, global analysis,
+TRES/TRANES and saving results without editing Python code. This README
+retains installation alternatives and reference workflows. Each guide
+has an offline HTML edition that opens directly in your browser.</p>
+<h2 id="using-an-existing-compatible-environment">Using an existing
+compatible environment</h2>
+<p>If your Conda or Python environment already has the required
+dependencies, you can use it. Stop any running app with
+<strong>Ctrl+C</strong>, activate that environment, and launch
+<code>app.py</code> from this extracted folder. The environment-creation
+instructions below are for a first-time installation.</p>
+<p>Check that the page displays <strong>Version 0.1.0</strong>. Opening
+a browser tab left connected to an older running server can show the old
+version.</p>
+<h2 id="before-starting">Before starting</h2>
+<p>You need the <strong>whole extracted package</strong>, a compatible
+Python environment, and an internet connection for the first dependency
+installation. Ordinary local fitting does not require a cloud
+account.</p>
+<ol type="1">
+<li>Download the ZIP and choose <strong>Extract All</strong> on Windows,
+or extract it with your usual archive tool.</li>
+<li>Open the extracted folder. If it contains another folder, open that
+too until you see <code>app.py</code>, <code>requirements.txt</code>,
+and the <code>tcspc</code> folder together.</li>
+<li>Keep those files together. The <code>.py</code> extension means
+Python source code. Opening <code>app.py</code> in a text editor shows
+the program; the launch command below starts its interface.</li>
+<li>Choose <strong>one installation route</strong> below. If you already
+use Anaconda Navigator, use the recommended Anaconda route.</li>
+</ol>
+<p>A terminal is a window in which you type commands and press Enter. On
+Windows, <strong>Anaconda Prompt</strong> is available from the Start
+menu after installing Anaconda. Commands shown in code blocks are copied
+into that window, one command at a time. Do not copy the surrounding
+explanation or any prompt such as <code>(base)</code>.</p>
+<h2 id="recommended-windows-installation-with-anaconda">Recommended
+Windows installation with Anaconda</h2>
+<p>This route creates a separate environment named
+<code>tcspc_workbench</code>. An environment is a folder containing a
+Python installation and the packages for this application. It avoids
+changing packages used by your other projects.</p>
+<p>The command below uses packages from Anaconda’s <code>defaults</code>
+channel and selects the MKL numerical-library build. This is intended
+for 64-bit Windows on Intel or AMD processors. Windows on ARM needs
+compatible packages for that architecture; the MKL selector is not
+appropriate there.</p>
+<h3 id="open-anaconda-prompt">1. Open Anaconda Prompt</h3>
+<p>If Anaconda is not installed, obtain Anaconda Distribution or
+Miniconda from <a href="https://www.anaconda.com/download">the official
+Anaconda download page</a>. Choose the installer matching your Windows
+processor and follow its installation prompts. Reopen the Start menu
+after installation. Navigator is a convenient manager; the commands
+below run in its Python environment, not in a Navigator text editor.</p>
+<p>Use <strong>Start → Anaconda Prompt</strong>. You can also use
+Anaconda Navigator: open <strong>Environments</strong>, click the
+triangle beside an environment, and choose <strong>Open
+Terminal</strong>.</p>
+<h3 id="create-the-application-environment">2. Create the application
+environment</h3>
+<p>Paste this as <strong>one complete command</strong>:</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>conda create <span class="at">-n</span> tcspc_workbench -<span class="at">-override-channels</span> <span class="at">-c</span> defaults python=3.12 numpy scipy matplotlib pandas threadpoolctl <span class="st">&quot;streamlit&gt;=1.51,&lt;2&quot;</span> <span class="st">&quot;blas=*=mkl&quot;</span></span></code></pre></div>
+<p>When asked whether to proceed, review the package list and enter
+<code>y</code>. Downloading and resolving packages may take several
+minutes. Wait until the command finishes and a prompt returns.</p>
+<p>The quotes around package expressions are important in Windows
+terminals. This command installs all the application dependencies,
+including Streamlit. It replaces the pip-based dependency installation
+used in the alternative route below.</p>
+<p>An equivalent environment specification is supplied as
+<code>environment-windows.yml</code>:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>conda env create <span class="at">-f</span> environment<span class="at">-windows</span>.yml</span></code></pre></div>
+<p>Use the command-line package list <strong>or</strong> the environment
+file to create the environment, not both. The environment-file command
+must run from the extracted program folder or use that file’s full
+path.</p>
+<h3 id="activate-the-environment">3. Activate the environment</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>conda activate tcspc_workbench</span></code></pre></div>
+<p>The prompt should now begin with <code>(tcspc_workbench)</code>.
+Activation tells the terminal which Python installation to use.</p>
+<h3 id="check-the-installation">4. Check the installation</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>python <span class="at">-c</span> <span class="st">&quot;import numpy, scipy.optimize, scipy.signal, matplotlib.pyplot, pandas, streamlit, threadpoolctl; print(&#39;Dependencies OK&#39;)&quot;</span></span></code></pre></div>
+<p>Continue when this prints <code>Dependencies OK</code>. An error at
+this stage concerns the Python environment or its libraries, before any
+measurement is fitted. See Troubleshooting below if it fails.</p>
+<h3 id="go-to-the-program-folder">5. Go to the program folder</h3>
+<p>In File Explorer, open the folder containing <code>app.py</code> and
+copy its location from the address bar. In Anaconda Prompt, type
+<code>cd /d</code> followed by that path in quotation marks. For
+example:</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">/d</span> <span class="st">&quot;C:\Users\YourName\Downloads\TCSPC_Workbench&quot;</span></span></code></pre></div>
+<p><strong>Replace the example path with your actual extracted
+folder.</strong> The <code>/d</code> option also changes drive if the
+package is on another drive. Check that you are in the correct
+folder:</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span> app.py requirements.txt</span></code></pre></div>
+<p>Both files should be listed.</p>
+<h3 id="start-the-application">6. Start the application</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>python <span class="at">-m</span> streamlit run app.py</span></code></pre></div>
+<p>Your browser should open automatically. Otherwise, open the
+<strong>Local URL</strong> printed in the terminal, usually:</p>
+<pre class="text"><code>http://localhost:8501</code></pre>
+<p>Use the printed port if it is different. Keep the terminal open while
+fitting data. Closing the browser tab does not stop the program; press
+<strong>Ctrl+C</strong> in the terminal to stop it.</p>
+<p>After activating the environment and entering the program folder, you
+may alternatively run <code>START_WORKBENCH_WINDOWS.bat</code>. This
+launcher starts an already installed environment; it does not install
+dependencies or select a Conda environment for you.</p>
+<h2 id="opening-the-application-next-time">Opening the application next
+time</h2>
+<p>Open Anaconda Prompt, then run:</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>conda activate tcspc_workbench</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">/d</span> <span class="st">&quot;C:\Users\YourName\Downloads\TCSPC_Workbench&quot;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>python <span class="at">-m</span> streamlit run app.py</span></code></pre></div>
+<p>Use your actual folder path. The environment creation and package
+installation are normally one-time steps.</p>
+<p>If you already have a compatible environment, activate it and launch
+from the extracted program folder. Use your actual environment name:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>conda activate YOUR_EXISTING_ENVIRONMENT</span></code></pre></div>
+<p>Replace <code>YOUR_EXISTING_ENVIRONMENT</code> with the installed
+environment name. A separate dependency update is needed only if the
+package check reports an unmet requirement. Then change to the new
+application folder and run <code>python -m streamlit run app.py</code>.
+Stop any older running copy first so that you do not keep viewing an old
+browser session.</p>
+<h2 id="alternative-standard-python-without-anaconda">Alternative:
+standard Python without Anaconda</h2>
+<p>Use Python 3.12 for the most directly exercised installation. These
+commands create a local virtual environment called <code>.venv</code>
+inside the program folder. Use this route when you are not using the
+Conda setup above.</p>
+<p>If Python is not installed, use <a
+href="https://www.python.org/downloads/">the official Python download
+page</a> and choose a compatible installer. For a conventional Windows
+Python installation, enable <strong>Add Python to PATH</strong> when the
+installer offers it. Open a new terminal afterward so that it picks up
+the updated command paths.</p>
+<p>On Windows, open a terminal in the folder containing
+<code>app.py</code>. In File Explorer, click that folder’s address bar,
+type <code>powershell</code>, and press Enter. Then run:</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>py <span class="at">-m</span> venv .venv</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>.\.venv\Scripts\python.exe <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>.\.venv\Scripts\python.exe <span class="at">-m</span> streamlit run app.py</span></code></pre></div>
+<p>Using the environment’s Python directly avoids PowerShell
+activation-policy problems. If the <code>py</code> launcher is
+unavailable but Python is installed, use
+<code>python -m venv .venv</code> for the first command.</p>
+<p>On macOS or Linux:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> venv .venv</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> .venv/bin/activate</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> pip install <span class="at">-r</span> requirements.txt</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> streamlit run app.py</span></code></pre></div>
+<p>A general Conda specification is also supplied as
+<code>environment.yml</code>. Once a compatible environment is activated
+on macOS or Linux, <code>bash start_workbench.sh</code> launches the app
+from its folder.</p>
+<h2 id="first-fit-a-single-decay">First fit: a single decay</h2>
+<ol type="1">
+<li>In the sidebar, choose <strong>Single decay</strong> and
+<strong>Bundled decay + IRF</strong>.</li>
+<li>Select IRF reconvolution, one exponential component, and Poisson
+likelihood.</li>
+<li>In the background and excitation settings, enter an IRF background
+of <strong>1.4 counts/bin</strong>, enable the IRF pulse-range limit,
+and use <strong>3.8–8 ns</strong>.</li>
+<li>Enable fitting of one shared IRF shift. Keep the decay background
+fitted.</li>
+<li>In <strong>Kinetics preview and fit interval</strong>, inspect the
+whole record, move <strong>Fit interval handles (time bins)</strong>
+immediately above the curve or enter the first/last fitted times, and
+use <strong>Kinetics preview view → Selected fit window</strong> to
+enlarge the selection. The linked fields and shaded interval apply to a
+normal single decay as well as a global fit. Return to the whole
+imported fitting interval for this reference example.</li>
+<li>Click <strong>Run fit</strong>. This worked example gives a lifetime
+near <strong>2.549 ns</strong> with these particular settings.</li>
+<li>Inspect the data/fit overlay, residuals, autocorrelation, warnings,
+and fit statistics. Use the download button to save the result ZIP.</li>
+</ol>
+<p>The IRF baseline and pulse limits above are illustrative choices for
+this sample. They are not instrument calibration constants for other
+measurements. The contributed measured examples have no supplied
+ground-truth lifetimes.</p>
+<p>The time boxes, range handles and preview remain linked. Zooming
+changes the displayed x-axis; press <strong>Run fit</strong> after
+choosing a different fitting interval to update the result. See the <a
+href="docs/interface_single_range.png">single-decay interval example</a>
+and the full operating procedure in <a
+href="USER_GUIDE.html">USER_GUIDE.md</a>.</p>
+<p>For your own plain decay, choose <strong>Upload ASCII data</strong>,
+upload a time/count table, and upload the corresponding IRF. Choose the
+correct input time unit. For a tail fit, use a post-rise range where the
+IRF contribution is negligible; an IRF is then unnecessary.</p>
+<h2 id="first-global-tres-fit">First global TRES fit</h2>
+<p>Select <strong>Global TRES</strong> and <strong>Upload ASCII
+data</strong>, then use:</p>
+<ul>
+<li>Decay file: <code>examples/measured_TRES.csv</code>.</li>
+<li>IRF file: <code>examples/measured_IRF.csv</code>.</li>
+<li>Input time unit: <strong>ns</strong>.</li>
+<li>Wavelength field: leave blank; the CSV header contains the 51
+wavelengths from 490 to 590 nm in 2 nm steps.</li>
+</ul>
+<p>For the packaged worked example, use two exponential components,
+initial lifetimes <code>2.5, 4.0</code> ns, Poisson likelihood, and
+fitted backgrounds. Set the IRF background to <strong>0.38
+counts/bin</strong>, pulse range to <strong>3.2–6.5 ns</strong>, and fit
+a shared shift within <strong>−0.5 to 0.5 ns</strong>. Leave
+repetition-period correction disabled for this cropped example grid.</p>
+<p>Before fitting, inspect an individual wavelength’s kinetics in the
+global preview. Move the two ends of <strong>Fit interval handles (time
+bins)</strong> or enter <strong>First fitted time (ns)</strong> and
+<strong>Last fitted time (ns)</strong> numerically; the controls stay
+linked. The shaded region and vertical guides show which channels enter
+the objective. Use <strong>Kinetics preview trace</strong> to inspect
+the sum or an individual wavelength, and <strong>Kinetics preview
+view</strong> to choose <strong>Whole record</strong> or
+<strong>Selected fit window</strong>. A display zoom does not
+independently change the fitting interval.</p>
+<p>See the <a href="docs/interface_range.png">fit-range interface
+example</a> for the linked controls and shaded preview.</p>
+<p>The shared lifetimes are approximately <strong>2.334 and 3.882
+ns</strong> under that model. Residual statistics show some model
+mismatch. These are worked fits, not reference values or proof of a
+particular physical mechanism. The amplitude spectra have no automatic
+detector-response or acquisition-duration correction.</p>
+<p>Raw multi-curve examples are under
+<code>examples/curve_exports/</code>. When uploading
+<code>TRES_IRF.dat</code> from that directory, assign curve
+<code>0</code> as the IRF and use the inclusive decay range
+<code>1-51</code>. Generic curve labels do not encode wavelengths;
+supply known labels if you want physical wavelength axes.</p>
+<h2 id="reconstructing-tres-and-tranes">Reconstructing TRES and
+TRANES</h2>
+<p>There are four different quantities to keep separate:</p>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Quantity</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Measured time-by-wavelength counts</td>
+<td>The imported TCSPC histograms, including the instrument response and
+background.</td>
+</tr>
+<tr class="even">
+<td>Decay-associated amplitudes</td>
+<td>The fitted pre-exponential factors plotted against wavelength. These
+alone are not reconstructed TRES.</td>
+</tr>
+<tr class="odd">
+<td>Steady-state-scaled TRES</td>
+<td>Intrinsic model intensity versus wavelength at selected delays,
+scaled to the measured steady-state fluorescence spectrum.</td>
+</tr>
+<tr class="even">
+<td>TRANES</td>
+<td>Each reconstructed spectrum divided by its own area over wavelength,
+so its area is one.</td>
+</tr>
+</tbody>
+</table>
+<p>For wavelength <code>λ</code>, the workbench uses the fitted
+lifetimes and amplitudes to calculate</p>
+<pre class="text"><code>I(λ,t) = SS(λ) × [Σ A_k(λ) exp(-t/τ_k)] / [Σ A_k(λ) τ_k]
+TRANES(λ,t) = I(λ,t) / integral[I(λ,t) dλ]</code></pre>
+<p>The denominator <code>Σ A_k τ_k</code> is essential: it makes the
+time integral of the intrinsic decay equal to the supplied steady-state
+intensity. Multiplying unscaled pre-exponential factors by steady-state
+intensity alone would retain arbitrary per-wavelength decay scaling.</p>
+<h3 id="continue-from-a-global-fit">Continue from a global fit</h3>
+<p>The global fit already provides the wavelengths, pre-exponential
+amplitudes, component lifetimes, and their pairing. A later single-decay
+fit does not replace the saved global result. Continue from that global
+result; there is no need to export and re-upload an amplitude table or
+enter its lifetimes again.</p>
+<ol type="1">
+<li>Complete the wavelength-resolved <strong>Global TRES</strong> fit
+and inspect its residuals. Physical wavelength labels are required for
+reconstruction.</li>
+<li>Click <strong>Continue to TRES / TRANES</strong> beneath the result.
+On the spectral page, <strong>Latest global fit</strong> is the initial
+<strong>Fitted-decay source</strong>. It supplies the fitted inputs
+automatically from this application session.</li>
+<li>Under <strong>Steady-state input</strong>, choose a file-upload path
+or enter normalized intensities directly in the manual table.</li>
+<li>Inspect <strong>Steady-state intensities matched to the global
+fit</strong>. Open <strong>Inspect full steady-state spectrum and
+normalization</strong> to compare the supplied intensities, normalized
+spectrum, and values assigned to the global-fit wavelengths.</li>
+<li>Enter up to 64 unique nonnegative <strong>Reconstruction delays
+(ns)</strong>, separated by commas or spaces. Move <strong>Preview delay
+after excitation (ns)</strong> for a single-time preview; its slider
+extent is controlled by <strong>Maximum preview delay
+(ns)</strong>.</li>
+<li>Choose how plotted points are connected, inspect both spectra, then
+use <strong>Download TRES + TRANES matrices</strong>. The numerical
+matrices preserve the calculated values at the fitted wavelengths.
+Initial delay values for a linked fit scale with its longest lifetime;
+edit them for your scientific question.</li>
+</ol>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Steady-state input</th>
+<th>What to upload</th>
+<th>What the workbench does</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Normalized values at fitted wavelengths</strong></td>
+<td>Wavelength in nm and normalized fluorescence intensity, one row per
+global-fit wavelength.</td>
+<td>Matches the rows to the global result and uses those values
+directly, without further normalization or interpolation. Row order may
+differ.</td>
+</tr>
+<tr class="even">
+<td><strong>Full steady-state spectrum</strong></td>
+<td>Wavelength in nm and measured fluorescence intensity; it can contain
+many more wavelength points than the lifetime measurements.</td>
+<td>Normalizes the full spectrum using your chosen method, then samples
+it at the global-fit wavelengths by linear interpolation within its
+measured coverage.</td>
+</tr>
+<tr class="odd">
+<td><strong>Enter normalized intensities manually</strong></td>
+<td>No file; type or paste values into the table.</td>
+<td>Keeps the fitted wavelengths fixed and uses entered intensities
+directly after Apply intensities.</td>
+</tr>
+</tbody>
+</table>
+<p>For the first path, upload the file under <strong>Normalized
+steady-state intensities</strong>. Intensities must be finite values
+from 0 to 1, with some positive signal. Every fitted wavelength needs
+one matching row, and unrelated extra rows are rejected. The largest
+supplied value need not be 1 when the global-fit wavelengths cover only
+part of a previously normalized spectrum.</p>
+<p>For the full-spectrum path, upload <strong>Steady-state fluorescence
+spectrum</strong>. Under <strong>Normalization method</strong>, choose
+<strong>Divide by maximum (I / max)</strong> or <strong>Scale minimum to
+0 and maximum to 1</strong>. These calculate <code>I / max(I)</code> and
+<code>(I - min(I)) / (max(I) - min(I))</code>, respectively.
+Normalization happens before sampling, so a maximum between two
+lifetime-measurement wavelengths is retained in the scaling. Min–max
+normalization subtracts the supplied spectrum’s minimum; that changes
+spectral shape unless the minimum was already zero. It is a
+user-selected scaling convention, not an inferred physical blank
+correction. A constant spectrum cannot use min–max normalization. Values
+outside the measured wavelength coverage are not extrapolated.</p>
+<p>The 51-wavelength measured example has no corresponding steady-state
+spectrum supplied. Its global fit can be inspected, but it needs the
+matching experimental fluorescence spectrum to reconstruct TRES. The
+three-component example below belongs to a different dataset and must
+not be used as its steady-state spectrum.</p>
+<h3 id="enter-normalized-intensities-directly">Enter normalized
+intensities directly</h3>
+<p>Choose <strong>Steady-state input → Enter normalized intensities
+manually</strong>. The table already contains the fitted wavelengths;
+that column is locked. Type or paste normalized fluorescence intensities
+into the intensity column and click <strong>Apply intensities</strong>.
+Fill every row with a finite value between 0 and 1; zeros are allowed,
+but the whole spectrum cannot be zero. Blank cells stay blank and must
+be completed.</p>
+<p>Values are used directly, without interpolation or renormalization.
+Their maximum can be below 1 if the fitted wavelengths exclude the peak
+of a previously normalized spectrum. After editing a value, click
+<strong>Apply intensities</strong> again to update the spectra. The
+spectral ZIP records the entered values in
+<code>sampled_steady_state.csv</code> and identifies manual input in its
+metadata. No steady-state file upload is needed for this path.</p>
+<h3 id="choosing-the-spectral-curve-style">Choosing the spectral curve
+style</h3>
+<p>The <strong>Spectral curve style</strong> selector offers
+<strong>Smooth curve (PCHIP)</strong>, <strong>Straight lines</strong>,
+and <strong>Cubic B-spline</strong> connections. PCHIP is the initial
+smooth connection and preserves the shape between nonnegative samples. A
+cubic B-spline can overshoot and draw values below zero between samples;
+those values are displayed rather than clipped. With fewer than four
+wavelengths, the B-spline uses a lower degree.</p>
+<p>All styles pass through the same calculated wavelength samples. Style
+selection changes the connection drawn between them; it does not refit
+the kinetics, supply additional measured wavelengths, or change the
+exported TRES/TRANES matrices. TRANES normalization uses the actual
+sampled wavelength grid. The area under a smooth drawn curve may differ
+from that discrete trapezoidal area. The selected style is recorded with
+the reconstruction export.</p>
+<h3
+id="optional-external-fitted-results-and-the-worked-example">Optional
+external fitted results and the worked example</h3>
+<p>Under <strong>Fitted-decay source</strong>, <strong>Example or
+external fitted table</strong> remains available for results calculated
+outside this running workbench. It is an optional route; the normal
+global-fit continuation uses its saved outputs directly. The supplied
+fitted table is an example of this external layout.</p>
+<p>The <strong>three-component worked example</strong> uses
+<code>examples/fitted_three_components.csv</code>. It contains 13
+wavelengths, from 498 to 653 nm, pre-exponential factors, and the
+corresponding relative steady-state intensities. For this example only,
+the order is:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Amplitude column</th>
+<th style="text-align: right;">Lifetime (ns)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>A1</td>
+<td style="text-align: right;">114.15</td>
+</tr>
+<tr class="even">
+<td>A2</td>
+<td style="text-align: right;">17.415</td>
+</tr>
+<tr class="odd">
+<td>A3</td>
+<td style="text-align: right;">4.613</td>
+</tr>
+</tbody>
+</table>
+<p>Choose <strong>Example or external fitted table</strong>, then choose
+the worked example within that route. Its embedded steady-state values
+allow the reconstruction to run at delays such as
+<code>0.025, 1, 10, 50, 100</code> ns. These are contributed fitted data
+for checking the calculation, not known ground-truth lifetimes. Do not
+apply those lifetimes to another file or reorder only the lifetimes
+while keeping amplitude columns fixed.</p>
+<p>The <a href="docs/interface_spectra.png">reconstruction interface
+example</a> shows the spectral workflow. To reproduce the supplied
+example without opening the app, run this command from the program
+folder in your activated environment:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> examples/run_spectra_example.py</span></code></pre></div>
+<p>The <a href="examples/run_spectra_example.py">worked example
+script</a> saves both spectral matrices, metadata, and a TRES/TRANES
+plot under <code>example_results/spectral_reconstruction</code>. It uses
+the contributed fitted table directly; it does not refit the separate
+measured-decay example. The <a
+href="docs/notebook_review/NOTEBOOK_REVIEW.html">notebook review</a>
+explains the supplied calculation, the input-format correction, and
+independent numerical checks.</p>
+<h3 id="time-origin-normalization-and-limits">Time origin,
+normalization, and limits</h3>
+<p>Reconstructed time is the delay after excitation and the curves are
+the intrinsic model, not IRF-blurred count histograms. Reconvolution
+amplitudes use the model’s excitation-origin convention. Tail-fit
+amplitudes refer to the first fitted tail channel; using them at
+excitation requires an explicitly known elapsed reference delay. The
+workbench needs that reference information before back-extrapolating a
+tail fit. Short components can become highly uncertain under such
+back-extrapolation.</p>
+<p>Steady-state scaling provides relative spectral intensity unless the
+input spectrum and experimental factors are absolutely calibrated. With
+peak-normalized steady-state intensity, TRES values have
+relative-intensity-per-ns units. TRANES has inverse-nm units when area
+normalization is performed over wavelength in nm. It has unit area only
+over the supplied wavelength range.</p>
+<p>Large reconstruction delays may lie beyond the measured kinetics and
+are model extrapolation. Five times the longest lifetime is a useful
+preview horizon, not a guarantee of negligible experimental signal.
+Spectral curve styles interpolate the calculated samples for display;
+they do not establish additional spectral resolution or a precise
+sub-grid peak position. Wavenumber conversion and its required density
+Jacobian are not implemented.</p>
+<p>The spectral export uses wavelength rows and delay columns, matching
+the reconstructed-spectra layout. It includes both TRES and TRANES
+matrices, sampled steady-state values, fitted amplitudes used in
+reconstruction, and reconstruction/source metadata. This orientation
+differs from the raw fitting input, which has time rows and wavelength
+columns. See <a href="DATA_FORMATS.html">DATA_FORMATS.md</a>.</p>
+<h2 id="preparing-your-own-files">Preparing your own files</h2>
+<p>The recommended TRES arrangement is one time bin per row, with time
+in column 1 and one decay per remaining column:</p>
+<pre class="csv"><code>time_ns,500,520,540
+0.000,2,0,1
+0.025,1,3,2
+0.050,0,1,1</code></pre>
+<p>These are illustrative counts. The first header cell is a label; the
+following header values are the actual wavelengths in nm. A separate
+shared IRF has two columns:</p>
+<pre class="csv"><code>time_ns,counts
+0.000,0
+0.025,1
+0.050,0</code></pre>
+<p>Use raw, nonnegative photon counts and retain zero-count channels.
+Select the calibrated time unit in the app; an ordinary CSV header does
+not silently override that selector. Shared IRF and decay bin widths
+must match. Preserve the measured IRF pulse and its relevant tail.</p>
+<p>The app accepts tiny rounding differences in exported channel-time
+labels. It interprets the known fixed-width channel sequence within a
+tolerance of <strong>0.0001 of one bin</strong>, retains original labels
+in the import audit, and leaves every photon count in its original
+channel. This is not histogram rebinning. Missing channels or larger
+irregularities still require investigation.</p>
+<p>Use UTF-8 text, a comma separator, a decimal point, and full numeric
+precision. For Origin worksheet export, put <code>time_ns</code> and the
+numeric wavelengths in the Long Name row; export that one header row,
+turn off extra short-name/unit/comment/index rows, and keep full
+precision enabled. Check the exported text in a plain-text editor. See
+<a href="DATA_FORMATS.html">DATA_FORMATS.md</a> for complete examples,
+multi-curve assignment, missing endpoints, and file-specific
+mappings.</p>
+<h2 id="what-gets-saved">What gets saved</h2>
+<p>The browser’s download button produces a ZIP containing:</p>
+<ul>
+<li><code>result.json</code>: parameters, settings, statistics,
+warnings, and local lifetime standard errors.</li>
+<li><code>curves.csv</code>: observed counts, predicted counts,
+inclusion flags, and residuals.</li>
+<li><code>amplitudes.csv</code>: component amplitudes and amplitude ×
+lifetime.</li>
+<li>Import audit and source-curve mapping where applicable; wavelength
+mapping when supplied.</li>
+</ul>
+<p>The reconstruction workspace has a separate spectral download
+containing <code>tres.csv</code>, <code>tranes.csv</code>,
+<code>sampled_steady_state.csv</code>,
+<code>normalized_steady_state.csv</code>,
+<code>fitted_amplitudes.csv</code>, <code>spectral_metadata.json</code>,
+and source metadata. Save both the fit result and the reconstruction
+result to preserve the complete analysis.</p>
+<p>Keep the original measurement files alongside your result archive. A
+page reload or stopped Python process is not a substitute for
+downloading results. Loading files and fitting them does not overwrite
+the originals.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Symptom</th>
+<th>What to check</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>conda</code> is not recognized</td>
+<td>Open Anaconda Prompt from Start, or the environment terminal from
+Navigator.</td>
+</tr>
+<tr class="even">
+<td><code>python</code> is not recognized</td>
+<td>Activate the installed environment in that terminal.</td>
+</tr>
+<tr class="odd">
+<td><code>No module named streamlit</code></td>
+<td>Check the active environment; use
+<code>python -m pip show streamlit</code> or
+<code>conda list streamlit</code> to inspect that same environment.</td>
+</tr>
+<tr class="even">
+<td><code>app.py</code> cannot be found</td>
+<td>Change to the inner extracted folder containing <code>app.py</code>
+and <code>requirements.txt</code>.</td>
+</tr>
+<tr class="odd">
+<td>Browser shows an older page</td>
+<td>Stop the old server with Ctrl+C and use the Local URL printed by the
+new process.</td>
+</tr>
+<tr class="even">
+<td>A required DLL is blocked by Application Control</td>
+<td>Windows has blocked a compiled library. The Conda/MKL route uses an
+alternative official build but acceptance is not guaranteed. Record the
+blocked filename and obtain a trusted supported build; security-policy
+changes are not part of installation.</td>
+</tr>
+<tr class="odd">
+<td>Wavelengths are requested</td>
+<td>Supply a numeric wavelength header or one wavelength per decay
+column. Curve indices are not wavelengths.</td>
+</tr>
+<tr class="even">
+<td>Reconstruction asks for a steady-state spectrum</td>
+<td>Supply a spectrum belonging to the fitted sample with wavelength
+coverage spanning every fitted wavelength. The measured example decays
+do not include that spectrum.</td>
+</tr>
+<tr class="odd">
+<td>Reconstruction amplitude/lifetime mismatch</td>
+<td>The global-fit route retains this pairing automatically. For
+optional external results, enter one lifetime per amplitude column in
+the same order.</td>
+</tr>
+<tr class="even">
+<td>Normalized wavelengths do not match</td>
+<td>Supply one normalized row per global-fit wavelength, or choose the
+full-spectrum path to normalize and sample a denser spectrum.</td>
+</tr>
+<tr class="odd">
+<td>Time-axis error</td>
+<td>Check the selected unit, duplicate/missing channels, and actual
+channel calibration. Tiny export rounding is handled automatically.</td>
+</tr>
+<tr class="even">
+<td>Native binary file rejected</td>
+<td>Export a text histogram containing the numeric time axis and raw
+counts. Renaming a binary file does not convert it.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="methods-limits-and-advanced-use">Methods, limits, and advanced
+use</h2>
+<p>Read <a href="SCIENTIFIC_NOTES.html">SCIENTIFIC_NOTES.md</a> before
+interpreting multicomponent fits. The current models are nonnegative
+parallel exponentials with tail fitting or IRF reconvolution. Polarized
+VV/VH import is supported, but rotational-anisotropy and general signed
+kinetic models are not implemented. Local standard errors are
+conditional approximations and exclude IRF and calibration
+uncertainty.</p>
+<p>The command line provides <code>fit</code>, <code>global</code>,
+<code>inspect</code>, <code>curve-fit</code>, and
+<code>curve-global</code>:</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> tcspc <span class="at">--help</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> tcspc curve-global <span class="at">--help</span></span></code></pre></div>
+<p>The Python API provides <code>FitConfig</code>,
+<code>fit_decay</code>, <code>fit_global</code>, and
+<code>load_plotbox</code>. The spectral module supplies
+<code>load_fitted_spectra</code>, <code>load_steady_state</code>, and
+<code>reconstruct_spectra</code>. Array order for global counts is
+<code>[time, trace]</code>; fitted amplitudes are
+<code>[trace, component]</code>.</p>
+<p>To run the included checks:</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode sh"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> unittest discover <span class="at">-s</span> tests <span class="at">-v</span></span></code></pre></div>
+<p>The release’s numerical and interface checks are recorded in <a
+href="VALIDATION.html">VALIDATION.md</a>.</p>
+<p>See <code>LICENSE</code> for the code license and <a
+href="CHANGELOG.html">CHANGELOG.md</a> for release changes. Example
+measurements were supplied for development and are distinct from the
+synthetic known-lifetime validation data.</p>
+</body>
+</html>

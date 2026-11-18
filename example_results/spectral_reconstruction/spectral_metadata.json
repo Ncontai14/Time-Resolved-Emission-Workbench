@@ -1,0 +1,128 @@
+{
+  "software": "TCSPC Workbench 0.1.0 spectral reconstruction",
+  "formula": "I(lambda,t)=SS(lambda)*sum(Ak*exp(-t/tauk))/sum(Ak*tauk)",
+  "tranes_definition": "TRES divided by its trapezoidal area over the fitted wavelength grid, separately at each delay",
+  "wavelength_unit": "nm",
+  "time_unit": "ns",
+  "tres_unit": "supplied steady-state intensity units / ns",
+  "tranes_unit": "1/nm over the selected wavelength interval",
+  "lifetimes_ns_in_amplitude_column_order": [
+    114.15,
+    17.415,
+    4.613
+  ],
+  "reconstruction_delays_ns": [
+    0.0,
+    0.025,
+    1.0,
+    10.0,
+    50.0,
+    100.0
+  ],
+  "wavelengths_nm": [
+    498.0,
+    515.0,
+    532.0,
+    549.0,
+    566.0,
+    583.0,
+    593.0,
+    603.0,
+    613.0,
+    623.0,
+    633.0,
+    643.0,
+    653.0
+  ],
+  "steady_state_normalization": "none",
+  "steady_state_normalization_offset": 0.0,
+  "steady_state_normalization_divisor": 1.0,
+  "steady_state_alignment": "interpolate",
+  "steady_state_matching_tolerance_nm": null,
+  "steady_state_source_wavelengths_nm": [
+    498.0,
+    515.0,
+    532.0,
+    549.0,
+    566.0,
+    583.0,
+    593.0,
+    603.0,
+    613.0,
+    623.0,
+    633.0,
+    643.0,
+    653.0
+  ],
+  "steady_state_source_intensities": [
+    0.0737495452699143,
+    0.715823095325772,
+    0.465667354828892,
+    1.0,
+    0.574378105823514,
+    0.559194529194959,
+    0.621770029403618,
+    0.582395426359034,
+    0.49455687399777,
+    0.421168815379447,
+    0.360183257117983,
+    0.314078168655622,
+    0.270670794704824
+  ],
+  "steady_state_source_normalized_intensities": [
+    0.0737495452699143,
+    0.715823095325772,
+    0.465667354828892,
+    1.0,
+    0.574378105823514,
+    0.559194529194959,
+    0.621770029403618,
+    0.582395426359034,
+    0.49455687399777,
+    0.421168815379447,
+    0.360183257117983,
+    0.314078168655622,
+    0.270670794704824
+  ],
+  "sampled_steady_state_intensities": [
+    0.0737495452699143,
+    0.715823095325772,
+    0.465667354828892,
+    1.0,
+    0.574378105823514,
+    0.559194529194959,
+    0.621770029403618,
+    0.582395426359034,
+    0.49455687399777,
+    0.421168815379447,
+    0.360183257117983,
+    0.314078168655622,
+    0.270670794704824
+  ],
+  "steady_state_interpolation": "provided at fitted wavelengths",
+  "spectral_extrapolation": false,
+  "spectral_areas_before_tranes_normalization": [
+    11.818779995649418,
+    11.763398274666812,
+    9.813163091162492,
+    2.3182736869652705,
+    0.13619341818953878,
+    0.01754227795139605
+  ],
+  "amplitude_reference_delay_ns": 0.0,
+  "amplitude_columns": [
+    "A1",
+    "A2",
+    "A3"
+  ],
+  "spectral_smoothing_applied": false,
+  "steady_state_is_absolute_calibration": false,
+  "spectral_interval_nm": [
+    498.0,
+    653.0
+  ],
+  "warnings": [
+    "Reconstructed intensities are model-based relative spectra, not an absolute radiometric calibration.",
+    "Reconstruction outside the measured post-excitation delay range is model extrapolation."
+  ]
+}

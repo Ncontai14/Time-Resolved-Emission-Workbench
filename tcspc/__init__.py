@@ -1,8 +1,8 @@
-"""TCSPC Workbench: independent exponential decay and global TRES fitting."""
+"""Time-Resolved Emission Workbench for exponential decay fitting and TRES."""
+from ._release import __version__
 from .core import FitConfig, FitResult, fit_decay, fit_global, predict
 from .plotbox import CurveBundle, is_plotbox_export, load_plotbox
 
-__version__ = "0.1.0"
 __all__ = ["FitConfig", "FitResult", "fit_decay", "fit_global", "predict",
            "CurveBundle", "is_plotbox_export", "load_plotbox"]
 

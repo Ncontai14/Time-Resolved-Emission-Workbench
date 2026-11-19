@@ -14,4 +14,4 @@ These examples were used to develop and validate the workbench. Their inclusion 
 
 `example_results/` contains derived reference outputs and therefore also needs consideration alongside its corresponding source measurements when redistributing. Screenshots and notebook-review numerical references may display or derive from contributed examples.
 
-The app and tests depend on several contributed examples. Do not simply delete them and assume the full suite or default demonstration still works. If public redistribution is not authorized, prepare a separately validated public example set with synthetic substitutes and update the dependent demonstrations/tests/docs. The present repository preserves the complete working v0.1.0 package.
+The app and tests depend on several contributed examples. Any edition that substitutes synthetic datasets should also update the dependent demonstrations, tests and guides. Version 0.1.1 retains the existing example collection.

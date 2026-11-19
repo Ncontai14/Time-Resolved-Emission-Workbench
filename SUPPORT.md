@@ -1,8 +1,8 @@
 # Getting help
 
-Begin with USER_GUIDE.md for operation, INSTALLATION.md for setup, DATA_FORMATS.md for inputs, and SCIENTIFIC_NOTES.md for model assumptions. Unequal IRF/decay bin widths and missing tail-reference timing are current limitations, not installation errors.
+Begin with USER_GUIDE.md for operation, INSTALLATION.md for setup, DATA_FORMATS.md for inputs, and SCIENTIFIC_NOTES.md for model assumptions. The software requires a uniform time axis, matching IRF and decay spacing for reconvolution, and a known excitation delay for reconstruction from a tail fit.
 
-For a bug, open an Issue using the template and include:
+For a bug, open a [GitHub issue](https://github.com/Ncontai14/Time-Resolved-Emission-Workbench/issues) using the template and include:
 
 - Workbench version, operating system and Python/dependency versions.
 - Which workflow and controls you used, with units and the selected time interval.

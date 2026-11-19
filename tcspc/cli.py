@@ -1,4 +1,4 @@
-"""Command-line interface for independent TCSPC lifetime fitting."""
+"""Command-line interface for time-resolved emission decay fitting."""
 from __future__ import annotations
 
 import argparse
@@ -12,6 +12,7 @@ import sys
 import numpy as np
 
 from . import FitConfig, fit_decay, fit_global
+from ._release import WORKBENCH_NAME
 from .io import load_decay, load_tres
 from .plotbox import load_plotbox
 
@@ -60,7 +61,7 @@ def parse_curve_indices(value, *, limit=None):
 
 
 def _add_options(parser: argparse.ArgumentParser, *, plotbox=False) -> None:
-    parser.add_argument("--irf", type=Path, help="Separate IRF ASCII file: time, raw counts")
+    parser.add_argument("--irf", type=Path, help="Separate IRF ASCII file with time and nonnegative response columns")
     parser.add_argument("--irf-file-curve", type=int, help="Zero-based IRF curve when --irf is a multi-curve PlotBox export")
     parser.add_argument("--irf-time-unit", choices=["ps", "ns", "us", "ms", "s"], help="Unit of a separate plain-text IRF; PlotBox units come from its header")
     parser.add_argument("--out", type=Path, required=True, help="Directory for JSON and CSV fit results")
@@ -68,15 +69,15 @@ def _add_options(parser: argparse.ArgumentParser, *, plotbox=False) -> None:
     parser.add_argument("--time-unit", choices=["ps", "ns", "us", "ms", "s"], default=None if plotbox else "ns", help=unit_help)
     parser.add_argument("--method", choices=["reconvolution", "tail"], default="reconvolution")
     parser.add_argument("--components", type=int, default=1, help="Number of exponential components (default: 1)")
-    parser.add_argument("--statistic", choices=["poisson", "neyman", "uniform"], default="poisson", help="Poisson deviance, observed-count weighted least squares, or unweighted least squares")
+    parser.add_argument("--statistic", choices=["poisson", "neyman", "uniform"], default="poisson", help="Poisson deviance for raw photon counts, observed-count weighted least squares, or unweighted least squares")
     parser.add_argument("--fit-start", type=float, help="First fitted time, in ns after input unit conversion")
     parser.add_argument("--fit-end", type=float, help="Last fitted time, in ns after input unit conversion")
     lifetime_options = parser.add_mutually_exclusive_group()
     lifetime_options.add_argument("--tau", nargs="+", type=_positive_float, help="Initial lifetimes, in ns; supply one per component")
     lifetime_options.add_argument("--fixed-tau", nargs="+", type=_positive_float, help="Fix all lifetimes to these ns values; supply one per component")
-    parser.add_argument("--background", type=float, default=0.0, help="Initial or fixed decay background, counts per bin")
+    parser.add_argument("--background", type=float, default=0.0, help="Initial or fixed decay background in the decay's signal units")
     parser.add_argument("--fixed-background", action="store_true", help="Hold decay background at --background")
-    parser.add_argument("--irf-background", type=float, default=0.0, help="Constant to subtract from IRF counts before normalization")
+    parser.add_argument("--irf-background", type=float, default=0.0, help="Constant to subtract from the IRF signal before normalization")
     parser.add_argument("--irf-start", type=float, help="First included IRF pulse time, in ns; excludes noisy baseline outside the pulse range")
     parser.add_argument("--irf-end", type=float, help="Last included IRF pulse time, in ns")
     parser.add_argument("--shift", type=float, default=0.0, help="Initial or fixed IRF delay, in ns (positive delays IRF)")
@@ -91,15 +92,15 @@ def _add_options(parser: argparse.ArgumentParser, *, plotbox=False) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m tcspc",
-        description="Fit raw-count TCSPC decays and global series with shared exponential lifetimes. Internal time units are ns.",
+        description=f"{WORKBENCH_NAME}. Fit individual decays or shared exponential lifetimes across uniformly sampled emission traces. Internal time units are ns.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
     decay_parser = subparsers.add_parser("fit", help="Fit one plain-text decay")
-    decay_parser.add_argument("--decay", type=Path, required=True, help="ASCII file with time and raw-count columns")
+    decay_parser.add_argument("--decay", type=Path, required=True, help="ASCII file with time and nonnegative signal columns")
     _add_options(decay_parser)
     global_parser = subparsers.add_parser("global", help="Fit a plain-text time-by-wavelength TRES matrix jointly")
-    global_parser.add_argument("--tres", type=Path, required=True, help="ASCII matrix: first column time, following columns raw-count decays")
-    global_parser.add_argument("--wavelengths", type=_positive_float, nargs="+", help="Wavelengths in nm, one per count column; alternatively supply a numeric wavelength header")
+    global_parser.add_argument("--tres", type=Path, required=True, help="ASCII matrix with time in the first column and nonnegative decay signals in the following columns")
+    global_parser.add_argument("--wavelengths", type=_positive_float, nargs="+", help="Wavelengths in nm, one per decay column, or supply a numeric wavelength header")
     _add_options(global_parser)
     inspect_parser = subparsers.add_parser("inspect", help="Inspect PlotBox curves, units and import audit without fitting")
     inspect_parser.add_argument("--input", type=Path, required=True)

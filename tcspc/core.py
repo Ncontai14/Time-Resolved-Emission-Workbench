@@ -1,6 +1,7 @@
-"""Independent TCSPC exponential fitting, using NumPy and SciPy.
+"""Exponential fitting for uniformly sampled emission decays.
 
-All times are in ns. Photon histograms are supplied as raw counts.
+All times are in ns. Use raw photon counts for count-based objectives.
+Use an appropriate least-squares objective for other nonnegative signals.
 """
 from __future__ import annotations
 
@@ -16,6 +17,7 @@ from scipy.signal import fftconvolve
 from scipy.special import xlogy
 from scipy.sparse import csr_matrix, issparse
 from threadpoolctl import threadpool_limits
+from ._release import WORKBENCH_NAME, __version__
 from .time_axis import channel_grid
 
 
@@ -87,7 +89,7 @@ class FitResult:
         areas = a * tau
         area_fractions = areas / np.maximum(areas.sum(axis=1, keepdims=True), 1e-300)
         return _clean_json({
-            "software": "TCSPC Workbench 0.1.0", "time_unit": "ns",
+            "software": f"{WORKBENCH_NAME} {__version__}", "time_unit": "ns",
             "lifetimes_ns": tau, "lifetime_stderr_ns": self.lifetime_stderr,
             "amplitudes": a, "backgrounds_counts_per_bin": self.backgrounds,
             "irf_shift_ns": self.shift,
@@ -97,7 +99,7 @@ class FitResult:
             "diagnostics": self.diagnostics, "warnings": self.warnings,
             "config": asdict(self.config),
             "amplitude_convention": (
-                "Counts per bin at first included fit channel (tail)."
+                "Signal in input units at first included fit channel (tail)."
                 if self.config.method == "tail" else
                 "Underlying exponential amplitude at lag zero, before bin averaging; IRF has unit sum."
             ),
@@ -142,9 +144,9 @@ def _histogram(counts, n, name):
     if y.ndim != 2 or y.shape[0] != n or y.shape[1] < 1:
         raise ValueError(f"{name} must have shape [time] or [time, trace].")
     if not np.all(np.isfinite(y)) or np.any(y < 0):
-        raise ValueError(f"{name} must contain finite nonnegative raw counts.")
+        raise ValueError(f"{name} must contain finite nonnegative signal values.")
     if np.any(y.sum(axis=0) <= 0):
-        raise ValueError(f"Each {name} trace must contain positive counts.")
+        raise ValueError(f"Each {name} trace must contain a positive signal value.")
     return y
 
 
@@ -155,7 +157,7 @@ def _prepare_irf(t, dt, irf, irf_time, irf_background, m, period, irf_start=None
     if raw.ndim == 1:
         raw = raw[:, None]
     if raw.ndim != 2 or raw.shape[1] not in (1, m) or not np.all(np.isfinite(raw)) or np.any(raw < 0):
-        raise ValueError("IRF must contain nonnegative counts, shared or one column per trace.")
+        raise ValueError("IRF must contain nonnegative signal values, shared or one column per trace.")
     if not np.isfinite(irf_background) or irf_background < 0:
         raise ValueError("IRF background must be finite and nonnegative.")
     ti = t if irf_time is None else np.asarray(irf_time, dtype=float)

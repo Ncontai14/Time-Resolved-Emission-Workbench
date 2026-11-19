@@ -1,6 +1,6 @@
 # Scientific methods and interpretation
 
-TCSPC Workbench independently implements standard exponential fluorescence-decay models. Its job is to estimate parameters of a stated forward model from supplied photon histograms. Numerical convergence is evidence about that optimization problem; it does not establish a unique physical mechanism or correct an acquisition artifact.
+Time-Resolved Emission Workbench implements standard exponential emission-decay models. It estimates the parameters of a stated forward model from photon histograms or compatible nonnegative intensity observations. Assess model suitability and acquisition calibration before interpreting a converged fit.
 
 ## Inputs and channel coordinates
 
@@ -8,7 +8,9 @@ Photon histograms are imported as raw nonnegative counts. Background is part of 
 
 The imported channel coordinate can contain small numerical rounding even when the acquisition channels are equally spaced. The importer accepts agreement with one fixed-width sequence within 0.0001 of a bin over the full axis. It records original coordinates and the maximum adjustment. Photon counts stay in their original channels. This is not count interpolation, rebinning, smoothing, or normalization.
 
-Missing internal channels and genuinely nonuniform coordinates are not equivalent to rounded labels. These forward models require their channel structure to be established. For supported multi-curve bundles, missing endpoints can be trimmed to a common complete interval and are audited.
+The importer and fitter require a uniform time grid. They reject missing internal channels and genuinely nonuniform acquisition coordinates, including for tail fitting. For supported multi-curve bundles, missing endpoints can be trimmed to a common complete interval and are audited.
+
+Fluorescence upconversion and other pulsed photoluminescence measurements can use the exponential fitter when their sampled observations and kinetics meet these conditions. For upconversion reconvolution, use the measured time response of the gating experiment with matching time spacing and an appropriate time-zero calibration. A single shared IRF and shift may be inadequate when the time response varies across wavelengths. The Python API accepts per-trace response curves with a shared fitted shift.
 
 ## Tail model
 
@@ -46,7 +48,7 @@ D=2\sum_i[\mu_i-y_i+y_i\log(y_i/\mu_i)],
 
 where the logarithmic contribution is zero for an empty observed channel. The optimizer minimizes signed square-root deviance residuals. This has the same optimum as the Poisson negative log likelihood, up to constants independent of the model parameters. Evaluation near equality uses a numerically stable expression.
 
-Alternative objectives are observed-count weighted least squares, with variance \(\max(y_i,1)\), and uniform least squares. Observed-count weighting can bias sparse fits. Uniform least squares does not assign a physically calibrated variance to arbitrary processed data.
+Alternative objectives are observed-count weighted least squares, with variance \(\max(y_i,1)\), and uniform least squares. Observed-count weighting can bias sparse fits. For non-counting intensity observations with approximately constant noise variance, uniform least squares is a suitable choice. Photon-count diagnostics such as reduced Poisson deviance require a count model and do not have that statistical interpretation on an arbitrary intensity scale.
 
 Pearson chi-square uses expected-count variance, whereas Poisson deviance and observed-count weighted least squares are different quantities. Their reduced statistics must retain distinct labels. A reduced deviance is not generally expected to equal exactly one for very sparse data.
 

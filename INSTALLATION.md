@@ -1,16 +1,16 @@
-# TCSPC Workbench 0.1.0
+# Install Time-Resolved Emission Workbench v0.1.1
 
-TCSPC Workbench fits fluorescence photon-counting decays with a measured instrument response function (IRF). It also fits wavelength-resolved and repeated-decay series globally, with shared lifetimes and separate amplitudes and backgrounds for each trace. With an accompanying steady-state fluorescence spectrum, it reconstructs steady-state-scaled time-resolved emission spectra (TRES) and their area-normalized forms (TRANES).
+Time-Resolved Emission Workbench fits single and wavelength-resolved decays with a measured instrument response function (IRF) or an exponential tail model. Global fits share lifetimes while allowing separate amplitudes and backgrounds for each trace. With an accompanying steady-state emission spectrum, the app reconstructs steady-state-scaled time-resolved emission spectra (TRES) and their area-normalized forms (TRANES).
 
 The application runs on your computer and displays its controls in a web browser. The browser is the interface; Python performs the calculations. The package includes a command-line interface and a Python API for more advanced use.
 
-For a step-by-step guide written for experimental users, open [USER_GUIDE.md](USER_GUIDE.md) or double-click `USER_GUIDE.html`. It covers the first installation, daily startup, fitting controls, fit-window selection, global analysis, TRES/TRANES and saving results without editing Python code. This README retains installation alternatives and reference workflows. Each guide has an offline HTML edition that opens directly in your browser.
+For daily startup, fitting, global analysis, spectral reconstruction and saving results, open the [user guide](USER_GUIDE.md) or double-click `USER_GUIDE.html`. The HTML editions of these guides open in a browser.
 
 ## Using an existing compatible environment
 
 If your Conda or Python environment already has the required dependencies, you can use it. Stop any running app with **Ctrl+C**, activate that environment, and launch `app.py` from this extracted folder. The environment-creation instructions below are for a first-time installation.
 
-Check that the page displays **Version 0.1.0**. Opening a browser tab left connected to an older running server can show the old version.
+Check that the page displays **Version 0.1.1**. Opening a browser tab left connected to an older running server can show the old version.
 
 ## Before starting
 
@@ -76,7 +76,7 @@ Continue when this prints `Dependencies OK`. An error at this stage concerns the
 In File Explorer, open the folder containing `app.py` and copy its location from the address bar. In Anaconda Prompt, type `cd /d` followed by that path in quotation marks. For example:
 
 ```bat
-cd /d "C:\Users\YourName\Downloads\TCSPC_Workbench"
+cd /d "C:\Users\YourName\Downloads\Time-Resolved-Emission-Workbench"
 ```
 
 **Replace the example path with your actual extracted folder.** The `/d` option also changes drive if the package is on another drive. Check that you are in the correct folder:
@@ -109,7 +109,7 @@ Open Anaconda Prompt, then run:
 
 ```bat
 conda activate tcspc_workbench
-cd /d "C:\Users\YourName\Downloads\TCSPC_Workbench"
+cd /d "C:\Users\YourName\Downloads\Time-Resolved-Emission-Workbench"
 python -m streamlit run app.py
 ```
 

@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>TCSPC Workbench 0.1.0 — Scientific notes</title>
+  <title>Time-Resolved Emission Workbench 0.1.1 — Scientific
+notes</title>
   <style>
     html {
       color: #1a1a1a;
@@ -221,11 +222,11 @@ intensities</a></li>
 </nav>
 <h1 id="scientific-methods-and-interpretation">Scientific methods and
 interpretation</h1>
-<p>TCSPC Workbench independently implements standard exponential
-fluorescence-decay models. Its job is to estimate parameters of a stated
-forward model from supplied photon histograms. Numerical convergence is
-evidence about that optimization problem; it does not establish a unique
-physical mechanism or correct an acquisition artifact.</p>
+<p>Time-Resolved Emission Workbench implements standard exponential
+emission-decay models. It estimates the parameters of a stated forward
+model from photon histograms or compatible nonnegative intensity
+observations. Assess model suitability and acquisition calibration
+before interpreting a converged fit.</p>
 <h2 id="inputs-and-channel-coordinates">Inputs and channel
 coordinates</h2>
 <p>Photon histograms are imported as raw nonnegative counts. Background
@@ -238,11 +239,19 @@ accepts agreement with one fixed-width sequence within 0.0001 of a bin
 over the full axis. It records original coordinates and the maximum
 adjustment. Photon counts stay in their original channels. This is not
 count interpolation, rebinning, smoothing, or normalization.</p>
-<p>Missing internal channels and genuinely nonuniform coordinates are
-not equivalent to rounded labels. These forward models require their
-channel structure to be established. For supported multi-curve bundles,
-missing endpoints can be trimmed to a common complete interval and are
-audited.</p>
+<p>The importer and fitter require a uniform time grid. They reject
+missing internal channels and genuinely nonuniform acquisition
+coordinates, including for tail fitting. For supported multi-curve
+bundles, missing endpoints can be trimmed to a common complete interval
+and are audited.</p>
+<p>Fluorescence upconversion and other pulsed photoluminescence
+measurements can use the exponential fitter when their sampled
+observations and kinetics meet these conditions. For upconversion
+reconvolution, use the measured time response of the gating experiment
+with matching time spacing and an appropriate time-zero calibration. A
+single shared IRF and shift may be inadequate when the time response
+varies across wavelengths. The Python API accepts per-trace response
+curves with a shared fitted shift.</p>
 <h2 id="tail-model">Tail model</h2>
 <p>For a fit beginning at the first included channel time
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>t</mi><mi>a</mi></msub><annotation encoding="application/x-tex">t_a</annotation></semantics></math>,
@@ -299,8 +308,11 @@ uses a numerically stable expression.</p>
 with variance
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>max</mo><mrow><mo stretchy="true" form="prefix">(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">)</mo></mrow></mrow><annotation encoding="application/x-tex">\max(y_i,1)</annotation></semantics></math>,
 and uniform least squares. Observed-count weighting can bias sparse
-fits. Uniform least squares does not assign a physically calibrated
-variance to arbitrary processed data.</p>
+fits. For non-counting intensity observations with approximately
+constant noise variance, uniform least squares is a suitable choice.
+Photon-count diagnostics such as reduced Poisson deviance require a
+count model and do not have that statistical interpretation on an
+arbitrary intensity scale.</p>
 <p>Pearson chi-square uses expected-count variance, whereas Poisson
 deviance and observed-count weighted least squares are different
 quantities. Their reduced statistics must retain distinct labels. A

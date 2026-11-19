@@ -1,8 +1,8 @@
-# TCSPC Workbench
+# Time-Resolved Emission Workbench
 
-A local Python application for fluorescence lifetime fitting, global TCSPC analysis, and reconstruction of time-resolved emission spectra (TRES) and area-normalized spectra (TRANES).
+A local Python application for fitting single and wavelength-resolved emission decays, sharing lifetimes across traces, and reconstructing time-resolved emission spectra (TRES) and their area-normalized forms (TRANES).
 
-**Application version: 0.1.0 — initial public release.** The repository includes the local application, numerical examples, operating guides, tests and contribution tools.
+**Version 0.1.1.** The project was formerly TCSPC Workbench. TCSPC is the main demonstrated workflow.
 
 ![Single-decay fitting interval with linked time fields and range handles](docs/interface_single_range.png)
 
@@ -53,11 +53,14 @@ Python 3.12 is the version used for local release validation; the declared minim
 4. For global spectral analysis, select **Continue to TRES / TRANES**. The wavelengths, amplitudes and lifetimes transfer automatically.
 5. Supply steady-state intensities by file or manual table, choose reconstruction delays and download both the fit and reconstruction archives.
 
-Use original photon counts for Poisson fitting. The [data-format guide](DATA_FORMATS.md) shows CSV layouts, units and source-curve selection. User measurements belong outside the tracked examples, for example in the ignored `data/` directory.
+Use original photon counts for Poisson fitting. See the [data-format guide](DATA_FORMATS.md) for CSV layouts, units and source-curve selection. Use the ignored `data/` directory for your own measurements kept within the project folder.
 
 ## Scientific scope and current limitations
 
+The same exponential models can fit compatible fluorescence upconversion and other pulsed photoluminescence decays, including simple phosphorescence decays. This requires evenly spaced samples, finite nonnegative observations, and kinetics that the model can represent. For nonnegative intensity data with roughly constant noise variance, choose unweighted least squares. For reconvolution, supply a measured instrument response appropriate to the acquisition. These compatibility conditions describe the model's applicability. The bundled demonstrations focus on TCSPC and spectral reconstruction.
+
 - IRF and decay **bin widths must match** for reconvolution. Different acquisition windows can be supported; unequal bin widths are not automatically rebinned.
+- The importer accepts tiny export rounding on a uniform time grid. Genuinely uneven scans and missing internal time channels are rejected.
 - One time-unit selector applies to both plain-text decay and IRF uploads. Convert them to the same units before import.
 - Tail-fit reconstruction needs the known elapsed delay between excitation and the first fitted channel.
 - The model uses nonnegative exponential components; signed rise components, dedicated anisotropy models and kinetic target analysis are not implemented.
@@ -68,7 +71,7 @@ See [Scientific notes](SCIENTIFIC_NOTES.md) for definitions and assumptions. A c
 
 ## Validation and development
 
-The v0.1.0 numerical/import/CLI suite contains **69 tests**. Additional release checks exercised manual table entry and the single/global interfaces in Streamlit and Chromium; details are in [VALIDATION.md](VALIDATION.md).
+The numerical, import and CLI suite contains **69 tests**. The earlier v0.1.0 release validation also exercised manual table entry and the single and global interfaces in Streamlit and Chromium. See [VALIDATION.md](VALIDATION.md) for test scope.
 
 Run the numerical suite from the repository root:
 
@@ -76,7 +79,7 @@ Run the numerical suite from the repository root:
 python -m unittest discover -s tests -v
 ```
 
-GitHub Actions is configured to run the suite on Linux and Windows with Python 3.10 and 3.12. Results of hosted runs become available after the repository is uploaded and Actions runs; no hosted status is claimed here.
+GitHub Actions is configured to run the suite on Linux and Windows with Python 3.10 and 3.12. Hosted results appear in the repository's **Actions** tab.
 
 [Contributing](CONTRIBUTING.md) explains development and numerical-change expectations. [Support](SUPPORT.md) describes useful bug reports. Keep private measurements, credentials and local environments out of commits; `.gitignore` covers designated data/output folders, not arbitrary files everywhere on the computer.
 
@@ -95,6 +98,6 @@ GitHub Actions is configured to run the suite on Linux and Windows with Python 3
 
 Original project code/documentation use the [MIT licence](LICENSE). Contributed measured examples retain their original rights; the code licence does not grant rights to those measurements. Read [Example-data provenance](examples/README.md) before redistributing the full example collection publicly.
 
-Use [CITATION.cff](CITATION.cff) for software citation. It currently credits the project contributors collectively; the maintainer should enter the intended author details before public release. No paper, repository URL or DOI is invented. A versioned repository can later be archived on Zenodo.
+Use [CITATION.cff](CITATION.cff) to cite the software version and its author. A tagged release can also be archived through a service such as Zenodo.
 
-**Preparing your own GitHub upload?** Follow [GITHUB_UPLOAD.md](GITHUB_UPLOAD.md), including what to personalize and how to create the v0.1.0 release.
+**Updating the GitHub repository?** Follow [GITHUB_UPLOAD.md](GITHUB_UPLOAD.md) to apply the complete v0.1.1 package to the existing repository and create a release.

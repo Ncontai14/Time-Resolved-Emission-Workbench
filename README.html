@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>TCSPC Workbench 0.1.0 — Repository overview</title>
+  <title>Time-Resolved Emission Workbench 0.1.1 — Repository
+overview</title>
   <style>
     html {
       color: #1a1a1a;
@@ -238,7 +239,8 @@
 <nav><a href="USER_GUIDE.html">User guide</a><a href="README.html">Repository overview</a><a href="INSTALLATION.html">Installation guide</a><a href="GITHUB_UPLOAD.html">GitHub upload</a><a href="QUICK_START_WINDOWS.html">Windows quick start</a><a href="DATA_FORMATS.html">Data formats</a><a href="SCIENTIFIC_NOTES.html">Scientific notes</a><a href="CHANGELOG.html">Changes</a><a href="VALIDATION.html">Validation</a><a href="docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#tcspc-workbench" id="toc-tcspc-workbench">TCSPC
+<li><a href="#time-resolved-emission-workbench"
+id="toc-time-resolved-emission-workbench">Time-Resolved Emission
 Workbench</a>
 <ul>
 <li><a href="#what-it-does" id="toc-what-it-does">What it does</a></li>
@@ -257,13 +259,14 @@ id="toc-licence-data-and-citation">Licence, data and citation</a></li>
 </ul></li>
 </ul>
 </nav>
-<h1 id="tcspc-workbench">TCSPC Workbench</h1>
-<p>A local Python application for fluorescence lifetime fitting, global
-TCSPC analysis, and reconstruction of time-resolved emission spectra
-(TRES) and area-normalized spectra (TRANES).</p>
-<p><strong>Application version: 0.1.0 — initial public release.</strong>
-The repository includes the local application, numerical examples,
-operating guides, tests and contribution tools.</p>
+<h1 id="time-resolved-emission-workbench">Time-Resolved Emission
+Workbench</h1>
+<p>A local Python application for fitting single and wavelength-resolved
+emission decays, sharing lifetimes across traces, and reconstructing
+time-resolved emission spectra (TRES) and their area-normalized forms
+(TRANES).</p>
+<p><strong>Version 0.1.1.</strong> The project was formerly TCSPC
+Workbench. TCSPC is the main demonstrated workflow.</p>
 <figure>
 <img src="docs/interface_single_range.png"
 alt="Single-decay fitting interval with linked time fields and range handles" />
@@ -337,16 +340,28 @@ automatically.</li>
 reconstruction delays and download both the fit and reconstruction
 archives.</li>
 </ol>
-<p>Use original photon counts for Poisson fitting. The <a
-href="DATA_FORMATS.html">data-format guide</a> shows CSV layouts, units
-and source-curve selection. User measurements belong outside the tracked
-examples, for example in the ignored <code>data/</code> directory.</p>
+<p>Use original photon counts for Poisson fitting. See the <a
+href="DATA_FORMATS.html">data-format guide</a> for CSV layouts, units
+and source-curve selection. Use the ignored <code>data/</code> directory
+for your own measurements kept within the project folder.</p>
 <h2 id="scientific-scope-and-current-limitations">Scientific scope and
 current limitations</h2>
+<p>The same exponential models can fit compatible fluorescence
+upconversion and other pulsed photoluminescence decays, including simple
+phosphorescence decays. This requires evenly spaced samples, finite
+nonnegative observations, and kinetics that the model can represent. For
+nonnegative intensity data with roughly constant noise variance, choose
+unweighted least squares. For reconvolution, supply a measured
+instrument response appropriate to the acquisition. These compatibility
+conditions describe the model’s applicability. The bundled
+demonstrations focus on TCSPC and spectral reconstruction.</p>
 <ul>
 <li>IRF and decay <strong>bin widths must match</strong> for
 reconvolution. Different acquisition windows can be supported; unequal
 bin widths are not automatically rebinned.</li>
+<li>The importer accepts tiny export rounding on a uniform time grid.
+Genuinely uneven scans and missing internal time channels are
+rejected.</li>
 <li>One time-unit selector applies to both plain-text decay and IRF
 uploads. Convert them to the same units before import.</li>
 <li>Tail-fit reconstruction needs the known elapsed delay between
@@ -365,17 +380,17 @@ resolution.</li>
 definitions and assumptions. A converged optimizer or a diagnostic near
 one does not establish a physical model.</p>
 <h2 id="validation-and-development">Validation and development</h2>
-<p>The v0.1.0 numerical/import/CLI suite contains <strong>69
-tests</strong>. Additional release checks exercised manual table entry
-and the single/global interfaces in Streamlit and Chromium; details are
-in <a href="VALIDATION.html">VALIDATION.md</a>.</p>
+<p>The numerical, import and CLI suite contains <strong>69
+tests</strong>. The earlier v0.1.0 release validation also exercised
+manual table entry and the single and global interfaces in Streamlit and
+Chromium. See <a href="VALIDATION.html">VALIDATION.md</a> for test
+scope.</p>
 <p>Run the numerical suite from the repository root:</p>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> unittest discover <span class="at">-s</span> tests <span class="at">-v</span></span></code></pre></div>
 <p>GitHub Actions is configured to run the suite on Linux and Windows
-with Python 3.10 and 3.12. Results of hosted runs become available after
-the repository is uploaded and Actions runs; no hosted status is claimed
-here.</p>
+with Python 3.10 and 3.12. Hosted results appear in the repository’s
+<strong>Actions</strong> tab.</p>
 <p><a href="CONTRIBUTING.md">Contributing</a> explains development and
 numerical-change expectations. <a href="SUPPORT.md">Support</a>
 describes useful bug reports. Keep private measurements, credentials and
@@ -427,13 +442,11 @@ licence</a>. Contributed measured examples retain their original rights;
 the code licence does not grant rights to those measurements. Read <a
 href="examples/README.md">Example-data provenance</a> before
 redistributing the full example collection publicly.</p>
-<p>Use <a href="CITATION.cff">CITATION.cff</a> for software citation. It
-currently credits the project contributors collectively; the maintainer
-should enter the intended author details before public release. No
-paper, repository URL or DOI is invented. A versioned repository can
-later be archived on Zenodo.</p>
-<p><strong>Preparing your own GitHub upload?</strong> Follow <a
-href="GITHUB_UPLOAD.html">GITHUB_UPLOAD.md</a>, including what to
-personalize and how to create the v0.1.0 release.</p>
+<p>Use <a href="CITATION.cff">CITATION.cff</a> to cite the software
+version and its author. A tagged release can also be archived through a
+service such as Zenodo.</p>
+<p><strong>Updating the GitHub repository?</strong> Follow <a
+href="GITHUB_UPLOAD.html">GITHUB_UPLOAD.md</a> to apply the complete
+v0.1.1 package to the existing repository and create a release.</p>
 </body>
 </html>

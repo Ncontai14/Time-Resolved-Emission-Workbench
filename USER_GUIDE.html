@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>TCSPC Workbench 0.1.0 — User guide</title>
+  <title>Time-Resolved Emission Workbench 0.1.1 — User guide</title>
   <style>
     html {
       color: #1a1a1a;
@@ -238,9 +238,9 @@
 <nav><a href="USER_GUIDE.html">User guide</a><a href="README.html">Repository overview</a><a href="INSTALLATION.html">Installation guide</a><a href="GITHUB_UPLOAD.html">GitHub upload</a><a href="QUICK_START_WINDOWS.html">Windows quick start</a><a href="DATA_FORMATS.html">Data formats</a><a href="SCIENTIFIC_NOTES.html">Scientific notes</a><a href="CHANGELOG.html">Changes</a><a href="VALIDATION.html">Validation</a><a href="docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#tcspc-workbench-0.1.0-experimental-users-guide"
-id="toc-tcspc-workbench-0.1.0-experimental-users-guide">TCSPC Workbench
-0.1.0 — experimental user’s guide</a>
+<li><a href="#time-resolved-emission-workbench-v0.1.1-user-guide"
+id="toc-time-resolved-emission-workbench-v0.1.1-user-guide">Time-Resolved
+Emission Workbench v0.1.1 user guide</a>
 <ul>
 <li><a href="#choose-where-to-start" id="toc-choose-where-to-start">1.
 Choose where to start</a></li>
@@ -312,12 +312,14 @@ reference</a></li>
 </ul></li>
 </ul>
 </nav>
-<h1 id="tcspc-workbench-0.1.0-experimental-users-guide">TCSPC Workbench
-0.1.0 — experimental user’s guide</h1>
-<p>This guide follows a measurement from exported photon counts to a
-saved lifetime fit, then, when appropriate, to global analysis and
-reconstructed TRES/TRANES. You can use the controls without writing or
-changing Python code.</p>
+<h1
+id="time-resolved-emission-workbench-v0.1.1-user-guide">Time-Resolved
+Emission Workbench v0.1.1 user guide</h1>
+<p>This guide follows a TCSPC measurement from exported photon counts to
+a saved lifetime fit, global analysis and reconstructed TRES/TRANES.
+Section 4 also covers which other emission intensity scans the fitter
+can accept. You can use the controls without writing or changing Python
+code.</p>
 <p>The workbench runs on your computer. A Python process does the
 calculation, and a browser page displays the controls and plots. After
 the packages are installed, ordinary local analysis does not require an
@@ -372,8 +374,8 @@ working installation</h2>
 <li>In Windows File Explorer, right-click the ZIP and choose
 <strong>Extract All</strong>. Do not run the application while browsing
 inside the compressed ZIP.</li>
-<li>Open the extracted folder. It may contain another folder named
-<code>TCSPC_Workbench</code>; open that too.</li>
+<li>Open the extracted folder. If it contains a subfolder named
+<code>Time-Resolved-Emission-Workbench</code>, open that too.</li>
 <li>Stop when you can see <code>app.py</code>,
 <code>requirements.txt</code>, and a folder named <code>tcspc</code>
 together. Keep the whole folder, including its <code>examples</code> and
@@ -405,7 +407,7 @@ class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb2-1"><a href=
 address bar. Change into that folder, using your actual location in
 place of this example:</p>
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">/d</span> <span class="st">&quot;C:\Users\YourName\Downloads\TCSPC_Workbench&quot;</span></span></code></pre></div>
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">/d</span> <span class="st">&quot;C:\Users\YourName\Downloads\Time-Resolved-Emission-Workbench&quot;</span></span></code></pre></div>
 <p>Check that you reached the correct folder:</p>
 <div class="sourceCode" id="cb4"><pre
 class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="bu">dir</span> app.py requirements.txt</span></code></pre></div>
@@ -417,11 +419,10 @@ URL</strong> printed in the terminal, usually
 <code>http://localhost:8501</code>. If it prints a different port, use
 that address. <code>localhost</code> means this computer; you do not
 need to connect to a remote workspace.</p>
-<p>Check that the page says <strong>Version 0.1.0</strong>. Keep the
-terminal open while using the app. You may minimize it. Closing only the
-browser tab does not stop the Python process; press
-<strong>Ctrl+C</strong> in the terminal when finished. Download your
-results before stopping or refreshing the session.</p>
+<p>Check that the page says <strong>Version 0.1.1</strong>. Keep the
+terminal open while using the app. You may minimize it. Download your
+results, then press <strong>Ctrl+C</strong> in the terminal to stop the
+app.</p>
 <p>For the next session, repeat activation, <code>cd /d</code>, and the
 launch command. Installation is normally a one-time step. After
 activating the environment, <code>START_WORKBENCH_WINDOWS.bat</code> is
@@ -462,9 +463,9 @@ starts. Section 12 explains the common cases.</p>
 <h2 id="prepare-experimental-files">4. Prepare experimental files</h2>
 <h3 id="a-decay-or-an-irf-two-columns">A decay or an IRF: two
 columns</h3>
-<p>Export time in the first column and raw photon counts in the second.
-Use a separate file for a shared measured IRF. A short format example
-is:</p>
+<p>Export time in the first column and the observed signal in the
+second. Use a separate file for a shared measured IRF. A TCSPC file with
+raw photon counts follows this layout:</p>
 <pre class="csv"><code>time_ns,counts
 0.000,0
 0.025,2
@@ -484,6 +485,15 @@ times and lifetimes in ns.</p>
 matching bin widths. Do not move the IRF by changing its time column
 just to make the display line up; the shift setting describes a timing
 offset within the model.</p>
+<p>For a compatible fluorescence upconversion or other pulsed
+photoluminescence scan, the second column can contain nonnegative
+measured intensities on an evenly spaced delay axis. For intensity noise
+with roughly constant variance, select <strong>Unweighted least
+squares</strong>. Reconvolution requires a measured temporal response
+sampled on the same time spacing. If parts of the decay contain a
+molecular rise, a model with signed amplitudes or explicit kinetics may
+be needed. See the <a href="SCIENTIFIC_NOTES.html">scientific
+notes</a>.</p>
 <h3 id="several-wavelength-decays-one-common-time-column">Several
 wavelength decays: one common time column</h3>
 <p>For global analysis, put time in column 1 and a decay at each known
@@ -553,12 +563,11 @@ worksheet.</p>
 reader, but comma CSV is the recommended starting point. Renaming a
 binary measurement file to <code>.csv</code> does not convert it. Export
 numeric text from the acquisition software.</p>
-<p>Small rounding differences in printed TCSPC times are handled
-automatically. Counts remain in their original channels. You normally do
-not need to rebuild an experimentally uniform time axis. Duplicate,
-missing, or genuinely irregular channels need investigation. Detailed
-bundle and source-curve formats are in <a
-href="DATA_FORMATS.html">DATA_FORMATS.md</a>.</p>
+<p>The app handles small rounding differences in printed TCSPC times and
+keeps the counts in their original channels. The importer requires a
+uniform acquisition grid and rejects genuinely unevenly sampled delays
+and missing internal time points. Detailed bundle and source-curve
+formats are in <a href="DATA_FORMATS.html">DATA_FORMATS.md</a>.</p>
 <h2 id="learn-with-the-supplied-single-decay-example">5. Learn with the
 supplied single-decay example</h2>
 <p>This is a useful first session because both decay and IRF are
@@ -572,7 +581,7 @@ reconvolution</strong>. Use <strong>Exponential components = 1</strong>
 and <strong>Poisson likelihood (raw counts)</strong>.</li>
 <li>Open <strong>Background, shift, and excitation</strong>. Keep
 <strong>Fit a background for each decay</strong> selected. Set
-<strong>Subtract IRF background (counts/bin)</strong> to
+<strong>Subtract IRF background (IRF units)</strong> to
 <code>1.4</code>.</li>
 <li>Select <strong>Limit IRF pulse range</strong>. Set its first and
 last included pulse times to <code>3.8</code> and <code>8</code> ns.
@@ -1081,10 +1090,10 @@ for that file type. See Section 4.</td>
 </tr>
 <tr class="even">
 <td>The time axis is rejected</td>
-<td>Check selected units, duplicate/missing channels and acquisition
-calibration. Tiny printed rounding is handled automatically; do not
-rebin a calibrated uniform histogram just to alter displayed
-decimals.</td>
+<td>Check selected units, duplicate or missing channels, and acquisition
+calibration. Tiny printed rounding is handled automatically. Genuinely
+uneven delay sampling is outside the current import and fit
+methods.</td>
 </tr>
 <tr class="odd">
 <td>Run fit is disabled</td>
@@ -1248,12 +1257,12 @@ when fixing the components is part of the intended analysis.</td>
 Otherwise the entered decay-background value is fixed.</td>
 </tr>
 <tr class="even">
-<td><strong>Decay background (counts/bin)</strong></td>
-<td>Fluorescence histogram baseline in counts per channel. It belongs to
-the decay model, not to the IRF correction.</td>
+<td><strong>Decay background (input units)</strong></td>
+<td>Baseline of the decay signal in its input units. For a TCSPC
+histogram, these units are counts per channel.</td>
 </tr>
 <tr class="odd">
-<td><strong>Subtract IRF background (counts/bin)</strong></td>
+<td><strong>Subtract IRF background (IRF units)</strong></td>
 <td>Independently measured IRF baseline to subtract before normalizing
 the IRF pulse. Estimate it from an appropriate baseline region of that
 measurement.</td>

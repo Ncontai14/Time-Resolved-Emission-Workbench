@@ -1,6 +1,6 @@
-# TCSPC Workbench 0.1.0 — experimental user's guide
+# Time-Resolved Emission Workbench v0.1.1 user guide
 
-This guide follows a measurement from exported photon counts to a saved lifetime fit, then, when appropriate, to global analysis and reconstructed TRES/TRANES. You can use the controls without writing or changing Python code.
+This guide follows a TCSPC measurement from exported photon counts to a saved lifetime fit, global analysis and reconstructed TRES/TRANES. Section 4 also covers which other emission intensity scans the fitter can accept. You can use the controls without writing or changing Python code.
 
 The workbench runs on your computer. A Python process does the calculation, and a browser page displays the controls and plots. After the packages are installed, ordinary local analysis does not require an internet connection or cloud account.
 
@@ -22,7 +22,7 @@ Keep the original acquisitions and a note of your time calibration, excitation r
 
 1. Download the release ZIP to your computer.
 2. In Windows File Explorer, right-click the ZIP and choose **Extract All**. Do not run the application while browsing inside the compressed ZIP.
-3. Open the extracted folder. It may contain another folder named `TCSPC_Workbench`; open that too.
+3. Open the extracted folder. If it contains a subfolder named `Time-Resolved-Emission-Workbench`, open that too.
 4. Stop when you can see `app.py`, `requirements.txt`, and a folder named `tcspc` together. Keep the whole folder, including its `examples` and documentation.
 
 A `.py` file contains Python instructions. Double-clicking it may open a text editor or a terminal that closes immediately. Start the workbench with the command below instead. The `.html` guides can be opened directly in a browser without starting Python.
@@ -48,7 +48,7 @@ conda env list
 Copy the extracted program folder's location from File Explorer's address bar. Change into that folder, using your actual location in place of this example:
 
 ```bat
-cd /d "C:\Users\YourName\Downloads\TCSPC_Workbench"
+cd /d "C:\Users\YourName\Downloads\Time-Resolved-Emission-Workbench"
 ```
 
 Check that you reached the correct folder:
@@ -65,7 +65,7 @@ python -m streamlit run app.py
 
 Your browser should open. Otherwise, open the **Local URL** printed in the terminal, usually `http://localhost:8501`. If it prints a different port, use that address. `localhost` means this computer; you do not need to connect to a remote workspace.
 
-Check that the page says **Version 0.1.0**. Keep the terminal open while using the app. You may minimize it. Closing only the browser tab does not stop the Python process; press **Ctrl+C** in the terminal when finished. Download your results before stopping or refreshing the session.
+Check that the page says **Version 0.1.1**. Keep the terminal open while using the app. You may minimize it. Download your results, then press **Ctrl+C** in the terminal to stop the app.
 
 For the next session, repeat activation, `cd /d`, and the launch command. Installation is normally a one-time step. After activating the environment, `START_WORKBENCH_WINDOWS.bat` is an optional shortcut from that same terminal; it does not select your environment for you.
 
@@ -98,7 +98,7 @@ If a package fails to import, resolve that environment error before fitting data
 
 ### A decay or an IRF: two columns
 
-Export time in the first column and raw photon counts in the second. Use a separate file for a shared measured IRF. A short format example is:
+Export time in the first column and the observed signal in the second. Use a separate file for a shared measured IRF. A TCSPC file with raw photon counts follows this layout:
 
 ```csv
 time_ns,counts
@@ -113,6 +113,8 @@ The small table illustrates the layout; it is not a complete fluorescence decay.
 Choose the calibrated input unit in the app: `ns`, `ps`, `us`, `ms`, or `s`. A plain header such as `time_ns` is a useful label but does not automatically override the unit selector. The workbench reports fitted times and lifetimes in ns.
 
 The decay and shared IRF need compatible time calibration and matching bin widths. Do not move the IRF by changing its time column just to make the display line up; the shift setting describes a timing offset within the model.
+
+For a compatible fluorescence upconversion or other pulsed photoluminescence scan, the second column can contain nonnegative measured intensities on an evenly spaced delay axis. For intensity noise with roughly constant variance, select **Unweighted least squares**. Reconvolution requires a measured temporal response sampled on the same time spacing. If parts of the decay contain a molecular rise, a model with signed amplitudes or explicit kinetics may be needed. See the [scientific notes](SCIENTIFIC_NOTES.md).
 
 ### Several wavelength decays: one common time column
 
@@ -147,7 +149,7 @@ In Origin, put the intended headers in the Long Name row and export that row. Tu
 
 Consistent tabs, semicolons, or spaces are also supported by the text reader, but comma CSV is the recommended starting point. Renaming a binary measurement file to `.csv` does not convert it. Export numeric text from the acquisition software.
 
-Small rounding differences in printed TCSPC times are handled automatically. Counts remain in their original channels. You normally do not need to rebuild an experimentally uniform time axis. Duplicate, missing, or genuinely irregular channels need investigation. Detailed bundle and source-curve formats are in [DATA_FORMATS.md](DATA_FORMATS.md).
+The app handles small rounding differences in printed TCSPC times and keeps the counts in their original channels. The importer requires a uniform acquisition grid and rejects genuinely unevenly sampled delays and missing internal time points. Detailed bundle and source-curve formats are in [DATA_FORMATS.md](DATA_FORMATS.md).
 
 ## 5. Learn with the supplied single-decay example
 
@@ -156,7 +158,7 @@ This is a useful first session because both decay and IRF are supplied.
 1. Choose **Analysis → Single decay** in the left sidebar.
 2. Choose **Source → Bundled decay + IRF**.
 3. Under **Method**, choose **IRF reconvolution**. Use **Exponential components = 1** and **Poisson likelihood (raw counts)**.
-4. Open **Background, shift, and excitation**. Keep **Fit a background for each decay** selected. Set **Subtract IRF background (counts/bin)** to `1.4`.
+4. Open **Background, shift, and excitation**. Keep **Fit a background for each decay** selected. Set **Subtract IRF background (IRF units)** to `1.4`.
 5. Select **Limit IRF pulse range**. Set its first and last included pulse times to `3.8` and `8` ns. Select **Fit one shared IRF shift**; the default shift bounds can remain for this example. Leave repetition-period correction off.
 6. Inspect **Kinetics preview and fit interval**. Start with the whole imported time record. Try moving the range handles and using the numerical time boxes, as explained in Section 7.
 7. For the reference worked result, return the fitting interval to the whole imported record, then press **Run fit**.
@@ -326,7 +328,7 @@ Raw fitting input uses **time rows and wavelength columns**. Reconstructed spect
 | The command is running but no browser opened | Open the Local URL printed in that terminal manually. Keep the process running. |
 | Wavelength labels are requested | Supply a numeric header or one wavelength per decay column. Check the exported text, not only the worksheet's column properties. |
 | A CSV import fails | Check encoding, separator, decimal point, extra headers, missing cells and whether the first column really contains time or wavelength for that file type. See Section 4. |
-| The time axis is rejected | Check selected units, duplicate/missing channels and acquisition calibration. Tiny printed rounding is handled automatically; do not rebin a calibrated uniform histogram just to alter displayed decimals. |
+| The time axis is rejected | Check selected units, duplicate or missing channels, and acquisition calibration. Tiny printed rounding is handled automatically. Genuinely uneven delay sampling is outside the current import and fit methods. |
 | Run fit is disabled | Expand the selected interval to at least four time channels. For experimental analysis, choose enough of the decay to support the model. |
 | The preview changed but the reported lifetime did not | Press Run fit again. Most recent fit remains the previous completed result until another fit runs. |
 | IRF background is zero | Supply the independently measured IRF baseline if required. It is separate from the decay background. |
@@ -364,8 +366,8 @@ Use this table when you need to understand a setting beyond the basic workflow.
 | **Initial lifetimes (ns; optional)** | Starting guesses, such as `0.5, 3.0`; the optimizer may change them. Leave blank to use the workbench's starts. Supply one value per component when entering them. |
 | **Fixed lifetimes (ns; optional)** | Values held constant. These override initial guesses. Use them only when fixing the components is part of the intended analysis. |
 | **Fit a background for each decay** | Fits a constant background separately for each selected trace. Otherwise the entered decay-background value is fixed. |
-| **Decay background (counts/bin)** | Fluorescence histogram baseline in counts per channel. It belongs to the decay model, not to the IRF correction. |
-| **Subtract IRF background (counts/bin)** | Independently measured IRF baseline to subtract before normalizing the IRF pulse. Estimate it from an appropriate baseline region of that measurement. |
+| **Decay background (input units)** | Baseline of the decay signal in its input units. For a TCSPC histogram, these units are counts per channel. |
+| **Subtract IRF background (IRF units)** | Independently measured IRF baseline to subtract before normalizing the IRF pulse. Estimate it from an appropriate baseline region of that measurement. |
 | **Limit IRF pulse range** | Selects the measured pulse and relevant response tail while excluding unused baseline. Do not cut away a real response tail merely to make the pulse look narrow. |
 | **IRF shift / Fit one shared IRF shift** | Fixed or fitted timing offset between the measured response and decay. Positive values delay the IRF. Bounds should be consistent with plausible acquisition timing. |
 | **Use repetition-period correction** | An advanced model for repeated excitation on a complete period grid. Enter the measured laser repetition period only when the imported grid represents one complete, nonduplicated period. Leave off when that condition is not met. |

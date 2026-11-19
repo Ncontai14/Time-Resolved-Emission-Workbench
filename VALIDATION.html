@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>TCSPC Workbench 0.1.0 — Validation</title>
+  <title>Time-Resolved Emission Workbench 0.1.1 — Validation</title>
   <style>
     html {
       color: #1a1a1a;
@@ -238,16 +238,36 @@
 <nav><a href="USER_GUIDE.html">User guide</a><a href="README.html">Repository overview</a><a href="INSTALLATION.html">Installation guide</a><a href="GITHUB_UPLOAD.html">GitHub upload</a><a href="QUICK_START_WINDOWS.html">Windows quick start</a><a href="DATA_FORMATS.html">Data formats</a><a href="SCIENTIFIC_NOTES.html">Scientific notes</a><a href="CHANGELOG.html">Changes</a><a href="VALIDATION.html">Validation</a><a href="docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#release-validation-0.1.0"
-id="toc-release-validation-0.1.0">Release validation: 0.1.0</a>
+<li><a href="#release-validation" id="toc-release-validation">Release
+validation</a>
 <ul>
+<li><a href="#validation-for-v0.1.1"
+id="toc-validation-for-v0.1.1">Validation for v0.1.1</a></li>
+<li><a href="#validation-for-v0.1.0"
+id="toc-validation-for-v0.1.0">Validation for v0.1.0</a></li>
 <li><a href="#github-repository-packaging-checks"
 id="toc-github-repository-packaging-checks">GitHub repository packaging
 checks</a></li>
 </ul></li>
 </ul>
 </nav>
-<h1 id="release-validation-0.1.0">Release validation: 0.1.0</h1>
+<h1 id="release-validation">Release validation</h1>
+<h2 id="validation-for-v0.1.1">Validation for v0.1.1</h2>
+<p>Checked on 19 November 2026.</p>
+<ul>
+<li>All 69 numerical, import, reconstruction and command-line tests
+passed locally.</li>
+<li>Headless Chromium opened the renamed app and verified a 5–30 ns
+single-decay fit window and a linked global fit to TRES/TRANES workflow,
+including spectral export and unit TRANES wavelength areas.</li>
+<li>The three reference fits and the spectral reconstruction were
+reproduced. Only the software labels in their exports differed from
+v0.1.0. The example input files were preserved byte for byte.</li>
+<li>The citation file passed the CFF 1.2.0 schema. The repository
+package includes the GitHub Actions workflow and shared Streamlit
+settings.</li>
+</ul>
+<h2 id="validation-for-v0.1.0">Validation for v0.1.0</h2>
 <p>Checked on 18 November 2026.</p>
 <ul>
 <li>69 numerical, import, spectral reconstruction, and CLI tests passed.
@@ -396,14 +416,11 @@ class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <h2 id="github-repository-packaging-checks">GitHub repository packaging
 checks</h2>
-<p>The first public release includes the application, numerical tests
-and repository support files. The 69-test suite passes in the repository
-copy. The project builds a Python wheel locally; this is a library/CLI
-packaging check, not a standalone GUI installer. CITATION.cff passes the
-official CFF 1.2.0 schema. Workflow and issue-template YAML, ignore
-rules, source-data line-ending rules and local documentation links were
-checked. GitHub-hosted Windows/Linux jobs have not run yet; their
-results become available after uploading the repository and running
-Actions.</p>
+<p>The original release package included the application, numerical
+tests and repository support files. The local packaging validation
+covered the 69-test suite, Python wheel build, CFF 1.2.0 schema,
+workflow and issue-template YAML, ignore rules, source-data line endings
+and documentation links. The GitHub <strong>Actions</strong> tab shows
+results for commits that have run hosted tests.</p>
 </body>
 </html>

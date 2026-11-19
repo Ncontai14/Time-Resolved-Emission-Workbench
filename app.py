@@ -19,16 +19,17 @@ import pandas as pd
 import streamlit as st
 
 from tcspc import FitConfig, fit_decay, fit_global
+from tcspc._release import WORKBENCH_NAME, __version__
 from tcspc.io import load_decay, load_tres
 from tcspc.plotbox import load_plotbox
 from tcspc.cli import parse_curve_indices
 from tcspc.spectra_ui import render_spectra_workspace
 
 ROOT = Path(__file__).resolve().parent
-st.set_page_config(page_title="TCSPC Workbench", page_icon="🔬", layout="wide")
-st.title("TCSPC Workbench")
+st.set_page_config(page_title=WORKBENCH_NAME, page_icon="🔬", layout="wide")
+st.title(WORKBENCH_NAME)
 st.write("Fit measured decays, choose the fitting interval visually, and reconstruct TRES/TRANES from steady-state spectra.")
-st.caption("Version 0.1.0 · local analysis · all fitted times and lifetimes are reported in ns")
+st.caption(f"Version {__version__} · local analysis · all fitted times and lifetimes are reported in ns")
 
 
 @st.cache_resource(show_spinner=False)
@@ -121,14 +122,14 @@ with st.sidebar:
         source_options.insert(0, "Bundled decay + IRF")
     source = st.selectbox("Source", source_options)
     time_unit = st.selectbox("Time unit in uploaded files", ["ns", "ps", "us", "ms", "s"], disabled=source == "Bundled decay + IRF", help="Choose your calibrated input unit; time is converted to ns. The bundled example uses an explicit ns assumption.")
-    st.caption("Use raw photon counts. Multi-curve PlotBox exports use the explicit unit in their Time[...] header; the unit selector applies to plain text files.")
+    st.caption("Upload nonnegative signals on a uniform time grid. Use raw photon counts for Poisson fits. PlotBox exports use the time unit in their Time[...] header.")
     decay_upload = None
     irf_upload = None
     wavelength_text = ""
     if source == "Upload ASCII data":
         decay_upload = st.file_uploader("Decay or TRES ASCII file", type=["dat", "txt", "csv", "tsv"], key=f"data_{mode}")
         irf_upload = st.file_uploader("IRF ASCII file (optional for tail fit)", type=["dat", "txt", "csv", "tsv"], key=f"irf_{mode}")
-        st.caption("Decay/IRF: time, counts. TRES: time, decay at λ1, decay at λ2, ….")
+        st.caption("Decay or IRF columns: time, signal. TRES columns: time, decay at λ1, decay at λ2, ….")
         if mode == "Global TRES":
             wavelength_text = st.text_input("Wavelengths in nm (optional for PlotBox)", placeholder="500, 520, 540", help="One value per selected decay curve, in selection order. PlotBox crv indices are not wavelengths. Plain TRES files need a numeric header or this mapping.")
     with st.expander("First time using the workbench?"):
@@ -231,7 +232,7 @@ t = input_data.time_ns
 y = input_data.counts
 data_identity = hashlib.sha256(decay_upload.getvalue()).hexdigest()[:12] if decay_upload is not None else "bundled"
 range_identity = f"{data_identity}_{len(t)}_{t[0]:.14g}_{t[-1]:.14g}"
-st.caption("Small rounding differences in exported time labels are handled automatically; photon counts stay in their original channels.")
+st.caption("Small rounding differences in exported time labels are handled automatically. Signal values stay in their original channels.")
 st.caption(f"Loaded {len(t):,} time bins, {1 if y.ndim == 1 else y.shape[1]} decay(s), {t[0]:g}–{t[-1]:g} ns. Bin width: {np.median(np.diff(t)):g} ns.")
 
 with st.expander("Inspect input", expanded=False):
@@ -249,7 +250,7 @@ with left:
     if method == "tail":
         st.caption("Set the first fitted time after the IRF-affected rise; tail fits do not model that rise.")
     components = st.number_input("Exponential components", min_value=1, max_value=6, value=1, step=1)
-    statistic = st.selectbox("Fit statistic", ["poisson", "neyman", "uniform"], format_func=lambda v: {"poisson": "Poisson likelihood (raw counts)", "neyman": "Observed-count weighted least squares", "uniform": "Unweighted least squares"}[v])
+    statistic = st.selectbox("Fit statistic", ["poisson", "neyman", "uniform"], format_func=lambda v: {"poisson": "Poisson likelihood (raw counts)", "neyman": "Observed-count weighted least squares", "uniform": "Unweighted least squares"}[v], help="Use Poisson likelihood for raw photon counts. Unweighted least squares is suitable for intensities with roughly constant noise variance.")
     default_start = float(t[0])
     if method == "tail":
         aggregate = y if y.ndim == 1 else y.sum(axis=1)
@@ -279,8 +280,8 @@ with left:
     fixed_tau_text = st.text_input("Fixed lifetimes (ns; optional)", placeholder="Leave blank to optimize lifetimes", help="If supplied, fixes every component lifetime and overrides initial lifetime guesses.")
     with st.expander("Background, shift, and excitation"):
         fit_background = st.checkbox("Fit a background for each decay", value=True)
-        background = st.number_input("Decay background (counts/bin)", min_value=0.0, value=0.0, format="%.6g", help="Starting or fixed background, depending on the checkbox.")
-        irf_background = st.number_input("Subtract IRF background (counts/bin)", min_value=0.0, value=0.0, format="%.6g", help="Subtract this constant, restrict to the selected pulse range if enabled, then clip negative IRF values to zero and normalize.")
+        background = st.number_input("Decay background (input units)", min_value=0.0, value=0.0, format="%.6g", help="Starting or fixed background, depending on the checkbox.")
+        irf_background = st.number_input("Subtract IRF background (IRF units)", min_value=0.0, value=0.0, format="%.6g", help="Subtract this constant, restrict to the selected pulse range if enabled, then clip negative IRF values to zero and normalize.")
         limit_irf = st.checkbox("Limit IRF pulse range", value=False, disabled=method == "tail", help="Exclude baseline outside the measured pulse. Clipping a noisy baseline over a long window can otherwise create a false broad IRF pedestal.")
         default_irf_start = 3.8 if source == "Bundled decay + IRF" else float(input_irf.time_ns[0]) if input_irf is not None else float(t[0])
         default_irf_end = 8.0 if source == "Bundled decay + IRF" else float(input_irf.time_ns[-1]) if input_irf is not None else float(t[-1])
@@ -303,8 +304,8 @@ with right:
             fig, ax = plt.subplots(figsize=(9, 3.6))
             display_values = np.maximum(y.T, 0.5)
             im = ax.imshow(display_values, aspect="auto", origin="lower", extent=[t[0], t[-1], 0, y.shape[1]], norm=LogNorm(vmin=0.5, vmax=max(1.0, float(display_values.max()))), interpolation="nearest")
-            ax.set(xlabel="Time (ns)", ylabel="Trace index", title="Measured time-by-wavelength counts")
-            fig.colorbar(im, ax=ax, label="Counts")
+            ax.set(xlabel="Time (ns)", ylabel="Trace index", title="Measured time-by-wavelength signals")
+            fig.colorbar(im, ax=ax, label="Signal (input units)")
             fig.tight_layout()
             st.pyplot(fig, width="stretch")
             plt.close(fig)
@@ -312,7 +313,7 @@ with right:
 
     st.subheader("Kinetics preview and fit interval")
     fit_bin_range = st.slider("Fit interval handles (time bins)", min_value=0, max_value=len(t)-1, step=1, key=slider_key, on_change=_sync_range_slider, args=range_args,
-                              help="Drag the two handles to select the first and last fitted channels. The time fields and plot update together; counts stay in their original channels.")
+                              help="Drag the two handles to select the first and last fitted channels. The time fields and plot update together. Signal values stay in their original channels.")
     st.caption(f"Selected X-axis interval: {fit_start:.6g}–{fit_end:.6g} ns · {selected_bins:,} channels. The green region marks the channels that will be fitted.")
     st.caption("Drag the left and right handles to choose the start and end, or type times in the boxes on the left. Switch to Selected fit window to inspect that part of the curve more closely.")
 
@@ -343,7 +344,7 @@ with right:
         ax.axvspan(fit_start, fit_end, color="#89bea4", alpha=0.28, label="Included in fit")
         ax.axvline(fit_start, color="#1b7751", lw=1.1)
         ax.axvline(fit_end, color="#1b7751", lw=1.1)
-        ax.set(yscale="log", xlabel="Time (ns)", ylabel="Counts per bin",
+        ax.set(yscale="log", xlabel="Time (ns)", ylabel="Signal (input units)",
                title="Fit interval on measured decay" if y.ndim == 1 else "Global-fit interval on measured kinetics")
         if preview_view == "Selected fit window" and fit_end > fit_start:
             ax.set_xlim(fit_start, fit_end)
@@ -355,7 +356,7 @@ with right:
         st.caption("The green region is fitted for every selected decay. Changing the preview trace or its zoom does not change which decays are fitted.")
     else:
         st.caption("The green region is fitted when you press Run fit. Changing the zoom only changes the view; the handles and time fields select the fitted channels.")
-    st.caption("Reconvolution uses the full imported time grid before the fitting interval is applied. Photon counts remain in their original channels.")
+    st.caption("Reconvolution uses the full imported time grid before applying the fit interval. Values below 0.5 appear at 0.5 on logarithmic plots. The fit uses the full precision of the signal.")
     st.write("Global fits share component lifetimes and fit separate nonnegative amplitudes and backgrounds for each selected trace." if mode == "Global TRES" else "Inspect the residuals as well as the fitted lifetime. A smooth-looking decay can still need a different model or fit range.")
 
 if run:
@@ -421,7 +422,7 @@ if payload is not None:
     deviance_value = diagnostics.get("reduced_poisson_deviance")
     metric_columns[1].metric("Reduced Pearson χ²", f"{pearson_value:.4g}" if pearson_value is not None else "Unavailable")
     metric_columns[2].metric("Reduced Poisson deviance", f"{deviance_value:.4g}" if deviance_value is not None else "Unavailable")
-    st.caption("Pearson χ² and Poisson deviance are different fit diagnostics. Values near 1 alone do not establish model adequacy.")
+    st.caption("Pearson χ² and Poisson deviance are count-based diagnostics. For analogue intensities, assess the residuals in signal units using the unweighted least-squares objective when the noise variance is roughly constant.")
     for warning in result.warnings:
         st.warning(warning)
     stderr = result.lifetime_stderr
@@ -443,7 +444,7 @@ if payload is not None:
         fig, (ax, rx) = plt.subplots(2, 1, figsize=(11, 5.4), sharex=True, gridspec_kw={"height_ratios": [3, 1]})
         ax.plot(result.time, np.maximum(result.observed[:, trace_index], 0.5), ".", ms=2, label="Measured")
         ax.plot(result.time[fit_mask], np.maximum(result.fitted[fit_mask, trace_index], 0.5), lw=1.4, label="Fit")
-        ax.set(yscale="log", ylabel="Counts")
+        ax.set(yscale="log", ylabel="Signal (input units)")
         ax.legend()
         rx.axhline(0, color="0.5", lw=0.8)
         rx.plot(result.time, result.residuals[:, trace_index], lw=0.6)
@@ -451,7 +452,7 @@ if payload is not None:
         fig.tight_layout()
         st.pyplot(fig, width="stretch")
         plt.close(fig)
-    st.caption("Residuals use the selected fit statistic. Bins outside the fit range are excluded. Zero counts are placed at 0.5 only for the logarithmic display.")
+    st.caption("Residuals use the selected fit statistic and cover the fitted interval. The logarithmic display places values below 0.5 at 0.5.")
     autocorrelations = diagnostics.get("residual_autocorrelation", [])
     if trace_index < len(autocorrelations):
         acf = np.asarray(autocorrelations[trace_index], dtype=float)

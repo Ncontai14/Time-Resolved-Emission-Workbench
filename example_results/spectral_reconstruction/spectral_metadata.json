@@ -1,5 +1,5 @@
 {
-  "software": "TCSPC Workbench 0.1.0 spectral reconstruction",
+  "software": "Time-Resolved Emission Workbench 0.1.1 spectral reconstruction",
   "formula": "I(lambda,t)=SS(lambda)*sum(Ak*exp(-t/tauk))/sum(Ak*tauk)",
   "tranes_definition": "TRES divided by its trapezoidal area over the fitted wavelength grid, separately at each delay",
   "wavelength_unit": "nm",

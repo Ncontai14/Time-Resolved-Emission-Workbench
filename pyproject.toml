@@ -4,13 +4,16 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tcspc-workbench"
-version = "0.1.0"
-description = "Independent Python TCSPC reconvolution and global exponential analysis"
+version = "0.1.1"
+description = "Time-Resolved Emission Workbench for decay fitting, global lifetime analysis, and TRES/TRANES reconstruction"
 readme = "README.md"
 license = {file = "LICENSE"}
-keywords = ["TCSPC", "fluorescence", "lifetime", "global analysis", "TRES", "TRANES"]
+keywords = ["time-resolved emission", "photoluminescence", "TCSPC", "fluorescence", "lifetime", "global analysis", "TRES", "TRANES"]
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.24", "scipy>=1.10", "threadpoolctl>=3.1", "matplotlib>=3.7", "pandas>=2.0", "streamlit>=1.51,<2"]
+
+[project.urls]
+Repository = "https://github.com/Ncontai14/Time-Resolved-Emission-Workbench"
 
 [project.scripts]
 tcspc = "tcspc.cli:main"

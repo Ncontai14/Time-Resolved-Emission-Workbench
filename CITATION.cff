@@ -1,19 +1,22 @@
 cff-version: 1.2.0
-message: "If you use TCSPC Workbench, please cite this software version."
-title: "TCSPC Workbench"
+message: "If you use Time-Resolved Emission Workbench, please cite this software version."
+title: "Time-Resolved Emission Workbench"
 type: software
-version: "0.1.0"
-date-released: "2026-11-18"
+version: "0.1.1"
+date-released: "2026-11-19"
 authors:
-  - name: Nishith Maity
-   ORCID: https://orcid.org/0000-0002-5024-9184
-abstract: "Local fluorescence lifetime reconvolution, global TCSPC fitting, and steady-state-scaled TRES/TRANES reconstruction with a Streamlit interface."
+  - family-names: Maity
+    given-names: Nishith
+    orcid: "https://orcid.org/0000-0002-5024-9184"
+repository-code: "https://github.com/Ncontai14/Time-Resolved-Emission-Workbench"
+abstract: "A local Python workbench for emission decay fitting and steady-state-scaled TRES/TRANES reconstruction. It supports measured instrument-response reconvolution, tail fitting, and shared-lifetime global analysis of TCSPC and compatible uniformly sampled emission decays."
 license: MIT
 keywords:
+  - time-resolved emission
+  - photoluminescence
   - fluorescence lifetime
   - TCSPC
   - global analysis
   - TRES
   - TRANES
-# Add the real repository URL and DOI when available.
 # The MIT designation refers to original software/documentation, not contributed measurements.

@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>TCSPC Workbench 0.1.0 — Data formats</title>
+  <title>Time-Resolved Emission Workbench 0.1.1 — Data formats</title>
   <style>
     html {
       color: #1a1a1a;
@@ -281,13 +281,14 @@ id="toc-manual-steady-state-table">Manual steady-state table</a></li>
 </ul>
 </nav>
 <h1 id="data-formats-and-import">Data formats and import</h1>
-<p>TCSPC Workbench reads plain text histograms and multi-curve ASCII
-exports. The filename extension alone does not define the contents.
+<p>Time-Resolved Emission Workbench reads plain text tables and
+multi-curve ASCII exports. A file can contain a TCSPC histogram or a
+compatible emission intensity scan sampled at uniform time intervals.
 Recommended extensions are <code>.csv</code>, <code>.txt</code>,
 <code>.tsv</code>, or <code>.dat</code>.</p>
 <h2 id="decay-and-shared-irf-tables">Decay and shared IRF tables</h2>
-<p>A plain decay or shared IRF has time in its first column and raw
-counts in its second:</p>
+<p>A plain decay or shared IRF has time in its first column and the
+measured signal in its second. A TCSPC example uses raw counts:</p>
 <pre class="csv"><code>time_ns,counts
 0.000,0
 0.025,2
@@ -304,10 +305,17 @@ selected unit.</p>
 analysis expects photon counts before smoothing, normalization, or
 background subtraction. Background is represented in the fitted
 model.</p>
+<p>For a compatible non-counting measurement such as fluorescence
+upconversion, put the finite nonnegative intensity in the signal column.
+Choose unweighted least squares when approximately constant noise
+variance is a reasonable assumption. Keep the actual delay schedule when
+checking compatibility with the required uniform time grid. For
+reconvolution, place the measured temporal response in a separate file
+on a grid with the same spacing and time units.</p>
 <h2 id="raw-time-by-wavelength-fitting-matrix">Raw time-by-wavelength
 fitting matrix</h2>
-<p>Rows are TCSPC time bins; columns after time are wavelength-specific
-decays:</p>
+<p>Rows are equally spaced time samples. Columns after time are
+wavelength-specific decays:</p>
 <pre class="csv"><code>time_ns,500,520,540
 0.000,1,2,0
 0.025,0,1,3
@@ -382,11 +390,11 @@ labels have small rounding differences. The importer checks whether the
 full axis agrees with one fixed-width channel sequence to within 0.0001
 of a bin. When it does, the calculation uses that sequence and records
 the original labels and maximum adjustment.</p>
-<p>No photon counts are moved, interpolated, combined, or filled by this
-operation. It is time-label interpretation, not rebinning. A missing
-internal channel or a genuinely irregular axis is different and is
-rejected for these convolution models. Use the actual acquisition
-channel width and start time when investigating such a file.</p>
+<p>Each observed value remains at its original channel. A missing
+internal channel or genuinely uneven acquisition times are rejected at
+import, including for tail fitting. Use the original acquisition
+settings to distinguish an export-rounding issue from a deliberate
+variable-step scan or a missing channel.</p>
 <h2 id="multi-curve-ascii-bundles">Multi-curve ASCII bundles</h2>
 <p>Supported bundles begin with a marker and an explicit time-unit
 header, for example:</p>

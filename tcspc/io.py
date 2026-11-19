@@ -1,4 +1,4 @@
-"""Validated text import for raw TCSPC histograms and TRES matrices.
+"""Validated text import for emission decays and time-by-wavelength matrices.
 
 Time units are explicit, never inferred from labels. Native binary files
 are deliberately unsupported: use an ASCII export with time in the first column.
@@ -18,7 +18,7 @@ from .time_axis import channel_grid
 
 
 class DataFormatError(ValueError):
-    """An input does not describe a supported raw photon-counting dataset."""
+    """An input does not describe a supported emission dataset."""
 
 
 @dataclass(frozen=True)
@@ -153,9 +153,9 @@ def _table(source, delimiter: str | None) -> tuple[np.ndarray, list[list[str]], 
 
 def _validate(time_ns: np.ndarray, counts: np.ndarray) -> tuple[np.ndarray, dict]:
     if not np.all(np.isfinite(time_ns)) or not np.all(np.isfinite(counts)):
-        raise DataFormatError("Time and raw counts must contain only finite numbers.")
+        raise DataFormatError("Time and signal values must contain only finite numbers.")
     if np.any(counts < 0):
-        raise DataFormatError("Raw photon counts cannot be negative; import unsubtracted count histograms.")
+        raise DataFormatError("Signal values must be nonnegative. For TCSPC, import unsubtracted photon counts.")
     dt = np.diff(time_ns)
     if np.any(dt <= 0):
         raise DataFormatError("Time must be strictly ascending, with no duplicate bins.")
@@ -164,7 +164,7 @@ def _validate(time_ns: np.ndarray, counts: np.ndarray) -> tuple[np.ndarray, dict
     except ValueError as error:
         raise DataFormatError(str(error)) from error
     if not np.any(counts > 0):
-        raise DataFormatError("The dataset contains no positive photon counts.")
+        raise DataFormatError("The dataset contains no positive signal values.")
     return grid, audit
 
 
@@ -236,11 +236,11 @@ def load_tres(
     except (TypeError, ValueError) as exc:
         raise DataFormatError("Wavelengths must be a numeric sequence in nm.") from exc
     if labels.ndim != 1 or len(labels) != n_trace:
-        raise DataFormatError(f"Expected {n_trace} wavelengths, one per count column.")
+        raise DataFormatError(f"Expected {n_trace} wavelengths, one per signal column.")
     if not np.all(np.isfinite(labels)) or np.any(labels <= 0) or len(np.unique(labels)) != len(labels):
         raise DataFormatError("Wavelengths must be finite, positive, and unique.")
     time, counts = table[:, 0] * scale, table[:, 1:].copy()
     time, audit = _validate(time, counts)
     if np.any(np.sum(counts, axis=0) <= 0):
-        raise DataFormatError("Every TRES channel must contain positive photon counts; remove empty channels.")
+        raise DataFormatError("Every TRES trace must have a positive signal value. Remove empty traces.")
     return TRESData(time, counts, labels.copy(), audit)

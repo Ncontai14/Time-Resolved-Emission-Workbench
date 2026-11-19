@@ -1,10 +1,10 @@
 # Data formats and import
 
-TCSPC Workbench reads plain text histograms and multi-curve ASCII exports. The filename extension alone does not define the contents. Recommended extensions are `.csv`, `.txt`, `.tsv`, or `.dat`.
+Time-Resolved Emission Workbench reads plain text tables and multi-curve ASCII exports. A file can contain a TCSPC histogram or a compatible emission intensity scan sampled at uniform time intervals. Recommended extensions are `.csv`, `.txt`, `.tsv`, or `.dat`.
 
 ## Decay and shared IRF tables
 
-A plain decay or shared IRF has time in its first column and raw counts in its second:
+A plain decay or shared IRF has time in its first column and the measured signal in its second. A TCSPC example uses raw counts:
 
 ```csv
 time_ns,counts
@@ -20,9 +20,11 @@ Choose the calibrated input unit explicitly in the app. Times and lifetimes are 
 
 Raw counts are nonnegative and include empty channels. Poisson analysis expects photon counts before smoothing, normalization, or background subtraction. Background is represented in the fitted model.
 
+For a compatible non-counting measurement such as fluorescence upconversion, put the finite nonnegative intensity in the signal column. Choose unweighted least squares when approximately constant noise variance is a reasonable assumption. Keep the actual delay schedule when checking compatibility with the required uniform time grid. For reconvolution, place the measured temporal response in a separate file on a grid with the same spacing and time units.
+
 ## Raw time-by-wavelength fitting matrix
 
-Rows are TCSPC time bins; columns after time are wavelength-specific decays:
+Rows are equally spaced time samples. Columns after time are wavelength-specific decays:
 
 ```csv
 time_ns,500,520,540
@@ -62,7 +64,7 @@ High precision prevents additional rounding; it cannot undo rounding already sto
 
 An instrument may use equal-width channels while its printed time labels have small rounding differences. The importer checks whether the full axis agrees with one fixed-width channel sequence to within 0.0001 of a bin. When it does, the calculation uses that sequence and records the original labels and maximum adjustment.
 
-No photon counts are moved, interpolated, combined, or filled by this operation. It is time-label interpretation, not rebinning. A missing internal channel or a genuinely irregular axis is different and is rejected for these convolution models. Use the actual acquisition channel width and start time when investigating such a file.
+Each observed value remains at its original channel. A missing internal channel or genuinely uneven acquisition times are rejected at import, including for tail fitting. Use the original acquisition settings to distinguish an export-rounding issue from a deliberate variable-step scan or a missing channel.
 
 ## Multi-curve ASCII bundles
 

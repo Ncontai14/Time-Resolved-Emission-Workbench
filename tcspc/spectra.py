@@ -14,6 +14,7 @@ import re
 import numpy as np
 from scipy.integrate import trapezoid
 
+from ._release import WORKBENCH_NAME, __version__
 from .io import DataFormatError, _read_source, _tokens, _numeric_row
 
 
@@ -302,7 +303,7 @@ def reconstruct_spectra(wavelengths, amplitudes, lifetimes, times, steady_state=
     if delay:
         warnings.append("Tail amplitudes were extrapolated back to excitation using the supplied reference delay; early-time reconstruction depends on that model extrapolation.")
     metadata = {
-        "software": "TCSPC Workbench 0.1.0 spectral reconstruction",
+        "software": f"{WORKBENCH_NAME} {__version__} spectral reconstruction",
         "formula": "I(lambda,t)=SS(lambda)*sum(Ak*exp(-t/tauk))/sum(Ak*tauk)",
         "tranes_definition": "TRES divided by its trapezoidal area over the fitted wavelength grid, separately at each delay",
         "wavelength_unit": "nm", "time_unit": "ns",

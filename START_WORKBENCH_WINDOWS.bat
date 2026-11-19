@@ -1,7 +1,7 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-echo TCSPC Workbench 0.1.0
+echo Time-Resolved Emission Workbench 0.1.1
 echo Run this from an Anaconda Prompt with your workbench environment activated.
 echo.
 python -c "import sys; print('Python:', sys.executable); import numpy, scipy.optimize, scipy.signal, matplotlib.pyplot, pandas, streamlit, threadpoolctl; from packaging.version import Version; assert Version(streamlit.__version__) >= Version('1.51'), 'Streamlit 1.51 or newer is required'"

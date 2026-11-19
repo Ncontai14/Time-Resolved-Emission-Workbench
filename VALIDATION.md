@@ -1,4 +1,15 @@
-# Release validation: 0.1.0
+# Release validation
+
+## Validation for v0.1.1
+
+Checked on 19 November 2026.
+
+- All 69 numerical, import, reconstruction and command-line tests passed locally.
+- Headless Chromium opened the renamed app and verified a 5–30 ns single-decay fit window and a linked global fit to TRES/TRANES workflow, including spectral export and unit TRANES wavelength areas.
+- The three reference fits and the spectral reconstruction were reproduced. Only the software labels in their exports differed from v0.1.0. The example input files were preserved byte for byte.
+- The citation file passed the CFF 1.2.0 schema. The repository package includes the GitHub Actions workflow and shared Streamlit settings.
+
+## Validation for v0.1.0
 
 Checked on 18 November 2026.
 
@@ -121,4 +132,4 @@ Numerical test environment:
 
 ## GitHub repository packaging checks
 
-The first public release includes the application, numerical tests and repository support files. The 69-test suite passes in the repository copy. The project builds a Python wheel locally; this is a library/CLI packaging check, not a standalone GUI installer. CITATION.cff passes the official CFF 1.2.0 schema. Workflow and issue-template YAML, ignore rules, source-data line-ending rules and local documentation links were checked. GitHub-hosted Windows/Linux jobs have not run yet; their results become available after uploading the repository and running Actions.
+The original release package included the application, numerical tests and repository support files. The local packaging validation covered the 69-test suite, Python wheel build, CFF 1.2.0 schema, workflow and issue-template YAML, ignore rules, source-data line endings and documentation links. The GitHub **Actions** tab shows results for commits that have run hosted tests.

@@ -1,6 +1,6 @@
 # Contributing
 
-Bug reports, documentation improvements, reproducible examples and carefully validated numerical changes are welcome. Use the repository's Issues and Pull requests pages once it is hosted on GitHub.
+Bug reports, documentation improvements, reproducible examples and carefully validated numerical changes are welcome. Use the [project repository](https://github.com/Ncontai14/Time-Resolved-Emission-Workbench) to open an issue or pull request.
 
 ## Development setup
 

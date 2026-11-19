@@ -4,7 +4,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>TCSPC Workbench 0.1.0 — Installation guide</title>
+  <title>Time-Resolved Emission Workbench 0.1.1 — Installation
+guide</title>
   <style>
     html {
       color: #1a1a1a;
@@ -238,8 +239,9 @@
 <nav><a href="USER_GUIDE.html">User guide</a><a href="README.html">Repository overview</a><a href="INSTALLATION.html">Installation guide</a><a href="GITHUB_UPLOAD.html">GitHub upload</a><a href="QUICK_START_WINDOWS.html">Windows quick start</a><a href="DATA_FORMATS.html">Data formats</a><a href="SCIENTIFIC_NOTES.html">Scientific notes</a><a href="CHANGELOG.html">Changes</a><a href="VALIDATION.html">Validation</a><a href="docs/notebook_review/NOTEBOOK_REVIEW.html">Notebook review</a></nav>
 <nav id="TOC" role="doc-toc">
 <ul>
-<li><a href="#tcspc-workbench-0.1.0"
-id="toc-tcspc-workbench-0.1.0">TCSPC Workbench 0.1.0</a>
+<li><a href="#install-time-resolved-emission-workbench-v0.1.1"
+id="toc-install-time-resolved-emission-workbench-v0.1.1">Install
+Time-Resolved Emission Workbench v0.1.1</a>
 <ul>
 <li><a href="#using-an-existing-compatible-environment"
 id="toc-using-an-existing-compatible-environment">Using an existing
@@ -305,25 +307,23 @@ use</a></li>
 </ul></li>
 </ul>
 </nav>
-<h1 id="tcspc-workbench-0.1.0">TCSPC Workbench 0.1.0</h1>
-<p>TCSPC Workbench fits fluorescence photon-counting decays with a
-measured instrument response function (IRF). It also fits
-wavelength-resolved and repeated-decay series globally, with shared
-lifetimes and separate amplitudes and backgrounds for each trace. With
-an accompanying steady-state fluorescence spectrum, it reconstructs
-steady-state-scaled time-resolved emission spectra (TRES) and their
-area-normalized forms (TRANES).</p>
+<h1 id="install-time-resolved-emission-workbench-v0.1.1">Install
+Time-Resolved Emission Workbench v0.1.1</h1>
+<p>Time-Resolved Emission Workbench fits single and wavelength-resolved
+decays with a measured instrument response function (IRF) or an
+exponential tail model. Global fits share lifetimes while allowing
+separate amplitudes and backgrounds for each trace. With an accompanying
+steady-state emission spectrum, the app reconstructs steady-state-scaled
+time-resolved emission spectra (TRES) and their area-normalized forms
+(TRANES).</p>
 <p>The application runs on your computer and displays its controls in a
 web browser. The browser is the interface; Python performs the
 calculations. The package includes a command-line interface and a Python
 API for more advanced use.</p>
-<p>For a step-by-step guide written for experimental users, open <a
-href="USER_GUIDE.html">USER_GUIDE.md</a> or double-click
-<code>USER_GUIDE.html</code>. It covers the first installation, daily
-startup, fitting controls, fit-window selection, global analysis,
-TRES/TRANES and saving results without editing Python code. This README
-retains installation alternatives and reference workflows. Each guide
-has an offline HTML edition that opens directly in your browser.</p>
+<p>For daily startup, fitting, global analysis, spectral reconstruction
+and saving results, open the <a href="USER_GUIDE.html">user guide</a> or
+double-click <code>USER_GUIDE.html</code>. The HTML editions of these
+guides open in a browser.</p>
 <h2 id="using-an-existing-compatible-environment">Using an existing
 compatible environment</h2>
 <p>If your Conda or Python environment already has the required
@@ -331,7 +331,7 @@ dependencies, you can use it. Stop any running app with
 <strong>Ctrl+C</strong>, activate that environment, and launch
 <code>app.py</code> from this extracted folder. The environment-creation
 instructions below are for a first-time installation.</p>
-<p>Check that the page displays <strong>Version 0.1.0</strong>. Opening
+<p>Check that the page displays <strong>Version 0.1.1</strong>. Opening
 a browser tab left connected to an older running server can show the old
 version.</p>
 <h2 id="before-starting">Before starting</h2>
@@ -415,7 +415,7 @@ copy its location from the address bar. In Anaconda Prompt, type
 <code>cd /d</code> followed by that path in quotation marks. For
 example:</p>
 <div class="sourceCode" id="cb5"><pre
-class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">/d</span> <span class="st">&quot;C:\Users\YourName\Downloads\TCSPC_Workbench&quot;</span></span></code></pre></div>
+class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">/d</span> <span class="st">&quot;C:\Users\YourName\Downloads\Time-Resolved-Emission-Workbench&quot;</span></span></code></pre></div>
 <p><strong>Replace the example path with your actual extracted
 folder.</strong> The <code>/d</code> option also changes drive if the
 package is on another drive. Check that you are in the correct
@@ -441,7 +441,7 @@ time</h2>
 <p>Open Anaconda Prompt, then run:</p>
 <div class="sourceCode" id="cb9"><pre
 class="sourceCode bat"><code class="sourceCode dosbat"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>conda activate tcspc_workbench</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">/d</span> <span class="st">&quot;C:\Users\YourName\Downloads\TCSPC_Workbench&quot;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="at">/d</span> <span class="st">&quot;C:\Users\YourName\Downloads\Time-Resolved-Emission-Workbench&quot;</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>python <span class="at">-m</span> streamlit run app.py</span></code></pre></div>
 <p>Use your actual folder path. The environment creation and package
 installation are normally one-time steps.</p>

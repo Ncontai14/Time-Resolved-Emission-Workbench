@@ -1,4 +1,4 @@
-# Windows quick start — version 0.1.0
+# Windows quick start for Time-Resolved Emission Workbench v0.1.1
 
 For the full experimental-user operating manual, open [USER_GUIDE.md](USER_GUIDE.md) or `USER_GUIDE.html`.
 
@@ -28,7 +28,7 @@ python -c "import numpy, scipy.optimize, scipy.signal, matplotlib.pyplot, pandas
 Change to your actual program folder. Replace the example path:
 
 ```bat
-cd /d "C:\Users\YourName\Downloads\TCSPC_Workbench"
+cd /d "C:\Users\YourName\Downloads\Time-Resolved-Emission-Workbench"
 python -m streamlit run app.py
 ```
 
@@ -40,7 +40,7 @@ The Conda command installs all required dependencies. Use the separate pip/virtu
 
 ```bat
 conda activate tcspc_workbench
-cd /d "C:\Users\YourName\Downloads\TCSPC_Workbench"
+cd /d "C:\Users\YourName\Downloads\Time-Resolved-Emission-Workbench"
 python -m streamlit run app.py
 ```
 
